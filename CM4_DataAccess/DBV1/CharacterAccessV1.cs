@@ -1,7 +1,5 @@
 ﻿using CM4_Core.DataAccess;
 using CM4_Core.Models;
-using Dapper;
-using Dapper.Contrib.Extensions;
 using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
@@ -22,59 +20,57 @@ namespace CM4_DataAccess.DBV1
         public async Task<Character> AddCharacter()
         {
             Character temp = new Character();
-            string sql = "INSERT INTO Characters (ID, Name, Age) VALUES (@ID, @Name, @Age) RETURNING *";
-            using (IDbConnection connection = new SqliteConnection(_DA._connectionString))
+            using (WorldContext Context = new WorldContext(_DA._connectionString))
             {
-                return await connection.QuerySingleAsync<Character>(sql, temp);
+                Character result = (await Context.AddAsync<Character>(temp)).Entity;
+                Context.SaveChanges();
+                return result;
             }
         }
 
         public async Task<Character> AddCharacter(Character character)
         {
-            string sql = "INSERT INTO Characters (ID, Name, Age) VALUES (@ID, @Name, @Age) RETURNING *";
-            using (IDbConnection connection = new SqliteConnection(_DA._connectionString))
+            using (WorldContext Context = new WorldContext(_DA._connectionString))
             {
-                return await connection.QuerySingleAsync<Character>(sql, character);
+                Character result = (await Context.AddAsync<Character>(character)).Entity;
+                Context.SaveChanges();
+                return result;
             }
         }
 
-        public async Task RemoveCharacter(Character C)
+        public void RemoveCharacter(Character character)
         {
-            string sql = "DELETE FROM Characters WHERE ID = @ID";
-            using (IDbConnection connection = new SqliteConnection(_DA._connectionString))
+            using (WorldContext Context = new WorldContext(_DA._connectionString))
             {
-                await connection.ExecuteAsync(sql, C);
-            }
-
-        }
-
-
-        public async Task<List<Character>> GetCharacters()
-        {
-
-            string sql = "SELECT * FROM Characters";
-            using (IDbConnection connection = new SqliteConnection(_DA._connectionString))
-            {
-                var list = await connection.QueryAsync<Character>(sql);
-                return list.ToList();
-            }
-        }
-        public async Task<List<Character>> GetCharacters(Guid[] ID)
-        {
-            string sql = "SELECT * FROM Characters WHERE ID in @ID";
-            using (IDbConnection connection = new SqliteConnection(_DA._connectionString))
-            {
-                var list = await connection.QueryAsync<Character>(sql, new { ID });
-                return list.ToList();
+                Context.Remove<Character>(character);
+                Context.SaveChanges();
             }
         }
 
 
-        public async Task UpdateCharacter(Character C)
+        public List<Character> GetCharacters()
         {
-            using (IDbConnection connection = new SqliteConnection(_DA._connectionString))
+            using (WorldContext Context = new WorldContext(_DA._connectionString))
             {
-                await connection.UpdateAsync(C);
+                return Context.Characters.ToList();
+            }
+        }
+        public List<Character> GetCharacters(Guid[] ID)
+        {
+            using (WorldContext Context = new WorldContext(_DA._connectionString))
+            {
+                return Context.Characters.Where(item => ID.Contains(item.ID)).ToList();
+            }
+        }
+
+
+        public Character UpdateCharacter(Character character)
+        {
+            using (WorldContext Context = new WorldContext(_DA._connectionString))
+            {
+                Character result = Context.Update<Character>(character).Entity;
+                Context.SaveChanges();
+                return result;
             }
         }
     }

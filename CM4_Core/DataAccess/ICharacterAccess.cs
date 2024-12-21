@@ -11,9 +11,9 @@ namespace CM4_Core.DataAccess
     {
         public Task<Character> AddCharacter();
         public Task<Character> AddCharacter(Character C);
-        public Task<List<Character>> GetCharacters();
-        public Task<List<Character>> GetCharacters(Guid[] ID);
-        public Task RemoveCharacter(Character C);
-        public Task UpdateCharacter(Character C);
+        public List<Character> GetCharacters();
+        public List<Character> GetCharacters(Guid[] ID);
+        public void RemoveCharacter(Character character);
+        public Character UpdateCharacter(Character character);
     }
 }

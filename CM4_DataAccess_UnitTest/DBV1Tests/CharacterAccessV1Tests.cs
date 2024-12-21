@@ -21,13 +21,13 @@ public class CharacterAccessV1Tests
     {
         Character C = await DA.CA.AddCharacter();
 
-        List<Character> CharList = await DA.CA.GetCharacters();
+        List<Character> CharList = DA.CA.GetCharacters();
 
         Assert.IsTrue(CharList.Contains(C));
 
-        await DA.CA.RemoveCharacter(C);
+        DA.CA.RemoveCharacter(C);
 
-        CharList = await DA.CA.GetCharacters();
+        CharList = DA.CA.GetCharacters();
 
         Assert.IsFalse(CharList.Contains(C));
     }
@@ -51,7 +51,7 @@ public class CharacterAccessV1Tests
     {
         Character C = await DA.CA.AddCharacter();
 
-        Character C2 = (await DA.CA.GetCharacters(new Guid[] { C.ID }))[0];
+        Character C2 = DA.CA.GetCharacters([C.ID])[0];
 
         Assert.IsNotNull(C2);
         Assert.AreEqual(C, C2);
@@ -65,6 +65,6 @@ public class CharacterAccessV1Tests
         C.Name = "Tim";
         C.Age = 43;
 
-        await DA.CA.UpdateCharacter(C);
+        DA.CA.UpdateCharacter(C);
     }
 }

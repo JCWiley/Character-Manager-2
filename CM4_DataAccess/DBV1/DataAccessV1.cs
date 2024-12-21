@@ -5,29 +5,23 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Dapper;
 using Microsoft.Data.Sqlite;
 using CM4_Core.Models;
-using CM4_DataAccess.Utilities;
+using Microsoft.EntityFrameworkCore;
 
 namespace CM4_DataAccess.DBV1
 {
     public class DataAccessV1 : IDataAccess
     {
         internal string _connectionString;
+
         string _DBPath;
         ICharacterAccess _ca;
 
         public DataAccessV1()
         {
-            if(!SqlMapper.HasTypeHandler(typeof(Guid)))
-            {
-                SqlMapper.AddTypeHandler<Guid>(new GuidTypeHandler());
-            }
-
             _ca = new CharacterAccessV1(this);
         }
-
 
         public ICharacterAccess CA { get 
             {
@@ -48,11 +42,8 @@ namespace CM4_DataAccess.DBV1
                     Cache = SqliteCacheMode.Shared,
                     DataSource = _DBPath
                 }.ToString();
-
             }
         }
-
-
 
         public bool CreateDB()
         {
