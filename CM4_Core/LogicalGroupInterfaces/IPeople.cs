@@ -9,6 +9,7 @@ namespace CM4_Core.LogicalGroupInterfaces
 
         void AddCharacter(Character character);
         //    ICharacter RetrieveCharacter(int characterGuid);
+        List<Character> GetCharacters();
 
         //    void AddOrganization(Organization organization);
         //    IOrganization RetrieveOrganization(int organization);

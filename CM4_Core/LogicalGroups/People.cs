@@ -20,6 +20,11 @@ namespace CM4_Core.LogicalGroups
             _DA.CA.AddCharacter(character);
         }
 
+        public List<Character> GetCharacters()
+        {
+            return _DA.CA.GetCharacters();
+        }
+
         //    public ICharacter RetrieveCharacter(CharacterGuid characterGuid)
         //    {
         //        return _characters[characterGuid];
