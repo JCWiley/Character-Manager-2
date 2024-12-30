@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CM4_Core.LogicalGroupInterfaces
 {
-    //public interface IThings
-    //{
-    //}
+    public interface IThings
+    {
+    }
 }

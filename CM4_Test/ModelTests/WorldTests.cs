@@ -1,7 +1,6 @@
 using CM4_Core.LogicalGroupInterfaces;
-using CM4_Core.Models;
+using CM4_Core.LogicalGroups;
 using Moq;
-using Newtonsoft.Json.Bson;
 
 namespace CM4_Core_UnitTest.ModelTests
 {

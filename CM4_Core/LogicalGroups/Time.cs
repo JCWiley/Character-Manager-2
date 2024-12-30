@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CM4_Core.LogicalGroups
 {
-    //public class Time : ITime
-    //{
-    //}
+    public class Time : ITime
+    {
+    }
 }

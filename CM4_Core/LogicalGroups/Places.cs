@@ -2,7 +2,7 @@
 
 namespace CM4_Core.LogicalGroups
 {
-    //public class Places : IPlaces
-    //{
-    //}
+    public class Places : IPlaces
+    {
+    }
 }

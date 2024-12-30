@@ -2,7 +2,7 @@
 
 namespace CM4_Core.LogicalGroups
 {
-    //public class Things : IThings
-    //{
-    //}
+    public class Things : IThings
+    {
+    }
 }

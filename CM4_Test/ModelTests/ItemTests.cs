@@ -1,6 +1,4 @@
-﻿using CM4_Core.DataStructures;
-using CM4_Core.ModelInterfaces;
-using CM4_Core.Models;
+﻿using CM4_Core.Models;
 
 namespace CM4_Core_UnitTest.ModelTests
 {
@@ -10,7 +8,7 @@ namespace CM4_Core_UnitTest.ModelTests
         [TestMethod]
         public void CanCreateItem()
         {
-            IInventoryItem item = new InventoryItem();
+            InventoryItem item = new InventoryItem();
         }
 
         [TestMethod]
@@ -19,7 +17,7 @@ namespace CM4_Core_UnitTest.ModelTests
         [DataRow("")]
         public void Name_CanStoreAndRetrieve(string name)
         {
-            IInventoryItem item = new InventoryItem();
+            InventoryItem item = new InventoryItem();
             item.Name = name;
             Assert.AreEqual(name, item.Name);
         }
@@ -30,7 +28,7 @@ namespace CM4_Core_UnitTest.ModelTests
         [DataRow("")]
         public void Description_CanStoreAndRetrieve(string description)
         {
-            IInventoryItem item = new InventoryItem();
+            InventoryItem item = new InventoryItem();
             item.Description = description;
             Assert.AreEqual(description, item.Description);
         }

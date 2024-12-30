@@ -2,8 +2,8 @@
 
 namespace CM4_Core.LogicalGroups
 {
-    //public class People : IPeople
-    //{
+    public class People : IPeople
+    {
     //    Dictionary<CharacterGuid, ICharacter> _characters;
     //    Dictionary<OrganizationGuid, IOrganization> _organizations;
     //    Ledger<OrganizationGuid, CharacterGuid> _organizationCharacters;
@@ -60,5 +60,5 @@ namespace CM4_Core.LogicalGroups
     //    {
     //        return (_organizationCharacters.GetChildren(parent), _organizationSubOrganizations.GetChildren(parent));
     //    }
-    //}
+    }
 }
