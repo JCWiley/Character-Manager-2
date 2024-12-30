@@ -1,14 +1,16 @@
 ﻿
+using CM4_Core.Models;
+
 namespace CM4_Core.LogicalGroupInterfaces
 {
     public interface IPeople
     {
         //    int ActiveCharacter { get; set; }
 
-        //    void AddCharacter(ICharacter character);
+        void AddCharacter(Character character);
         //    ICharacter RetrieveCharacter(int characterGuid);
 
-        //    void AddOrganization(IOrganization organization);
+        //    void AddOrganization(Organization organization);
         //    IOrganization RetrieveOrganization(int organization);
 
         //    void AddMember(int parent, int child);
