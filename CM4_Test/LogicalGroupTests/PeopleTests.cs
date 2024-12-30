@@ -12,7 +12,7 @@ public class PeopleTests
     [TestMethod]
     public void CanCreatePeopleInstance()
     {
-        IMock<ICharacterAccess> DA_Mock = new Mock<ICharacterAccess>();
+        IMock<IDataAccess> DA_Mock = new Mock<IDataAccess>();
         IPeople P = new People(DA_Mock.Object);
         Assert.IsNotNull(P);
     }
@@ -31,7 +31,9 @@ public class PeopleTests
     [TestMethod]
     public void CharacterList_CanAddCharacter()
     {
-        Mock<ICharacterAccess> DA_Mock = new Mock<ICharacterAccess>();
+        Mock<IDataAccess> DA_Mock = new Mock<IDataAccess>();
+        Mock<ICharacterAccess> CA_Mock = new Mock<ICharacterAccess>();
+        DA_Mock.Setup(DA => DA.CA).Returns(CA_Mock.Object);
 
         Character character = new Character();
         character.Name = "Tim";
@@ -39,7 +41,10 @@ public class PeopleTests
         IPeople p = new People(DA_Mock.Object);
         p.AddCharacter(character);
 
-        DA_Mock.Verify(CA => CA.AddCharacter(character), Times.Once);
+        DA_Mock.Verify(DA => DA.CA, Times.Once);
+        CA_Mock.Verify(CA => CA.AddCharacter(character),Times.Once);
+        DA_Mock.VerifyNoOtherCalls();
+        CA_Mock.VerifyNoOtherCalls();
     }
 
     [TestMethod]

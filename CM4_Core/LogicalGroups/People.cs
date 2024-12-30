@@ -6,18 +6,18 @@ namespace CM4_Core.LogicalGroups
 {
     public class People : IPeople
     {
-        private ICharacterAccess _CA;
+        private IDataAccess _DA;
 
         //    public CharacterGuid? ActiveCharacter { get; set; }
 
-        public People(ICharacterAccess CA)
+        public People(IDataAccess DA)
         {
-            _CA = CA;
+            _DA = DA;
         }
 
         public void AddCharacter(Character character)
         {
-            _CA.AddCharacter(character);
+            _DA.CA.AddCharacter(character);
         }
 
         //    public ICharacter RetrieveCharacter(CharacterGuid characterGuid)
