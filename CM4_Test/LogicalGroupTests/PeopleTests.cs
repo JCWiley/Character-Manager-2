@@ -1,14 +1,21 @@
-namespace CM4_Core_UnitTest;
+using CM4_Core.DataAccess;
+using CM4_Core.LogicalGroupInterfaces;
+using CM4_Core.LogicalGroups;
+using CM4_Core.Models;
+using Moq;
+
+namespace CM4_Core_UnitTest.LogicalGroupTests;
 
 [TestClass]
 public class PeopleTests
 {
-    //[TestMethod]
-    //public void CanCreatePeopleInstance()
-    //{
-    //    IPeople P = new People();
-    //    Assert.IsNotNull(P);
-    //}
+    [TestMethod]
+    public void CanCreatePeopleInstance()
+    {
+        IMock<ICharacterAccess> DA_Mock = new Mock<ICharacterAccess>();
+        IPeople P = new People(DA_Mock.Object);
+        Assert.IsNotNull(P);
+    }
 
     //[TestMethod]
     //public void ActiveCharacter_CanSetAndGetActiveCharacterUsingId()
@@ -21,19 +28,25 @@ public class PeopleTests
     //    Assert.AreEqual(characterGuid, P.ActiveCharacter);
     //}
 
-    //[TestMethod]
-    //public void CharacterList_CanAddAndRetriveCharacter()
-    //{
-    //    IPeople p = new People();
-    //    ICharacter character = new Character();
-    //    character.Name = "Tim";
+    [TestMethod]
+    public void CharacterList_CanAddCharacter()
+    {
+        Mock<ICharacterAccess> DA_Mock = new Mock<ICharacterAccess>();
 
-    //    p.AddCharacter(character);
-    //    ICharacter retrieveCharacter = p.RetrieveCharacter(character.ID);
+        Character character = new Character();
+        character.Name = "Tim";
 
-    //    Assert.AreEqual(character.ID, retrieveCharacter.ID);
-    //    Assert.AreEqual(character.Name, retrieveCharacter.Name);
-    //}
+        IPeople p = new People(DA_Mock.Object);
+        p.AddCharacter(character);
+
+        DA_Mock.Verify(CA => CA.AddCharacter(character), Times.Once);
+    }
+
+    [TestMethod]
+    public void CharacterList_CanRetrieveCharacter()
+    {
+    
+    }
 
     //[TestMethod]
     //[DataRow(0)]
@@ -43,7 +56,7 @@ public class PeopleTests
     //{
     //    IPeople p = new People();
     //    List<ICharacter> characterList = new List<ICharacter>();
-        
+
     //    for (int i = 0; i < N; i++)
     //    {
     //        ICharacter tmp = new Character();
@@ -67,7 +80,7 @@ public class PeopleTests
     //    OrganizationGuid parent = new OrganizationGuid();
 
     //    P.AddMember(parent, child);
-        
+
     //    Assert.IsTrue(P.GetMembers(parent).Characters.Contains(child));
 
     //}

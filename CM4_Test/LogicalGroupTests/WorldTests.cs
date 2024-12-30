@@ -2,7 +2,7 @@ using CM4_Core.LogicalGroupInterfaces;
 using CM4_Core.LogicalGroups;
 using Moq;
 
-namespace CM4_Core_UnitTest.ModelTests
+namespace CM4_Core_UnitTest.LogicalGroupTests
 {
     [TestClass]
     public class WorldTests
