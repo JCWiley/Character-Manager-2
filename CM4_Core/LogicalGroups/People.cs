@@ -4,25 +4,16 @@ using CM4_Core.Models;
 
 namespace CM4_Core.LogicalGroups
 {
-    public class People : IPeople
+    public class People(IDataAccess DA) : IPeople
     {
-        private IDataAccess _DA;
-
-        //    public CharacterGuid? ActiveCharacter { get; set; }
-
-        public People(IDataAccess DA)
-        {
-            _DA = DA;
-        }
-
         public void AddCharacter(Character character)
         {
-            _DA.CA.AddCharacter(character);
+            DA.CA.AddCharacter(character);
         }
 
         public List<Character> GetCharacters()
         {
-            return _DA.CA.GetCharacters();
+            return DA.CA.GetCharacters();
         }
 
         //    public ICharacter RetrieveCharacter(CharacterGuid characterGuid)

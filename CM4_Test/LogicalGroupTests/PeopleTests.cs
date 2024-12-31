@@ -12,7 +12,7 @@ public class PeopleTests
     [TestMethod]
     public void CanCreatePeopleInstance()
     {
-        IMock<IDataAccess> DA_Mock = new Mock<IDataAccess>();
+        Mock<IDataAccess> DA_Mock = new();
         IPeople P = new People(DA_Mock.Object);
         Assert.IsNotNull(P);
     }
@@ -31,12 +31,14 @@ public class PeopleTests
     [TestMethod]
     public void CharacterList_CanAddCharacter()
     {
-        Mock<IDataAccess> DA_Mock = new Mock<IDataAccess>();
-        Mock<ICharacterAccess> CA_Mock = new Mock<ICharacterAccess>();
+        Mock<IDataAccess> DA_Mock = new();
+        Mock<ICharacterAccess> CA_Mock = new();
         DA_Mock.Setup(DA => DA.CA).Returns(CA_Mock.Object);
 
-        Character character = new Character();
-        character.Name = "Tim";
+        Character character = new()
+        {
+            Name = "Tim"
+        };
 
         IPeople p = new People(DA_Mock.Object);
         p.AddCharacter(character);
@@ -48,9 +50,33 @@ public class PeopleTests
     }
 
     [TestMethod]
-    public void CharacterList_CanRetrieveCharacter()
+    public void CharacterList_CanRetrieveCharacters()
     {
-    
+        Mock<IDataAccess> DA_Mock = new();
+        Mock<ICharacterAccess> CA_Mock = new();
+        DA_Mock.Setup(DA => DA.CA).Returns(CA_Mock.Object);
+
+        Character character1 = new()
+        {
+            Name = "Bob"
+        };
+        Character character2 = new()
+        {
+            Name = "Alice"
+        };
+
+        List<Character> list = [character1, character2];
+
+        CA_Mock.Setup(CA => CA.GetCharacters()).Returns(list);
+
+        IPeople p = new People(DA_Mock.Object);
+
+        Assert.AreEqual(p.GetCharacters(),list);
+
+        DA_Mock.Verify(DA => DA.CA, Times.Once);
+        CA_Mock.Verify(CA => CA.GetCharacters(), Times.Once);
+        DA_Mock.VerifyNoOtherCalls();
+        CA_Mock.VerifyNoOtherCalls();
     }
 
     //[TestMethod]
