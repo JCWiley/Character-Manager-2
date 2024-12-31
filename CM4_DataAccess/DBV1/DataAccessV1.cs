@@ -20,6 +20,8 @@ namespace CM4_DataAccess.DBV1
 
         public DataAccessV1()
         {
+            _connectionString = "";
+            _DBPath = "";
             _ca = new CharacterAccessV1(this);
         }
 
@@ -63,6 +65,11 @@ namespace CM4_DataAccess.DBV1
         {
             if (_connectionString == null)
                 throw new Exception("Invalid Database Path");
+        }
+
+        internal bool IsReady()
+        {
+            return File.Exists(_DBPath);
         }
     }
 }

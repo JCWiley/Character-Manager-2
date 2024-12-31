@@ -17,61 +17,84 @@ namespace CM4_DataAccess.DBV1
         {
              _DA = DA;
         }
-        public async Task<Character> AddCharacter()
+        public async Task<Character?> AddCharacter()
         {
             Character temp = new Character();
-            using (WorldContext Context = new WorldContext(_DA._connectionString))
+            if (_DA.IsReady())
             {
-                Character result = (await Context.AddAsync<Character>(temp)).Entity;
-                Context.SaveChanges();
-                return result;
+                using (WorldContext Context = new WorldContext(_DA._connectionString))
+                {
+                    Character result = (await Context.AddAsync<Character>(temp)).Entity;
+                    Context.SaveChanges();
+                    return result;
+                }
             }
+            return null;
         }
 
-        public async Task<Character> AddCharacter(Character character)
+        public async Task<Character?> AddCharacter(Character character)
         {
-            using (WorldContext Context = new WorldContext(_DA._connectionString))
+            if (_DA.IsReady())
             {
-                Character result = (await Context.AddAsync<Character>(character)).Entity;
-                Context.SaveChanges();
-                return result;
+                using (WorldContext Context = new WorldContext(_DA._connectionString))
+                {
+                    Character result = (await Context.AddAsync<Character>(character)).Entity;
+                    Context.SaveChanges();
+                    return result;
+                }
             }
+            return null;
         }
 
         public void RemoveCharacter(Character character)
         {
-            using (WorldContext Context = new WorldContext(_DA._connectionString))
+            if (_DA.IsReady())
             {
-                Context.Remove<Character>(character);
-                Context.SaveChanges();
+                using (WorldContext Context = new WorldContext(_DA._connectionString))
+                {
+                    Context.Remove<Character>(character);
+                    Context.SaveChanges();
+                }
             }
         }
 
 
         public List<Character> GetCharacters()
         {
-            using (WorldContext Context = new WorldContext(_DA._connectionString))
+            if (_DA.IsReady())
             {
-                return Context.Characters.ToList();
+                using (WorldContext Context = new WorldContext(_DA._connectionString))
+                {
+                    return Context.Characters.ToList();
+                }
             }
+            return new List<Character>();
         }
         public List<Character> GetCharacters(Guid[] ID)
         {
-            using (WorldContext Context = new WorldContext(_DA._connectionString))
+            if (_DA.IsReady())
             {
-                return Context.Characters.Where(item => ID.Contains(item.ID)).ToList();
+                using (WorldContext Context = new WorldContext(_DA._connectionString))
+                {
+                    return Context.Characters.Where(item => ID.Contains(item.ID)).ToList();
+                }
             }
+            return new List<Character>();
         }
 
 
         public Character UpdateCharacter(Character character)
         {
-            using (WorldContext Context = new WorldContext(_DA._connectionString))
+            if (_DA.IsReady())
             {
-                Character result = Context.Update<Character>(character).Entity;
-                Context.SaveChanges();
-                return result;
+                using (WorldContext Context = new WorldContext(_DA._connectionString))
+                {
+                    Character result = Context.Update<Character>(character).Entity;
+                    Context.SaveChanges();
+                    return result;
+                }
             }
+            return null;
         }
     }
 }

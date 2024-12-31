@@ -8,12 +8,15 @@ namespace CM4_DataAccess_UnitTest;
 public class CharacterAccessV1Tests
 {
     static IDataAccess DA;
+    static IDataAccess NullDA;
 
     [ClassInitialize]
     public static void DataAccessV1Initialize(TestContext testContext)
     {
         DA = new DataAccessV1();
         DA.StoragePath = @"C:\Users\JWiley\source\CM\CharacterManager4\CM4_DataAccess_UnitTest\TestData\TestV1DB.db";
+
+        NullDA = new DataAccessV1();
     }
 
     [TestMethod]
@@ -65,6 +68,72 @@ public class CharacterAccessV1Tests
         C.Name = "Tim";
         C.Age = 43;
 
-        DA.CA.UpdateCharacter(C);
+        Character C2 = DA.CA.UpdateCharacter(C);
+
+        Assert.IsNotNull(C2);
+        Assert.AreEqual(C, C2);
+    }
+
+    [TestMethod]
+    public async Task NoDB_AddCharacterDoesNothing()
+    {
+        Character C = new Character();
+        C.Name = "Bob";
+        C.Age = 20;
+
+        Character? C2 = await NullDA.CA.AddCharacter(C);
+
+        Assert.IsNull(C2);
+    }
+
+    [TestMethod]
+    public async Task NoDB_AddDefaultCharacterDoesNothing()
+    {
+        Character? C2 = await NullDA.CA.AddCharacter();
+
+        Assert.IsNull(C2);
+    }
+
+    [TestMethod]
+    public async Task NoDB_FilteredGetCharactersReturnsEmptyList()
+    {
+        Character? C = await NullDA.CA.AddCharacter();
+
+        Character C2 = new();
+
+        List<Character> C_list = NullDA.CA.GetCharacters([C2.ID]);
+
+        Assert.IsNotNull(C_list);
+        Assert.AreEqual(C_list.Count(), 0);
+    }
+
+    [TestMethod]
+    public async Task NoDB_GetCharactersReturnsEmptyList()
+    {
+        List<Character> C_list = NullDA.CA.GetCharacters();
+
+        Assert.IsNotNull(C_list);
+        Assert.AreEqual(C_list.Count(), 0);
+    }
+
+    [TestMethod]
+    public async Task NoDB_RemoveCharacterDoesNotCrash()
+    {
+        Character C = new();
+
+        NullDA.CA.RemoveCharacter(C);
+    }
+
+    [TestMethod]
+    public async Task NoDB_UpdateCharacterDoesNothing()
+    {
+        Character C = new();
+
+        C.Name = "Tim";
+        C.Age = 43;
+
+        Character C2 = NullDA.CA.UpdateCharacter(C);
+
+        Assert.IsNull(C2);
     }
 }
