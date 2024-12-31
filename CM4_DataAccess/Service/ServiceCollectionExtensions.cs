@@ -2,11 +2,11 @@
 using CM4_DataAccess.DBV1;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CM4_Extensions
+namespace CM4_DataAccess.Service
 {
-    public static class ServiceCollectionExtensions
+    public static class ServiceCollectionDataAccessExtensions
     {
-        public static IServiceCollection AddDataAccessServices(this IServiceCollection services)
+        public static IServiceCollection RegisterServices(this IServiceCollection services)
         {
             services.AddSingleton<IDataAccess, DataAccessV1>();
 
