@@ -3,9 +3,6 @@
 using Avalonia;
 using Avalonia.ReactiveUI;
 
-using CM4_Extensions;
-
-using Microsoft.Extensions.DependencyInjection;
 namespace CM4_UI.Desktop;
 
 class Program
@@ -16,7 +13,6 @@ class Program
     [STAThread]
     public static void Main(string[] args)
     {
-        RegisterServices();
         BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
     }
 
@@ -27,14 +23,4 @@ class Program
             .WithInterFont()
             .LogToTrace()
             .UseReactiveUI();
-
-    private static void RegisterServices()
-    {
-        IServiceCollection services = new ServiceCollection();
-        services = ServiceCollectionExtensions.AddDataAccessServices(services);
-
-        var serviceProvider = services.BuildServiceProvider();
-    }
-
-
 }
