@@ -13,6 +13,17 @@ namespace CM4_Core_UnitTest.ModelTests
         }
 
         [TestMethod]
+        public void CanCompareCharacter() 
+        {
+            Character character1 = new Character();
+            Character character2 = new Character();
+
+            Assert.AreEqual(character1, character1);
+            Assert.AreEqual(character2, character2);
+            Assert.AreNotEqual(character1, character2);
+        }
+
+        [TestMethod]
         [DataRow("Tim")]
         [DataRow("Alice")]
         [DataRow("")]
