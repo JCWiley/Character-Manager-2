@@ -12,6 +12,7 @@ namespace CM4_Core.DataAccess
         public string StoragePath { get; set; }
         public ICharacterAccess CA { get;}
 
-        public bool CreateDB();
+        public bool CreateDataStore(string storagePath);
+        public bool OpenDataStore(string storagePath);
     }
 }

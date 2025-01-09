@@ -47,17 +47,30 @@ namespace CM4_DataAccess.DBV1
             }
         }
 
-        public bool CreateDB()
+        public bool CreateDataStore(string storagePath)
         {
+
             try
             {
-                File.Copy("C:\\Users\\JWiley\\source\\CM\\CharacterManager4\\CM4_DataAccess\\DBV1\\WorldV1Template.db", StoragePath);
+                File.Copy("C:\\Users\\JWiley\\source\\CM\\CharacterManager4\\CM4_DataAccess\\DBV1\\WorldV1Template.db", storagePath, true);
             }
-            catch 
+            catch
             {
                 return false;
             }
+            
+            StoragePath = storagePath;
             return true;
+        }
+
+        public bool OpenDataStore(string storagePath) 
+        {
+            if (File.Exists(storagePath))
+            {
+                StoragePath = storagePath;
+                return true;
+            }
+            return false;
         }
 
 

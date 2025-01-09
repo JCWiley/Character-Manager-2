@@ -7,14 +7,9 @@ namespace CM4_DataAccess_UnitTest.DBV1Tests
     [TestClass]
     public sealed class DataAccessV1Tests
     {
-        static IDataAccess DA;
-
         [ClassInitialize]
         public static void DataAccessV1Initialize(TestContext testContext)
-        {
-            DA = new DataAccessV1();
-            DA.StoragePath = @"C:\Users\JWiley\source\CM\CharacterManager4\CM4_DataAccess_UnitTest\TestData\TestV1DB.db";
-        }
+        {}
 
         [TestMethod]
         public void DBPath_GetSet()
@@ -31,9 +26,7 @@ namespace CM4_DataAccess_UnitTest.DBV1Tests
         public void CreateDBFromTemplate()
         {
             IDataAccess LocalDA = new DataAccessV1();
-            LocalDA.StoragePath = @"C:\Users\JWiley\source\CM\CharacterManager4\CM4_DataAccess_UnitTest\TestData\TempDB.db";
-
-            bool result = LocalDA.CreateDB();
+            bool result = LocalDA.CreateDataStore(@"C:\Users\JWiley\source\CM\CharacterManager4\CM4_DataAccess_UnitTest\TestData\TempDB.db");
 
             Assert.IsTrue(result);
             Assert.IsTrue(File.Exists(LocalDA.StoragePath));
@@ -47,12 +40,75 @@ namespace CM4_DataAccess_UnitTest.DBV1Tests
         public void CreateDB_FailsIfPathNotExistOrInvalid(string path)
         {
             IDataAccess LocalDA = new DataAccessV1();
-            LocalDA.StoragePath = path;
-
-            bool result = LocalDA.CreateDB();
+            bool result = LocalDA.CreateDataStore(path);
 
             Assert.IsFalse(result);
             Assert.IsFalse(File.Exists(LocalDA.StoragePath));
+        }
+
+        [TestMethod]
+        public void CreateDB_RecreatingStoreOnSamePathDoesOverwrite()
+        {
+            string test_path = @"C:\Users\JWiley\source\CM\CharacterManager4\CM4_DataAccess_UnitTest\TestData\OverwriteTestPath.db";
+
+            if (File.Exists(test_path))
+            {
+                File.Delete(test_path);
+            }
+
+            IDataAccess LocalDA = new DataAccessV1();
+
+            bool result = LocalDA.CreateDataStore(test_path);
+            Assert.IsTrue(result);
+
+            Character C = new();
+            C.Name = "Tim";
+
+            LocalDA.CA.AddCharacter(C);
+
+            Assert.IsTrue(LocalDA.CA.GetCharacters().Contains(C));
+
+            result = LocalDA.CreateDataStore(test_path);
+
+            Assert.IsTrue(result);
+            Assert.IsFalse(LocalDA.CA.GetCharacters().Contains(C));
+            Assert.AreEqual(LocalDA.CA.GetCharacters().Count(), 0);
+        }
+
+        [TestMethod]
+        public void OpenDB_CanOpenExistingDataStore()
+        {
+            string test_path1 = @"C:\Users\JWiley\source\CM\CharacterManager4\CM4_DataAccess_UnitTest\TestData\OpenTest1.db";
+            string test_path2 = @"C:\Users\JWiley\source\CM\CharacterManager4\CM4_DataAccess_UnitTest\TestData\OpenTest2.db";
+
+            if (File.Exists(test_path1))
+            {
+                File.Delete(test_path1);
+            }
+
+            if (File.Exists(test_path2))
+            {
+                File.Delete(test_path2);
+            }
+
+            IDataAccess LocalDA = new DataAccessV1();
+
+            bool result = LocalDA.CreateDataStore(test_path1);
+            Assert.IsTrue(result);
+
+            Character C = new();
+            C.Name = "Tim";
+
+            LocalDA.CA.AddCharacter(C);
+
+            result = LocalDA.CreateDataStore(test_path2);
+            Assert.IsTrue(result);
+            Assert.IsFalse(LocalDA.CA.GetCharacters().Contains(C));
+
+
+            result = LocalDA.OpenDataStore(test_path1);
+            Assert.IsTrue(result);
+            Assert.IsTrue(LocalDA.CA.GetCharacters().Contains(C));
         }
     }
 }

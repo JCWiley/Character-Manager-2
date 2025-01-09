@@ -14,6 +14,8 @@ namespace CM4_Core.Service
     {
         public static IServiceCollection RegisterServices(this IServiceCollection services)
         {
+            services.AddSingleton<INotifyService,NotifyService>();
+            services.AddSingleton<ISettingsManager, SettingsManager>();
             services.AddSingleton<IPeople, People>();
             services.AddSingleton<IPlaces, Places>();
             services.AddSingleton<IThings, Things>();
