@@ -1,11 +1,13 @@
 ﻿using Avalonia.Controls;
+using CM4_UI.ViewModels;
 
 namespace CM4_UI.Views;
 
 public partial class MainWindow : Window
 {
-    public MainWindow()
+    public MainWindow(MainViewModel mainViewModel)
     {
+        DataContext = mainViewModel;
         InitializeComponent();
     }
 }
