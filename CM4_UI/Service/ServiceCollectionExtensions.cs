@@ -13,7 +13,7 @@ namespace CM4_UI.Service
         public static IServiceCollection RegisterServices(this IServiceCollection services)
         {
             services.AddTransient<MainWindow>();
-            services.AddSingleton<IFilesService,FilesService>();
+            services.AddSingleton<IFileUIService,FileUIService>();
             services.AddTransient<MainViewModel>();
             services.AddTransient<MenuViewModel>();
 

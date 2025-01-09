@@ -1,7 +1,7 @@
 using CM4_Core.DataAccess;
 using CM4_Core.LogicalGroupInterfaces;
 using CM4_Core.LogicalGroups;
-using CM4_Core.Service;
+using CM4_Core.Service.Interfaces;
 using Moq;
 
 namespace CM4_Core_UnitTest;

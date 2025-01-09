@@ -1,17 +1,17 @@
 ﻿using CM4_Core.DataAccess;
+using CM4_Core.Service.Implementations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CM4_Core.LogicalGroupInterfaces
+namespace CM4_Core.Service.Interfaces
 {
-    public interface ISettingsManager
+    public interface IFileService
     {
         public void OpenProject(string Path);
-        public void NewProject(string Path);
 
-        public string DataPath { get;}
+        public void NewProject(string Path);
     }
 }

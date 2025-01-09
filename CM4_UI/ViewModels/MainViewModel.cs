@@ -1,7 +1,7 @@
 ﻿using CM4_Core.LogicalGroupInterfaces;
 using CM4_Core.LogicalGroups;
 using CM4_Core.Models;
-using CM4_Core.Service;
+using CM4_Core.Service.Interfaces;
 using DynamicData.Binding;
 using ReactiveUI;
 using System.Collections.Generic;

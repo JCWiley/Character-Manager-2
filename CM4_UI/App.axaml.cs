@@ -37,7 +37,7 @@ public partial class App : Application
         {
             desktop.MainWindow = MW;
             //Debug.WriteLine("using IClassicDesktopStyleApplicationLifetime");
-            serviceCollection.GetRequiredService<IFilesService>().SetParentWindow(MW);
+            serviceCollection.GetRequiredService<IFileUIService>().SetParentWindow(MW);
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {

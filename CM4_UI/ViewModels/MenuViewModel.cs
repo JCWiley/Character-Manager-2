@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using CM4_Core.LogicalGroupInterfaces;
+using CM4_Core.Service.Interfaces;
 using CM4_UI.Menus.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,10 @@ using System.Threading.Tasks;
 
 namespace CM4_UI.ViewModels
 {
-    public class MenuViewModel(IFilesService filesService,ISettingsManager settingsManager) : ViewModelBase
+    public class MenuViewModel(IFileUIService filesService,IFileService fileService) : ViewModelBase
     {
-        IFilesService _filesService = filesService;
-        ISettingsManager _settingsManager = settingsManager;
+        IFileUIService _filesService = filesService;
+        IFileService _fileService = fileService;
 
         public async Task NewProjectAsync()
         {
@@ -24,7 +25,7 @@ namespace CM4_UI.ViewModels
             if (path != null) 
             {
                 Debug.WriteLine("Opening new project with path " + path);
-                _settingsManager.NewProject(path);
+                _fileService.NewProject(path);
             }
         }
 
@@ -36,7 +37,7 @@ namespace CM4_UI.ViewModels
             if (path != null)
             {
                 Debug.WriteLine("Opening existing project with path " + path);
-                _settingsManager.OpenProject(path);
+                _fileService.OpenProject(path);
             }
         }
     }

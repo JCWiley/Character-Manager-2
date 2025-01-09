@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CM4_UI.Menus.Interfaces
 {
-    public interface IFilesService
+    public interface IFileUIService
     {
         public void SetParentWindow(Window ParentWindow);
         public Task<IStorageFile?> GetNewProjectPathFromUser();

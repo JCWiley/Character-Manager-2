@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CM4_UI.Menus.Implementations
 {
-    public class FilesService : IFilesService
+    public class FileUIService : IFileUIService
     {
         Window _target = null;
         public void SetParentWindow(Window ParentWindow)
