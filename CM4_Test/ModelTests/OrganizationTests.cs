@@ -12,6 +12,17 @@ public class OrganizationTests
     }
 
     [TestMethod]
+    public void CanCompareOrganizations()
+    {
+        Organization Org1 = new Organization();
+        Organization Org2 = new Organization();
+
+        Assert.AreEqual(Org1, Org1);
+        Assert.AreEqual(Org2, Org2);
+        Assert.AreNotEqual(Org1, Org2);
+    }
+
+    [TestMethod]
     public void ID_InitialValueNotNull()
     {
         Organization organization = new Organization();
