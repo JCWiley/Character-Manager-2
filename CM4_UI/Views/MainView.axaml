@@ -3,19 +3,24 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:CM4_UI.ViewModels"
+			 xmlns:uc="clr-namespace:CM4_UI.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="CM4_UI.Views.MainView"
              x:DataType="vm:MainViewModel">
-	<Grid>
-		<ListBox ItemsSource="{Binding characters}">
-			<ListBox.ItemTemplate>
-				<DataTemplate>
-					<Border BorderBrush="Blue" BorderThickness="1"
-							CornerRadius="4" Padding="4">
-						<TextBlock Text="{Binding Name}"/>
-					</Border>
-				</DataTemplate>
-			</ListBox.ItemTemplate>
-		</ListBox>
-	</Grid>
+	<StackPanel>
+		<uc:MenuView DataContext="{Binding MenuViewModel}"></uc:MenuView>
+		<Grid RowDefinitions="Auto,Auto,Auto">
+			<Button Grid.Row="0" Grid.Column="0" Command="{Binding AddCharacter}">Add Character</Button>
+			<ListBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Characters}">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<Border BorderBrush="Blue" BorderThickness="1"
+								CornerRadius="4" Padding="4">
+							<TextBlock Text="{Binding Name}"/>
+						</Border>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+		</Grid>
+	</StackPanel>
 </UserControl>
