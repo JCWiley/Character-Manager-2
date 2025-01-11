@@ -52,5 +52,17 @@ namespace CM4_Core_UnitTest.ModelTests
             character.Age = age;
             Assert.AreEqual(character.Age, age);
         }
+
+        [TestMethod]
+        public void Memberships_CanAddMembership()
+        {
+            Character character = new Character();
+            Organization organization = new Organization();
+            organization.Name = "Test";
+
+            character.Memberships.Add(organization);
+
+            Assert.IsTrue(character.Memberships.Contains(organization));
+        }
     }
 }

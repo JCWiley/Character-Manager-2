@@ -1,4 +1,5 @@
 using CM4_Core.Models;
+using System.Linq;
 
 namespace CM4_Core_UnitTest;
 
@@ -45,6 +46,29 @@ public class OrganizationTests
         Organization organization = new Organization();
         organization.Name = name;
         Assert.AreEqual(organization.Name, name);
+    }
 
+    [TestMethod]
+    public void Members_CanAddCharacter()
+    {
+        Organization organization = new Organization();
+        Character character = new Character();
+        character.Name = "Frodo";
+
+        organization.Members.Add(character);
+
+        Assert.IsTrue(organization.Members.Contains(character));
+    }
+
+    [TestMethod]
+    public void Members_CanAddOrganizations()
+    {
+        Organization organization = new Organization();
+        Organization subOrg = new Organization();
+        subOrg.Name = "The Hoppits";
+
+        organization.MemberOrgs.Add(subOrg);
+
+        Assert.IsTrue(organization.MemberOrgs.Contains(subOrg));
     }
 }

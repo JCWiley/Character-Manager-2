@@ -13,6 +13,7 @@ namespace CM4_DataAccess.DBV1
         private readonly string _connectionString;
 
         public DbSet<Character> Characters { get; set; }
+        public DbSet<Organization> Organizations { get; set; }
 
         public WorldContext(string connectionString)
         {
