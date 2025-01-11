@@ -16,6 +16,7 @@ namespace CM4_UI.Service
             services.AddSingleton<IFileUIService,FileUIService>();
             services.AddTransient<MainViewModel>();
             services.AddTransient<MenuViewModel>();
+            services.AddTransient<OrgTreeViewModel>();
 
             return services;
         }

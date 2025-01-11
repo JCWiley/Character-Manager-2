@@ -15,11 +15,12 @@ public class MainViewModel : ViewModelBase
     INotifyService _notifyService;
     public event PropertyChangedEventHandler PropertyChanged;
 
-    public MainViewModel(IPeople people,INotifyService notifyService,MenuViewModel menuViewModel)
+    public MainViewModel(IPeople people,INotifyService notifyService,MenuViewModel menuViewModel, OrgTreeViewModel orgTreeViewModel)
     {
         _notifyService = notifyService;
         _people = people;
         MenuViewModel = menuViewModel;
+        OrgTreeViewModel = orgTreeViewModel;
 
         _notifyService.NotifyDataSourceChanged += HandleDataSourceChanged;
     }
@@ -50,7 +51,14 @@ public class MainViewModel : ViewModelBase
         get => _menuViewModel;
         set => this.RaiseAndSetIfChanged(ref _menuViewModel, value);
     }
-    //public List<Character> Characters => _people.GetCharacters();
+
+    OrgTreeViewModel _orgTreeViewModel;
+    public OrgTreeViewModel OrgTreeViewModel
+    {
+        get => _orgTreeViewModel;
+        set => this.RaiseAndSetIfChanged(ref _orgTreeViewModel, value);
+    }
+
     List<Character> _characters;
     public List<Character> Characters
     {
