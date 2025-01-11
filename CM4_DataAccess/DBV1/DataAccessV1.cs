@@ -1,12 +1,7 @@
 ﻿using CM4_Core.DataAccess;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CM4_Core.Service.Implementations;
+using CM4_Core.Service.Interfaces;
 using Microsoft.Data.Sqlite;
-using CM4_Core.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CM4_DataAccess.DBV1
@@ -17,12 +12,16 @@ namespace CM4_DataAccess.DBV1
 
         string _DBPath;
         ICharacterAccess _ca;
+        INotifyService _notifyService;
+        ISettingsService _settingsService;
 
-        public DataAccessV1()
+        public DataAccessV1(INotifyService notifyService, ISettingsService settingsService)
         {
             _connectionString = "";
             _DBPath = "";
             _ca = new CharacterAccessV1(this);
+            _notifyService = notifyService;
+            _settingsService = settingsService;
         }
 
         public ICharacterAccess CA { get 
@@ -69,6 +68,8 @@ namespace CM4_DataAccess.DBV1
                 CloseDataStore();
                 StoragePath = storagePath;
                 ConfirmMigrations();
+                _settingsService.ProjectPath = StoragePath;
+                _notifyService.OnDataSourceChanged();
                 return true;
             }
             return false;

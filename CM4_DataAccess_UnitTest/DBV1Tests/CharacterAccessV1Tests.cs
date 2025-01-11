@@ -1,6 +1,9 @@
 using CM4_Core.DataAccess;
 using CM4_Core.Models;
+using CM4_Core.Service.Interfaces;
 using CM4_DataAccess.DBV1;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Moq;
 
 namespace CM4_DataAccess_UnitTest;
 
@@ -13,10 +16,12 @@ public class CharacterAccessV1Tests
     [ClassInitialize]
     public static void DataAccessV1Initialize(TestContext testContext)
     {
-        DA = new DataAccessV1();
+        Mock<INotifyService> notifyService = new();
+        Mock<ISettingsService> settingsService = new();
+        DA = new DataAccessV1(notifyService.Object,settingsService.Object);
         DA.CreateDataStore(@"C:\Users\JWiley\source\CM\CharacterManager4\CM4_DataAccess_UnitTest\TestData\TestV1DB.db");
 
-        NullDA = new DataAccessV1();
+        NullDA = new DataAccessV1(notifyService.Object, settingsService.Object);
     }
 
     [TestMethod]

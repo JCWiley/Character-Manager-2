@@ -1,6 +1,8 @@
 ﻿using CM4_Core.DataAccess;
 using CM4_Core.Models;
+using CM4_Core.Service.Interfaces;
 using CM4_DataAccess.DBV1;
+using Moq;
 
 namespace CM4_DataAccess_UnitTest.DBV1Tests
 {
@@ -14,7 +16,9 @@ namespace CM4_DataAccess_UnitTest.DBV1Tests
         [TestMethod]
         public void DBPath_GetSet()
         {
-            IDataAccess LocalDA = new DataAccessV1();
+            Mock<INotifyService> notifyService = new();
+            Mock<ISettingsService> settingsService = new();
+            IDataAccess LocalDA = new DataAccessV1(notifyService.Object, settingsService.Object);
             string Path = "foo";
 
             LocalDA.StoragePath = Path;
@@ -25,7 +29,9 @@ namespace CM4_DataAccess_UnitTest.DBV1Tests
         [TestMethod]
         public void CreateDBFromTemplate()
         {
-            IDataAccess LocalDA = new DataAccessV1();
+            Mock<INotifyService> notifyService = new();
+            Mock<ISettingsService> settingsService = new();
+            IDataAccess LocalDA = new DataAccessV1(notifyService.Object, settingsService.Object);
             bool result = LocalDA.CreateDataStore(@"C:\Users\JWiley\source\CM\CharacterManager4\CM4_DataAccess_UnitTest\TestData\TempDB.db");
 
             Assert.IsTrue(result);
@@ -40,7 +46,9 @@ namespace CM4_DataAccess_UnitTest.DBV1Tests
         [DataRow("C:/this_folder_does_not_exist")]
         public void CreateDB_FailsIfPathNotExistOrInvalid(string path)
         {
-            IDataAccess LocalDA = new DataAccessV1();
+            Mock<INotifyService> notifyService = new();
+            Mock<ISettingsService> settingsService = new();
+            IDataAccess LocalDA = new DataAccessV1(notifyService.Object, settingsService.Object);
             bool result = LocalDA.CreateDataStore(path);
 
             Assert.IsFalse(result);
@@ -57,7 +65,9 @@ namespace CM4_DataAccess_UnitTest.DBV1Tests
                 File.Delete(test_path);
             }
 
-            IDataAccess LocalDA = new DataAccessV1();
+            Mock<INotifyService> notifyService = new();
+            Mock<ISettingsService> settingsService = new();
+            IDataAccess LocalDA = new DataAccessV1(notifyService.Object, settingsService.Object);
 
             bool result = LocalDA.CreateDataStore(test_path);
             Assert.IsTrue(result);
@@ -92,7 +102,9 @@ namespace CM4_DataAccess_UnitTest.DBV1Tests
                 File.Delete(test_path2);
             }
 
-            IDataAccess LocalDA = new DataAccessV1();
+            Mock<INotifyService> notifyService = new();
+            Mock<ISettingsService> settingsService = new();
+            IDataAccess LocalDA = new DataAccessV1(notifyService.Object, settingsService.Object);
 
             bool result = LocalDA.CreateDataStore(test_path1);
             Assert.IsTrue(result);
