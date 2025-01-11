@@ -11,19 +11,15 @@ namespace CM4_Core.Service.Implementations
     internal class FileService(IDataAccess dataAccess, INotifyService notifyService, ISettingsService settings) : IFileService
     {
         IDataAccess _dataAccess = dataAccess;
-        INotifyService _notifyService = notifyService;
-        ISettingsService _settingsService = settings;
 
         public void OpenProject(string Path)
         {
             _dataAccess.OpenDataStore(Path);
-            _notifyService.OnDataSourceChanged();
         }
 
         public void NewProject(string Path)
         {
             _dataAccess.CreateDataStore(Path);
-            _notifyService.OnDataSourceChanged();
         }
 
     }

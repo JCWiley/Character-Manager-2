@@ -2,7 +2,7 @@
 
 namespace CM4_Core.Service.Implementations
 {
-    public class SettingsService : ISettingsService
+    internal class SettingsService : ISettingsService
     {
         public SettingsService()
         {

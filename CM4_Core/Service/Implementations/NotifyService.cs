@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace CM4_Core.Service.Implementations
 {
     public delegate void Notify();
-    public class NotifyService : INotifyService
+    internal class NotifyService : INotifyService
     {
         public event Notify NotifyDataSourceChanged;
 
