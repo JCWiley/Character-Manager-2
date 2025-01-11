@@ -27,7 +27,7 @@ namespace CM4_DataAccess.DBV1
 
         public ICharacterAccess CA { get 
             {
-                VerifyReady();
+                IsReady();
                 return _ca;
             }
         }
@@ -49,40 +49,61 @@ namespace CM4_DataAccess.DBV1
 
         public bool CreateDataStore(string storagePath)
         {
-
             try
             {
-                File.Copy("C:\\Users\\JWiley\\source\\CM\\CharacterManager4\\CM4_DataAccess\\DBV1\\WorldV1Template.db", storagePath, true);
+                var stream = File.Create(storagePath);
+                stream.Close();
             }
             catch
             {
                 return false;
             }
-            
-            StoragePath = storagePath;
-            return true;
+
+            return OpenDataStore(storagePath);
         }
 
         public bool OpenDataStore(string storagePath) 
         {
             if (File.Exists(storagePath))
             {
+                CloseDataStore();
                 StoragePath = storagePath;
+                ConfirmMigrations();
                 return true;
             }
             return false;
         }
-
-
-        void VerifyReady()
+        public void CloseDataStore()
         {
-            if (_connectionString == null)
-                throw new Exception("Invalid Database Path");
+            SqliteConnection.ClearAllPools();
         }
-
         internal bool IsReady()
         {
-            return File.Exists(_DBPath);
+            if (_connectionString == null || !File.Exists(_DBPath))
+            {
+                //throw new Exception("Invalid Database Path");
+                return false;
+            }
+            return true;
+        }
+
+        internal void ConfirmMigrations()
+        {
+            if (IsReady())
+            {
+                using (WorldContext Context = new WorldContext(_connectionString))
+                {
+                    try
+                    {
+                        Context.Database.Migrate();
+                    }
+                    catch
+                    {
+                        throw new Exception("Migration Failed");
+                    }
+                }
+                
+            }
         }
     }
 }

@@ -14,5 +14,6 @@ namespace CM4_Core.DataAccess
 
         public bool CreateDataStore(string storagePath);
         public bool OpenDataStore(string storagePath);
+        public void CloseDataStore();
     }
 }

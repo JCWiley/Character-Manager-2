@@ -14,7 +14,7 @@ public class CharacterAccessV1Tests
     public static void DataAccessV1Initialize(TestContext testContext)
     {
         DA = new DataAccessV1();
-        DA.StoragePath = @"C:\Users\JWiley\source\CM\CharacterManager4\CM4_DataAccess_UnitTest\TestData\TestV1DB.db";
+        DA.CreateDataStore(@"C:\Users\JWiley\source\CM\CharacterManager4\CM4_DataAccess_UnitTest\TestData\TestV1DB.db");
 
         NullDA = new DataAccessV1();
     }

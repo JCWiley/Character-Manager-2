@@ -30,6 +30,7 @@ namespace CM4_DataAccess_UnitTest.DBV1Tests
 
             Assert.IsTrue(result);
             Assert.IsTrue(File.Exists(LocalDA.StoragePath));
+            LocalDA.CloseDataStore();
             File.Delete(LocalDA.StoragePath);
             Assert.IsFalse(File.Exists(LocalDA.StoragePath));
         }
