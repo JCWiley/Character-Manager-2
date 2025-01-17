@@ -11,7 +11,7 @@ namespace CM4_DataAccess.DBV1
         internal string _connectionString;
 
         string _DBPath;
-        ICharacterAccess _ca;
+        IRepository _r;
         INotifyService _notifyService;
         ISettingsService _settingsService;
 
@@ -19,15 +19,17 @@ namespace CM4_DataAccess.DBV1
         {
             _connectionString = "";
             _DBPath = "";
-            _ca = new CharacterAccessV1(this);
+            _r = new Repository(this);
             _notifyService = notifyService;
             _settingsService = settingsService;
         }
 
-        public ICharacterAccess CA { get 
+        public IRepository Repository
+        {
+            get
             {
                 IsReady();
-                return _ca;
+                return _r;
             }
         }
 

@@ -8,12 +8,12 @@ namespace CM4_Core.LogicalGroups
     {
         public void AddCharacter(Character character)
         {
-            DA.CA.AddCharacter(character);
+            DA.Repository.Add(character);
         }
 
         public List<Character> GetCharacters()
         {
-            return DA.CA.GetCharacters();
+            return DA.Repository.Get<Character>();
         }
 
         //    public ICharacter RetrieveCharacter(CharacterGuid characterGuid)

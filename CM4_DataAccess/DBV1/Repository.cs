@@ -1,100 +1,96 @@
 ﻿using CM4_Core.DataAccess;
 using CM4_Core.Models;
-using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CM4_DataAccess.DBV1
 {
-    public class CharacterAccessV1 : ICharacterAccess
+    public class Repository : IRepository
     {
         DataAccessV1 _DA;
-        public CharacterAccessV1(DataAccessV1 DA)
+
+        public Repository(DataAccessV1 DA)
         {
-             _DA = DA;
+            _DA = DA;
         }
-        public async Task<Character?> AddCharacter()
+
+        public async Task<T?> Add<T>() where T : class
         {
-            Character temp = new Character();
+            T temp = (T)Activator.CreateInstance(typeof(T), []);
             if (_DA.IsReady())
             {
                 using (WorldContext Context = new WorldContext(_DA._connectionString))
                 {
-                    Character result = (await Context.AddAsync<Character>(temp)).Entity;
-                    Context.SaveChanges();
+                    T result = (await Context.AddAsync<T>(temp)).Entity;
+                    await Context.SaveChangesAsync();
+                    return result;
+                }
+            }
+            return null;
+
+        }
+
+        public async Task<T?> Add<T>(T entity) where T : class
+        {
+            if (_DA.IsReady())
+            {
+                using (WorldContext Context = new WorldContext(_DA._connectionString))
+                {
+                    T result = (await Context.AddAsync<T>(entity)).Entity;
+                    await Context.SaveChangesAsync();
                     return result;
                 }
             }
             return null;
         }
 
-        public async Task<Character?> AddCharacter(Character character)
+        public List<T> Get<T>() where T : class
         {
             if (_DA.IsReady())
             {
                 using (WorldContext Context = new WorldContext(_DA._connectionString))
                 {
-                    Character result = (await Context.AddAsync<Character>(character)).Entity;
+                    return Context.Set<T>().ToList();
+                }
+            }
+            return new List<T>();
+        }
+
+        public List<T> Get<T>(Func<T, bool> predicate) where T : class
+        {
+            return Get<T>().Where(predicate).ToList();
+        }
+
+        public void Remove<T>(T entity) where T : class
+        {
+            if (_DA.IsReady())
+            {
+                using (WorldContext Context = new WorldContext(_DA._connectionString))
+                {
+                    Context.Set<T>().Remove(entity);
+                    Context.SaveChanges();
+                }
+            }
+        }
+
+        public T? Update<T>(T entity) where T : class
+        {
+            if (_DA.IsReady())
+            {
+                using (WorldContext Context = new WorldContext(_DA._connectionString))
+                {
+                    T result = Context.Set<T>().Update(entity).Entity;
                     Context.SaveChanges();
                     return result;
                 }
             }
-            return null;
-        }
-
-        public void RemoveCharacter(Character character)
-        {
-            if (_DA.IsReady())
-            {
-                using (WorldContext Context = new WorldContext(_DA._connectionString))
-                {
-                    Context.Remove<Character>(character);
-                    Context.SaveChanges();
-                }
-            }
-        }
-
-
-        public List<Character> GetCharacters()
-        {
-            if (_DA.IsReady())
-            {
-                using (WorldContext Context = new WorldContext(_DA._connectionString))
-                {
-                    return Context.Characters.ToList();
-                }
-            }
-            return new List<Character>();
-        }
-        public List<Character> GetCharacters(Guid[] ID)
-        {
-            if (_DA.IsReady())
-            {
-                using (WorldContext Context = new WorldContext(_DA._connectionString))
-                {
-                    return Context.Characters.Where(item => ID.Contains(item.ID)).ToList();
-                }
-            }
-            return new List<Character>();
-        }
-
-
-        public Character UpdateCharacter(Character character)
-        {
-            if (_DA.IsReady())
-            {
-                using (WorldContext Context = new WorldContext(_DA._connectionString))
-                {
-                    Character result = Context.Update<Character>(character).Entity;
-                    Context.SaveChanges();
-                    return result;
-                }
-            }
-            return null;
+            return (T)Activator.CreateInstance(typeof(T), []);
         }
     }
 }

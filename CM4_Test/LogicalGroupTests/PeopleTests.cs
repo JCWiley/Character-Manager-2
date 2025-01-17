@@ -17,23 +17,12 @@ public class PeopleTests
         Assert.IsNotNull(P);
     }
 
-    //[TestMethod]
-    //public void ActiveCharacter_CanSetAndGetActiveCharacterUsingId()
-    //{
-    //    IPeople P = new People();
-    //    CharacterGuid characterGuid = new CharacterGuid();
-
-    //    P.ActiveCharacter = characterGuid;
-
-    //    Assert.AreEqual(characterGuid, P.ActiveCharacter);
-    //}
-
     [TestMethod]
     public void CharacterList_CanAddCharacter()
     {
         Mock<IDataAccess> DA_Mock = new();
-        Mock<ICharacterAccess> CA_Mock = new();
-        DA_Mock.Setup(DA => DA.CA).Returns(CA_Mock.Object);
+        Mock<IRepository> R_Mock = new();
+        DA_Mock.Setup(DA => DA.Repository).Returns(R_Mock.Object);
 
         Character character = new()
         {
@@ -43,18 +32,18 @@ public class PeopleTests
         IPeople p = new People(DA_Mock.Object);
         p.AddCharacter(character);
 
-        DA_Mock.Verify(DA => DA.CA, Times.Once);
-        CA_Mock.Verify(CA => CA.AddCharacter(character),Times.Once);
+        DA_Mock.Verify(DA => DA.Repository, Times.Once);
+        R_Mock.Verify(R => R.Add(character),Times.Once);
         DA_Mock.VerifyNoOtherCalls();
-        CA_Mock.VerifyNoOtherCalls();
+        R_Mock.VerifyNoOtherCalls();
     }
 
     [TestMethod]
     public void CharacterList_CanRetrieveCharacters()
     {
         Mock<IDataAccess> DA_Mock = new();
-        Mock<ICharacterAccess> CA_Mock = new();
-        DA_Mock.Setup(DA => DA.CA).Returns(CA_Mock.Object);
+        Mock<IRepository> R_Mock = new();
+        DA_Mock.Setup(R => R.Repository).Returns(R_Mock.Object);
 
         Character character1 = new()
         {
@@ -67,112 +56,35 @@ public class PeopleTests
 
         List<Character> list = [character1, character2];
 
-        CA_Mock.Setup(CA => CA.GetCharacters()).Returns(list);
+        R_Mock.Setup(CA => CA.Get<Character>()).Returns(list);
 
         IPeople p = new People(DA_Mock.Object);
 
         Assert.AreEqual(p.GetCharacters(),list);
 
-        DA_Mock.Verify(DA => DA.CA, Times.Once);
-        CA_Mock.Verify(CA => CA.GetCharacters(), Times.Once);
+        DA_Mock.Verify(DA => DA.Repository, Times.Once);
+        R_Mock.Verify(R => R.Get<Character>(), Times.Once);
         DA_Mock.VerifyNoOtherCalls();
-        CA_Mock.VerifyNoOtherCalls();
+        R_Mock.VerifyNoOtherCalls();
     }
+    [TestMethod]
+    public void OrganizationList_CanAddOrganization()
+    {
+        Mock<IDataAccess> DA_Mock = new();
+        Mock<IRepository> R_Mock = new();
+        //DA_Mock.Setup(DA => DA.Repository).Returns(R_Mock.Object);
 
-    //[TestMethod]
-    //[DataRow(0)]
-    //[DataRow(20)]
-    //[DataRow(100)]
-    //public void CharacterList_CanAddAndRetrieveMultipleCharacters(int N)
-    //{
-    //    IPeople p = new People();
-    //    List<ICharacter> characterList = new List<ICharacter>();
+        //Character character = new()
+        //{
+        //    Name = "Tim"
+        //};
 
-    //    for (int i = 0; i < N; i++)
-    //    {
-    //        ICharacter tmp = new Character();
-    //        p.AddCharacter(tmp);
-    //        characterList.Add(tmp);
-    //    }
+        //IPeople p = new People(DA_Mock.Object);
+        //p.AddCharacter(character);
 
-    //    for (int i = 0; i < characterList.Count; i++)
-    //    {
-    //        ICharacter orginal = characterList[i];
-    //        ICharacter tmp = p.RetrieveCharacter(orginal.ID);
-    //        Assert.AreEqual(orginal, tmp);
-    //    }
-    //}
-
-    //[TestMethod]
-    //public void Relationships_CanAddCharacterToOrganization()
-    //{
-    //    IPeople P = new People();
-    //    CharacterGuid child = new CharacterGuid();
-    //    OrganizationGuid parent = new OrganizationGuid();
-
-    //    P.AddMember(parent, child);
-
-    //    Assert.IsTrue(P.GetMembers(parent).Characters.Contains(child));
-
-    //}
-
-    //[TestMethod]
-    //public void Relationships_CanAddOrganizationToOrganization()
-    //{
-    //    IPeople P = new People();
-    //    OrganizationGuid child = new OrganizationGuid();
-    //    OrganizationGuid parent = new OrganizationGuid();
-
-    //    P.AddMember(parent, child);
-
-    //    Assert.IsTrue(P.GetMembers(parent).Organizations.Contains(child));
-
-    //}
-
-    //[TestMethod]
-    //public void Relationships_CanRemoveCharacterFromOrganization()
-    //{
-    //    IPeople P = new People();
-    //    CharacterGuid child = new CharacterGuid();
-    //    OrganizationGuid parent = new OrganizationGuid();
-
-    //    P.AddMember(parent, child);
-
-    //    Assert.IsTrue(P.GetMembers(parent).Characters.Contains(child));
-
-    //    P.RemoveMember(parent, child);
-
-    //    Assert.IsFalse(P.GetMembers(parent).Characters.Contains(child));
-    //}
-
-    //[TestMethod]
-    //public void Relationships_CanRemoveOrganizationFromOrganization()
-    //{
-    //    IPeople P = new People();
-    //    OrganizationGuid child = new OrganizationGuid();
-    //    OrganizationGuid parent = new OrganizationGuid();
-
-    //    P.AddMember(parent, child);
-
-    //    Assert.IsTrue(P.GetMembers(parent).Organizations.Contains(child));
-
-    //    P.RemoveMember(parent, child);
-
-    //    Assert.IsFalse(P.GetMembers(parent).Organizations.Contains(child));
-
-    //}
-
-    //[TestMethod]
-    //public void OrganizationList_CanAddAndRetriveOrganization()
-    //{
-    //    IPeople p = new People();
-    //    IOrganization org = new Organization();
-    //    org.Name = "The Fellowship of the Ring";
-
-    //    p.AddOrganization(org);
-    //    IOrganization retrieveCharacter = p.RetrieveOrganization(org.ID);
-
-    //    Assert.AreEqual(org.ID, retrieveCharacter.ID);
-    //    Assert.AreEqual(org.Name, retrieveCharacter.Name);
-    //}
+        //DA_Mock.Verify(DA => DA.CA, Times.Once);
+        //CA_Mock.Verify(CA => CA.AddCharacter(character), Times.Once);
+        //DA_Mock.VerifyNoOtherCalls();
+        //CA_Mock.VerifyNoOtherCalls();
+    }
 }
