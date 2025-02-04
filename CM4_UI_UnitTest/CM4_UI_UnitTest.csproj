@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CM4_Core\CM4_Core.csproj" />
     <ProjectReference Include="..\CM4_DataAccess\CM4_DataAccess.csproj" />
+    <ProjectReference Include="..\CM4_UI\CM4_UI.csproj" />
   </ItemGroup>
 
   <ItemGroup>
