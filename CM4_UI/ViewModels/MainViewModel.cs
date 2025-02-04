@@ -13,11 +13,13 @@ public class MainViewModel : ViewModelBase
 {
     IPeople _people;
 
-    public MainViewModel(IPeople people,MenuViewModel menuViewModel, OrgTreeViewModel orgTreeViewModel)
+    public MainViewModel(IPeople people,MenuViewModel menuViewModel, OrgTreeViewModel orgTreeViewModel, TabViewModel tabViewModel)
     {
         _people = people;
         MenuViewModel = menuViewModel;
         OrgTreeViewModel = orgTreeViewModel;
+        _tabViewModel = tabViewModel;
+        TabViewModel = tabViewModel;
     }
 
     //---Commands---//
@@ -42,6 +44,13 @@ public class MainViewModel : ViewModelBase
     {
         get => _orgTreeViewModel;
         set => this.RaiseAndSetIfChanged(ref _orgTreeViewModel, value);
+    }
+
+    TabViewModel _tabViewModel;
+    public TabViewModel TabViewModel
+    {
+        get => _tabViewModel;
+        set => this.RaiseAndSetIfChanged(ref _tabViewModel, value);
     }
 
     List<Character> _characters;

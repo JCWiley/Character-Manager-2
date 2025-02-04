@@ -17,13 +17,9 @@
 		<Views:OrgTreeView DataContext="{Binding OrgTreeViewModel}"
 						   Grid.Column="0"
 						   Grid.Row="1"/>
-		<Grid
-			Grid.Column="2"
-			Grid.Row="1">
-			<TextBlock	Text="Content"
-						FontSize="24"
-						VerticalAlignment="Center"
-						HorizontalAlignment="Center"/>
-		</Grid>
+		
+		<Views:TabView DataContext="{Binding TabViewModel}"
+					   Grid.Column="2"
+					   Grid.Row="1"/>
 	</Grid>
 </UserControl>

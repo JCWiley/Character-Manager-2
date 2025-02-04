@@ -1,0 +1,21 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:ViewModels="clr-namespace:CM4_UI.ViewModels"
+			 xmlns:Views="clr-namespace:CM4_UI.Views"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="CM4_UI.Views.TabView"
+			 x:DataType="ViewModels:TabViewModel">
+	<TabControl Margin="5">
+		<TabItem Header="People">
+			<TextBlock Margin="5">People Under Development</TextBlock>
+		</TabItem>
+		<TabItem Header="Inventory">
+			<TextBlock Margin="5">Inventory Under Development</TextBlock>
+		</TabItem>
+		<TabItem Header="Calendar">
+			<TextBlock Margin="5">Calendar Under Development</TextBlock>
+		</TabItem>
+	</TabControl>
+</UserControl>

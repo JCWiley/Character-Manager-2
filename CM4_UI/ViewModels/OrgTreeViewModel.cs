@@ -23,6 +23,13 @@ namespace CM4_UI.ViewModels
         IDataAccess _da;
         INotifyService _notifyService;
 
+        public OrgTreeViewModel(IDataAccess DA, INotifyService notifyService)
+        {
+            _da = DA;
+            _notifyService = notifyService;
+            _notifyService.NotifyDataSourceChanged += HandleDataSourceChanged;
+        }
+
         public OrgTreeListItem? SelectedItem { get; set; }
 
         private bool OrgTreeListHasChanged = false;
@@ -67,14 +74,6 @@ namespace CM4_UI.ViewModels
                 return _characters;
             }
         }
-
-        public OrgTreeViewModel(IDataAccess DA, INotifyService notifyService)
-        {
-            _da = DA;
-            _notifyService = notifyService;
-            _notifyService.NotifyDataSourceChanged += HandleDataSourceChanged;
-        }
-       
 
         private void HandleDataSourceChanged()
         {
