@@ -20,7 +20,7 @@ namespace CM4_DataAccess.DBV1
             _DA = DA;
         }
 
-        public async Task<T?> Add<T>() where T : class
+        public async Task<T?> Add<T>() where T : ModelBaseClass
         {
             T temp = (T)Activator.CreateInstance(typeof(T), []);
             if (_DA.IsReady())
@@ -36,7 +36,7 @@ namespace CM4_DataAccess.DBV1
 
         }
 
-        public async Task<T?> Add<T>(T entity) where T : class
+        public async Task<T?> Add<T>(T entity) where T : ModelBaseClass
         {
             if (_DA.IsReady())
             {
@@ -50,7 +50,7 @@ namespace CM4_DataAccess.DBV1
             return null;
         }
 
-        public List<T> Get<T>() where T : class
+        public List<T> Get<T>() where T : ModelBaseClass
         {
             if (_DA.IsReady())
             {
@@ -62,12 +62,25 @@ namespace CM4_DataAccess.DBV1
             return new List<T>();
         }
 
-        public List<T> Get<T>(Func<T, bool> predicate) where T : class
+        public List<T> Get<T>(Func<T, bool> predicate) where T : ModelBaseClass
         {
             return Get<T>().Where(predicate).ToList();
         }
 
-        public void Remove<T>(T entity) where T : class
+        public T? Get<T>(Guid id) where T : ModelBaseClass
+        {
+            T? Result = null;
+            if (_DA.IsReady())
+            {
+                using (WorldContext Context = new WorldContext(_DA._connectionString))
+                {
+                    Result = Context.Set<T>().FindAsync(id).Result;
+                }
+            }
+            return Result;
+        }
+
+        public void Remove<T>(T entity) where T : ModelBaseClass
         {
             if (_DA.IsReady())
             {
@@ -79,18 +92,56 @@ namespace CM4_DataAccess.DBV1
             }
         }
 
-        public T? Update<T>(T entity) where T : class
+        public T? Update<T>(T entity) where T : ModelBaseClass
         {
             if (_DA.IsReady())
             {
                 using (WorldContext Context = new WorldContext(_DA._connectionString))
                 {
+                    Context.Attach(entity);
+                    Context.Entry(entity).State = EntityState.Modified;
                     T result = Context.Set<T>().Update(entity).Entity;
                     Context.SaveChanges();
                     return result;
                 }
             }
             return (T)Activator.CreateInstance(typeof(T), []);
+        }
+        public void AddRelationship<P, C>(P parent, C child) where P : ModelBaseClass where C : ModelBaseClass
+        {
+            if (_DA.IsReady())
+            {
+                using (WorldContext Context = new WorldContext(_DA._connectionString))
+                {
+                    Context.Attach(parent);
+                    Context.Attach(child);
+                    switch (parent)
+                    {
+                        case Organization parentOrg:
+                            switch (child)
+                            {
+                                case Organization subOrg:
+                                    parentOrg.Child_Organizations.Add(subOrg.ID);
+                                    subOrg.Parent_Organizations.Add(parentOrg.ID);
+                                    break;
+                                case Character character:
+                                    parentOrg.Child_Characters.Add(character.ID);
+                                    character.Parent_Organizations.Add(parentOrg.ID);
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
+                        default:
+                            break;
+
+                    }
+                    Context.Set<P>().Update(parent);
+                    Context.Set<C>().Update(child);
+                    Context.SaveChanges();
+                }
+
+            }
         }
     }
 }

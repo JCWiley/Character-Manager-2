@@ -9,9 +9,11 @@ namespace CM4_Core.Models
     public class ModelBaseClass : IEquatable<ModelBaseClass>
     {
         public Guid ID { get; set; }
+        public bool IsDummy{get;set;}
         public ModelBaseClass()
         {
             ID = Guid.NewGuid();
+            IsDummy = false;
         }
         public bool Equals(ModelBaseClass? other)
         {

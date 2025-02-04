@@ -11,14 +11,8 @@ namespace CM4_Core.LogicalGroupInterfaces
         //    ICharacter RetrieveCharacter(int characterGuid);
         List<Character> GetCharacters();
 
-        //    void AddOrganization(Organization organization);
-        //    IOrganization RetrieveOrganization(int organization);
-
-        //    void AddMember(int parent, int child);
-        //    void AddMember(int parent, int child);
-
-        //    void RemoveMember(int parent, int child);
-        //    void RemoveMember(int parent, int child);
-        //    (HashSet<int> Characters, HashSet<int> Organizations) GetMembers(int parent);
+        void AddOrganization(Organization organization);
+        List<Organization> GetOrganizations();
+        void Update<T>(T entity) where T : ModelBaseClass;
     }
 }

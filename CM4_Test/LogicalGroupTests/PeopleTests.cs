@@ -18,7 +18,7 @@ public class PeopleTests
     }
 
     [TestMethod]
-    public void CharacterList_CanAddCharacter()
+    public void People_CanAddCharacter()
     {
         Mock<IDataAccess> DA_Mock = new();
         Mock<IRepository> R_Mock = new();
@@ -39,7 +39,7 @@ public class PeopleTests
     }
 
     [TestMethod]
-    public void CharacterList_CanRetrieveCharacters()
+    public void People_CanRetrieveCharacters()
     {
         Mock<IDataAccess> DA_Mock = new();
         Mock<IRepository> R_Mock = new();
@@ -68,23 +68,26 @@ public class PeopleTests
         R_Mock.VerifyNoOtherCalls();
     }
     [TestMethod]
-    public void OrganizationList_CanAddOrganization()
+    public void People_CanAddOrganization()
     {
         Mock<IDataAccess> DA_Mock = new();
         Mock<IRepository> R_Mock = new();
-        //DA_Mock.Setup(DA => DA.Repository).Returns(R_Mock.Object);
+        DA_Mock.Setup(DA => DA.Repository).Returns(R_Mock.Object);
 
-        //Character character = new()
-        //{
-        //    Name = "Tim"
-        //};
+        Organization organization = new()
+        {
+            Name = "The Fellowship"
+        };
 
-        //IPeople p = new People(DA_Mock.Object);
-        //p.AddCharacter(character);
+        IPeople p = new People(DA_Mock.Object);
+        p.AddOrganization(organization);
 
-        //DA_Mock.Verify(DA => DA.CA, Times.Once);
-        //CA_Mock.Verify(CA => CA.AddCharacter(character), Times.Once);
-        //DA_Mock.VerifyNoOtherCalls();
-        //CA_Mock.VerifyNoOtherCalls();
+        DA_Mock.Verify(DA => DA.Repository, Times.Once);
+        R_Mock.Verify(R => R.Add(organization), Times.Once);
+        DA_Mock.VerifyNoOtherCalls();
+        R_Mock.VerifyNoOtherCalls();
     }
+
+    [TestMethod]
+    public void People_CanRemoveOrganization() { }
 }

@@ -55,9 +55,9 @@ public class OrganizationTests
         Character character = new Character();
         character.Name = "Frodo";
 
-        organization.Members.Add(character);
+        organization.Parent_Organizations.Add(character.ID);
 
-        Assert.IsTrue(organization.Members.Contains(character));
+        Assert.IsTrue(organization.Parent_Organizations.Contains(character.ID));
     }
 
     [TestMethod]
@@ -67,8 +67,8 @@ public class OrganizationTests
         Organization subOrg = new Organization();
         subOrg.Name = "The Hoppits";
 
-        organization.MemberOrgs.Add(subOrg);
+        organization.Parent_Organizations.Add(subOrg.ID);
 
-        Assert.IsTrue(organization.MemberOrgs.Contains(subOrg));
+        Assert.IsTrue(organization.Parent_Organizations.Contains(subOrg.ID));
     }
 }

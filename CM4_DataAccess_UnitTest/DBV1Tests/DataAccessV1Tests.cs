@@ -75,15 +75,15 @@ namespace CM4_DataAccess_UnitTest.DBV1Tests
             Character C = new();
             C.Name = "Tim";
 
-            LocalDA.CA.AddCharacter(C);
+            LocalDA.Repository.Add(C);
 
-            Assert.IsTrue(LocalDA.CA.GetCharacters().Contains(C));
+            Assert.IsTrue(LocalDA.Repository.Get<Character>().Contains(C));
 
             result = LocalDA.CreateDataStore(test_path);
 
             Assert.IsTrue(result);
-            Assert.IsFalse(LocalDA.CA.GetCharacters().Contains(C));
-            Assert.AreEqual(LocalDA.CA.GetCharacters().Count(), 0);
+            Assert.IsFalse(LocalDA.Repository.Get<Character>().Contains(C));
+            Assert.AreEqual(LocalDA.Repository.Get<Character>().Count(), 0);
         }
 
         [TestMethod]
@@ -112,16 +112,16 @@ namespace CM4_DataAccess_UnitTest.DBV1Tests
             Character C = new();
             C.Name = "Tim";
 
-            LocalDA.CA.AddCharacter(C);
+            LocalDA.Repository.Add(C);
 
             result = LocalDA.CreateDataStore(test_path2);
             Assert.IsTrue(result);
-            Assert.IsFalse(LocalDA.CA.GetCharacters().Contains(C));
+            Assert.IsFalse(LocalDA.Repository.Get<Character>().Contains(C));
 
 
             result = LocalDA.OpenDataStore(test_path1);
             Assert.IsTrue(result);
-            Assert.IsTrue(LocalDA.CA.GetCharacters().Contains(C));
+            Assert.IsTrue(LocalDA.Repository.Get<Character>().Contains(C));
         }
     }
 }

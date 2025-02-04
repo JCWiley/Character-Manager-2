@@ -21,14 +21,24 @@ namespace CM4_Core.LogicalGroups
         //        return _characters[characterGuid];
         //    }
 
-        //    public void AddOrganization(IOrganization organization)
-        //    {
-        //        _organizations.Add(organization.ID, organization);
-        //    }
-        //    public IOrganization RetrieveOrganization(OrganizationGuid organization)
-        //    {
-        //        return _organizations[organization];
-        //    }
+        public void AddOrganization(Organization organization)
+        {
+            DA.Repository.Add(organization);
+        }
+        public List<Organization> GetOrganizations()
+        {
+            return DA.Repository.Get<Organization>();
+        }
+        public void RemoveOrganization(Organization organization)
+        {
+            DA.Repository.Remove(organization);
+        }
+
+
+        public void Update<T>(T entity) where T : ModelBaseClass
+        {
+            DA.Repository.Update(entity);
+        }
 
         //    public void AddMember(OrganizationGuid parent, CharacterGuid child)
         //    {

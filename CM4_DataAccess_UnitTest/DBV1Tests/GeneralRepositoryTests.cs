@@ -8,13 +8,13 @@ using System.Linq;
 namespace CM4_DataAccess_UnitTest;
 
 [TestClass]
-public class RepositoryTests
+public class GeneralRepositoryTests
 {
     static IDataAccess DA;
     static IDataAccess NullDA;
 
     [ClassInitialize]
-    public static void DataAccessV1Initialize(TestContext testContext)
+    public static void GeneralRepositoryTestsInitialize(TestContext testContext)
     {
         Mock<INotifyService> notifyService = new();
         Mock<ISettingsService> settingsService = new();
@@ -50,16 +50,17 @@ public class RepositoryTests
     }
 
     [TestMethod]
+    public async Task Repository_CanGetItemByID()
+    {
+        Character character = new Character();
+        await Helper_CanFindItemByID([new Character(), new Character()], character);
+    }
+
+    [TestMethod]
     public async Task Repository_CanRemove()
     {
         await Helper_CanRemove<Character>();
         await Helper_CanRemove<Organization>();
-    }
-
-    [TestMethod]
-    public async Task Repository_CanUpdate()
-    {
-
     }
 
     [TestMethod]
@@ -87,10 +88,10 @@ public class RepositoryTests
         await Helper_NoDB_SearchReturnsEmptyList([new Organization(), new Organization()], organization, x => x.ID == organization.ID);
     }
     [TestMethod]
-    public async Task Repository_NoDB_GetReturnsEmptyList()
+    public void Repository_NoDB_GetReturnsEmptyList()
     {
-        await Helper_NoDB_GetReturnsEmptyList<Character>();
-        await Helper_NoDB_GetReturnsEmptyList<Organization>();
+        Helper_NoDB_GetReturnsEmptyList<Character>();
+        Helper_NoDB_GetReturnsEmptyList<Organization>();
     }
     [TestMethod]
     public async Task Repository_NoDB_RemoveDoesNotCrash()
@@ -99,17 +100,17 @@ public class RepositoryTests
         await Helper_NoDB_RemoveDoesNotCrash<Organization>();
     }
     [TestMethod]
-    public async Task Repository_NoDB_UpdateDoesNothing()
+    public void Repository_NoDB_UpdateDoesNothing()
     {
         Character character = new Character();
-        await Helper_NoDB_UpdateDoesNothing(character);
+        Helper_NoDB_UpdateDoesNothing(character);
 
         Organization organization = new Organization();
-        await Helper_NoDB_UpdateDoesNothing(organization);
+        Helper_NoDB_UpdateDoesNothing(organization);
     }
 
     //Helpers
-    public async Task Helper_CanAdd<T>() where T : class
+    public async Task Helper_CanAdd<T>() where T : ModelBaseClass
     {
         T C = await DA.Repository.Add<T>();
 
@@ -118,7 +119,7 @@ public class RepositoryTests
         Assert.IsTrue(ResultList.Contains(C));
     }
 
-    public async Task Helper_CanAddPreexisting<T>(T Target) where T : class
+    public async Task Helper_CanAddPreexisting<T>(T Target) where T : ModelBaseClass
     {
         await DA.Repository.Add(Target);
 
@@ -127,7 +128,7 @@ public class RepositoryTests
         Assert.IsTrue(ResultList.Contains(Target));
     }
 
-    public async Task Helper_CanSearch<T>(T[] Items,T Target ,Func<T, bool> filter) where T : class
+    public async Task Helper_CanSearch<T>(T[] Items,T Target ,Func<T, bool> filter) where T : ModelBaseClass
     {
         foreach (T Item in Items) {
             await DA.Repository.Add(Item);
@@ -140,8 +141,20 @@ public class RepositoryTests
         Assert.IsTrue(ResultList.Count() == 1);
     }
 
+    public async Task Helper_CanFindItemByID<T>(T[] Items, T Target) where T : ModelBaseClass
+    {
+        foreach (T Item in Items)
+        {
+            await DA.Repository.Add(Item);
+        }
+        await DA.Repository.Add(Target);
 
-    public async Task Helper_CanRemove<T>() where T : class
+        T Result = DA.Repository.Get<T>(Target.ID);
+
+        Assert.AreEqual(Result,Target);
+    }
+
+    public async Task Helper_CanRemove<T>() where T : ModelBaseClass
     {
         T Result = await DA.Repository.Add<T>();
 
@@ -156,7 +169,7 @@ public class RepositoryTests
         Assert.IsFalse(ResultList.Contains(Result));
     }
 
-    public async Task Helper_CanUpdate<T>(T Original,T Updated,Func<T,T,bool> comparison) where T : class
+    public async Task Helper_CanUpdate<T>(T Original,T Updated,Func<T,T,bool> comparison) where T : ModelBaseClass
     {
         //await NullDA.Repository.Add(Original);
 
@@ -165,13 +178,13 @@ public class RepositoryTests
         //Assert.IsNull(C2);
     }
 
-    public async Task Helper_NoDB_AddDoesNothing<T>() where T : class
+    public async Task Helper_NoDB_AddDoesNothing<T>() where T : ModelBaseClass
     {
         T? Result = await NullDA.Repository.Add<T>();
 
         Assert.IsNull(Result);
     }
-    public async Task Helper_NoDB_AddPreexistingDoesNothing<T>(T Target) where T : class
+    public async Task Helper_NoDB_AddPreexistingDoesNothing<T>(T Target) where T : ModelBaseClass
     {
         await NullDA.Repository.Add(Target);
 
@@ -179,7 +192,7 @@ public class RepositoryTests
 
         Assert.AreEqual(ResultList.Count(),0);
     }
-    public async Task Helper_NoDB_SearchReturnsEmptyList<T>(T[] Items, T Target, Func<T, bool> filter) where T : class
+    public async Task Helper_NoDB_SearchReturnsEmptyList<T>(T[] Items, T Target, Func<T, bool> filter) where T : ModelBaseClass
     {
         foreach (T Item in Items)
         {
@@ -191,13 +204,13 @@ public class RepositoryTests
 
         Assert.AreEqual(ResultList.Count(), 0);
     }
-    public async Task Helper_NoDB_GetReturnsEmptyList<T>() where T : class
+    public void Helper_NoDB_GetReturnsEmptyList<T>() where T : ModelBaseClass
     {
         List<T> ResultList = NullDA.Repository.Get<T>();
 
         Assert.AreEqual(ResultList.Count(), 0);
     }
-    public async Task Helper_NoDB_RemoveDoesNotCrash<T>() where T : class
+    public async Task Helper_NoDB_RemoveDoesNotCrash<T>() where T : ModelBaseClass
     {
         T Result = await NullDA.Repository.Add<T>();
 
@@ -208,7 +221,7 @@ public class RepositoryTests
         NullDA.Repository.Remove(Result);
 
     }
-    public async Task Helper_NoDB_UpdateDoesNothing<T>(T Target) where T : class
+    public void Helper_NoDB_UpdateDoesNothing<T>(T Target) where T : ModelBaseClass
     {
         T Result = NullDA.Repository.Update(Target);
 

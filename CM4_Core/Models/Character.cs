@@ -8,7 +8,6 @@ namespace CM4_Core.Models
         {
             Name = "";
             Age = -1;
-            Memberships = new();
         }
 
         public bool Equals(Character? other)
@@ -21,7 +20,7 @@ namespace CM4_Core.Models
         }
 
         public string Name { get; set; }
-        public List<Organization> Memberships { get; set; }
+        public List<Guid> Parent_Organizations { get; set; } = [];
         public int Age { get; set; }
         
     }

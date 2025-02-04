@@ -60,9 +60,9 @@ namespace CM4_Core_UnitTest.ModelTests
             Organization organization = new Organization();
             organization.Name = "Test";
 
-            character.Memberships.Add(organization);
+            character.Parent_Organizations.Add(organization.ID);
 
-            Assert.IsTrue(character.Memberships.Contains(organization));
+            Assert.IsTrue(character.Parent_Organizations.Contains(organization.ID));
         }
     }
 }

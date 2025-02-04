@@ -12,27 +12,12 @@ namespace CM4_UI.ViewModels;
 public class MainViewModel : ViewModelBase
 {
     IPeople _people;
-    INotifyService _notifyService;
-    public event PropertyChangedEventHandler PropertyChanged;
 
-    public MainViewModel(IPeople people,INotifyService notifyService,MenuViewModel menuViewModel, OrgTreeViewModel orgTreeViewModel)
+    public MainViewModel(IPeople people,MenuViewModel menuViewModel, OrgTreeViewModel orgTreeViewModel)
     {
-        _notifyService = notifyService;
         _people = people;
         MenuViewModel = menuViewModel;
         OrgTreeViewModel = orgTreeViewModel;
-
-        _notifyService.NotifyDataSourceChanged += HandleDataSourceChanged;
-    }
-
-    private void HandleDataSourceChanged()
-    {
-        Characters = _people.GetCharacters();
-    }
-
-    protected virtual void OnPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
     //---Commands---//
