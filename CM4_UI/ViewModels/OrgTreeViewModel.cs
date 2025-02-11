@@ -3,6 +3,7 @@ using CM4_Core.LogicalGroupInterfaces;
 using CM4_Core.LogicalGroups;
 using CM4_Core.Models;
 using CM4_Core.Service.Interfaces;
+using CM4_Core.Service.Interfaces.EventDataPackages;
 using CM4_UI.DerivedModels;
 using DynamicData;
 using DynamicData.Binding;
@@ -30,7 +31,20 @@ namespace CM4_UI.ViewModels
             _notifyService.NotifyDataSourceChanged += HandleDataSourceChanged;
         }
 
-        public OrgTreeListItem? SelectedItem { get; set; }
+        private OrgTreeListItem? _listItem;
+
+        public OrgTreeListItem? SelectedItem 
+        {
+            get => _listItem;
+            set
+            {
+                _listItem = value;
+                if (value != null)
+                {
+                    _notifyService.OnSelectedOrgCharChanged(this,new SelectedOrgCharEventArgs(value.EntityType, value.ID));
+                }
+            }
+        }
 
         private bool OrgTreeListHasChanged = false;
         private List<OrgTreeListItem> _orgTreeList;
@@ -75,7 +89,7 @@ namespace CM4_UI.ViewModels
             }
         }
 
-        private void HandleDataSourceChanged()
+        private void HandleDataSourceChanged(object? sender, EventArgs e)
         {
             NotifyOrgTreeListChanged(true, true);
         }

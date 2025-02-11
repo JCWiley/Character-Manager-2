@@ -1,19 +1,10 @@
 ﻿using CM4_Core.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static CM4_Core.Utilities.EnumCollection;
 
 namespace CM4_UI.DerivedModels
 {
-    public enum EntityTypeEnum
-    {
-        Organization,
-        Character
-    }
-
-
     public class OrgTreeListItem
     {
         public Guid ID { get; set; }

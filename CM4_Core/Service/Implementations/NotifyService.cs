@@ -1,20 +1,24 @@
 ﻿using CM4_Core.Service.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CM4_Core.Service.Interfaces.EventDataPackages;
 
 namespace CM4_Core.Service.Implementations
 {
-    public delegate void Notify();
+    //public delegate void Notify();
+    public delegate void NotifySelectedOrgChary<ISelectedOrgCharEventArgs>();
     internal class NotifyService : INotifyService
     {
-        public event Notify NotifyDataSourceChanged;
+        public event EventHandler NotifyDataSourceChanged;
+        public event EventHandler<SelectedOrgCharEventArgs> NotifySelectedOrgCharChanged;
 
-        public void OnDataSourceChanged()
+        public void OnDataSourceChanged(object sender)
         {
-            NotifyDataSourceChanged?.Invoke();
+            NotifyDataSourceChanged?.Invoke(sender, EventArgs.Empty);
+        }
+
+        public void OnSelectedOrgCharChanged(object sender, SelectedOrgCharEventArgs args)
+        {
+            NotifySelectedOrgCharChanged?.Invoke(sender, args);
         }
     }
 }
+

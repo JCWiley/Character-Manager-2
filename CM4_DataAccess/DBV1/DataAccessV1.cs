@@ -71,7 +71,7 @@ namespace CM4_DataAccess.DBV1
                 StoragePath = storagePath;
                 ConfirmMigrations();
                 _settingsService.ProjectPath = StoragePath;
-                _notifyService.OnDataSourceChanged();
+                _notifyService.OnDataSourceChanged(this);
                 return true;
             }
             return false;
