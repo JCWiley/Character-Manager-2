@@ -9,7 +9,14 @@
 			 x:DataType="ViewModels:TabViewModel">
 	<TabControl Margin="5">
 		<TabItem Header="People">
-			<TextBlock Margin="5">People Under Development</TextBlock>
+			<Grid>
+				<ContentControl IsVisible="{Binding IsOrg}">
+					<Views:OrganizationDetailView DataContext="{Binding OrganizationDetailViewModel}"></Views:OrganizationDetailView>
+				</ContentControl>
+				<ContentControl IsVisible="{Binding !IsOrg}">
+					<Views:CharacterDetailView DataContext="{Binding CharacterDetailViewModel}"></Views:CharacterDetailView>
+				</ContentControl>
+			</Grid>
 		</TabItem>
 		<TabItem Header="Inventory">
 			<TextBlock Margin="5">Inventory Under Development</TextBlock>

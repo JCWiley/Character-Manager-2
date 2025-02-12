@@ -1,5 +1,6 @@
 using CM4_Core.Models;
 using CM4_UI.DerivedModels;
+using static CM4_Core.Utilities.EnumCollection;
 
 namespace CM4_UI_UnitTest;
 

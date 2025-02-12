@@ -18,6 +18,8 @@ namespace CM4_UI.Service
             services.AddTransient<MenuViewModel>();
             services.AddTransient<OrgTreeViewModel>();
             services.AddTransient<TabViewModel>();
+            services.AddTransient<OrganizationDetailViewModel>();
+            services.AddTransient<CharacterDetailViewModel>();
 
             return services;
         }
