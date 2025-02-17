@@ -22,15 +22,6 @@ public class MainViewModel : ViewModelBase
         TabViewModel = tabViewModel;
     }
 
-    //---Commands---//
-    public void AddCharacter()
-    {
-        Character character = new Character();
-        character.Name = "tim";
-        _people.AddCharacter(character);
-        Characters = _people.GetCharacters();
-    }
-
     //---Properties---//
     MenuViewModel _menuViewModel;
     public MenuViewModel MenuViewModel
