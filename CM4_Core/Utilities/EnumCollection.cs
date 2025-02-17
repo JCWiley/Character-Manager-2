@@ -13,5 +13,14 @@ namespace CM4_Core.Utilities
             Organization,
             Character
         }
+
+        public enum OrgSizeEnum
+        {
+            Default,
+            Small,
+            Medium,
+            Large,
+            Huge
+        }
     }
 }

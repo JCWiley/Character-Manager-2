@@ -29,6 +29,8 @@ public class GeneralRepositoryTests
     {
         await Helper_CanAdd<Character>();
         await Helper_CanAdd<Organization>();
+        await Helper_CanAdd<Location>();
+        await Helper_CanAdd<Species>();
     }
 
     [TestMethod]
@@ -36,6 +38,9 @@ public class GeneralRepositoryTests
     {
         await Helper_CanAddPreexisting(new Character());
         await Helper_CanAddPreexisting(new Organization());
+
+        await Helper_CanAddPreexisting(new Location());
+        await Helper_CanAddPreexisting(new Species());
     }
 
     [TestMethod]
@@ -47,6 +52,12 @@ public class GeneralRepositoryTests
         Organization organization = new Organization();
         await Helper_CanSearch([new Organization(), new Organization()], organization, x => x.ID == organization.ID);
 
+        Location location = new Location();
+        await Helper_CanSearch([new Location(), new Location()], location, x => x.ID == location.ID);
+
+        Species species = new Species();
+        await Helper_CanSearch([new Species(), new Species()], species, x => x.ID == species.ID);
+
     }
 
     [TestMethod]
@@ -54,6 +65,15 @@ public class GeneralRepositoryTests
     {
         Character character = new Character();
         await Helper_CanFindItemByID([new Character(), new Character()], character);
+
+        Organization organization = new Organization();
+        await Helper_CanFindItemByID([new Organization(), new Organization()], organization);
+
+        Location location = new Location();
+        await Helper_CanFindItemByID([new Location(), new Location()], location);
+
+        Species species = new Species();
+        await Helper_CanFindItemByID([new Species(), new Species()], species);
     }
 
     [TestMethod]
@@ -61,6 +81,8 @@ public class GeneralRepositoryTests
     {
         await Helper_CanRemove<Character>();
         await Helper_CanRemove<Organization>();
+        await Helper_CanRemove<Location>();
+        await Helper_CanRemove<Species>();
     }
 
     [TestMethod]
@@ -68,6 +90,8 @@ public class GeneralRepositoryTests
     {
         await Helper_NoDB_AddDoesNothing<Character>();
         await Helper_NoDB_AddDoesNothing<Organization>();
+        await Helper_NoDB_AddDoesNothing<Location>();
+        await Helper_NoDB_AddDoesNothing<Species>();
     }
     [TestMethod]
     public async Task Repository_NoDB_AddPreexistingDoesNothing()
@@ -77,6 +101,12 @@ public class GeneralRepositoryTests
 
         Organization organization = new Organization();
         await Helper_NoDB_AddPreexistingDoesNothing(organization);
+
+        Location location = new Location();
+        await Helper_NoDB_AddPreexistingDoesNothing(location);
+
+        Species species = new Species();
+        await Helper_NoDB_AddPreexistingDoesNothing(species);
     }
     [TestMethod]
     public async Task Repository_NoDB_SearchReturnsEmptyList()
@@ -86,18 +116,28 @@ public class GeneralRepositoryTests
 
         Organization organization = new Organization();
         await Helper_NoDB_SearchReturnsEmptyList([new Organization(), new Organization()], organization, x => x.ID == organization.ID);
+
+        Location location = new Location();
+        await Helper_NoDB_SearchReturnsEmptyList([new Location(), new Location()], location, x => x.ID == location.ID);
+
+        Species species = new Species();
+        await Helper_NoDB_SearchReturnsEmptyList([new Species(), new Species()], species, x => x.ID == species.ID);
     }
     [TestMethod]
     public void Repository_NoDB_GetReturnsEmptyList()
     {
         Helper_NoDB_GetReturnsEmptyList<Character>();
         Helper_NoDB_GetReturnsEmptyList<Organization>();
+        Helper_NoDB_GetReturnsEmptyList<Location>();
+        Helper_NoDB_GetReturnsEmptyList<Species>();
     }
     [TestMethod]
     public async Task Repository_NoDB_RemoveDoesNotCrash()
     {
         await Helper_NoDB_RemoveDoesNotCrash<Character>();
         await Helper_NoDB_RemoveDoesNotCrash<Organization>();
+        await Helper_NoDB_RemoveDoesNotCrash<Location>();
+        await Helper_NoDB_RemoveDoesNotCrash<Species>();
     }
     [TestMethod]
     public void Repository_NoDB_UpdateDoesNothing()
@@ -107,6 +147,12 @@ public class GeneralRepositoryTests
 
         Organization organization = new Organization();
         Helper_NoDB_UpdateDoesNothing(organization);
+
+        Location location = new Location();
+        Helper_NoDB_UpdateDoesNothing(location);
+
+        Species species = new Species();
+        Helper_NoDB_UpdateDoesNothing(species);
     }
 
     //Helpers

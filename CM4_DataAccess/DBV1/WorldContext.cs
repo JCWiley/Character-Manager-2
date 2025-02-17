@@ -1,10 +1,5 @@
 ﻿using CM4_Core.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CM4_DataAccess.DBV1
 {
@@ -14,6 +9,8 @@ namespace CM4_DataAccess.DBV1
 
         public DbSet<Character> Characters { get; set; }
         public DbSet<Organization> Organizations { get; set; }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<Species> Species { get; set; }
 
         public WorldContext(string connectionString)
         {
