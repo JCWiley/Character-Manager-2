@@ -107,41 +107,5 @@ namespace CM4_DataAccess.DBV1
             }
             return (T)Activator.CreateInstance(typeof(T), []);
         }
-        public void AddRelationship<P, C>(P parent, C child) where P : ModelBaseClass where C : ModelBaseClass
-        {
-            if (_DA.IsReady())
-            {
-                using (WorldContext Context = new WorldContext(_DA._connectionString))
-                {
-                    Context.Attach(parent);
-                    Context.Attach(child);
-                    switch (parent)
-                    {
-                        case Organization parentOrg:
-                            switch (child)
-                            {
-                                case Organization subOrg:
-                                    parentOrg.Child_Organizations.Add(subOrg.ID);
-                                    subOrg.Parent_Organizations.Add(parentOrg.ID);
-                                    break;
-                                case Character character:
-                                    parentOrg.Child_Characters.Add(character.ID);
-                                    character.Parent_Organizations.Add(parentOrg.ID);
-                                    break;
-                                default:
-                                    break;
-                            }
-                            break;
-                        default:
-                            break;
-
-                    }
-                    Context.Set<P>().Update(parent);
-                    Context.Set<C>().Update(child);
-                    Context.SaveChanges();
-                }
-
-            }
-        }
     }
 }

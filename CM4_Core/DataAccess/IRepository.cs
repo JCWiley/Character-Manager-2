@@ -16,6 +16,5 @@ namespace CM4_Core.DataAccess
         public T? Get<T>(Guid id) where T : ModelBaseClass;
         public void Remove<T>(T entity) where T : ModelBaseClass;
         public T? Update<T>(T entity) where T : ModelBaseClass;
-        public void AddRelationship<P, C>(P parent, C child) where P : ModelBaseClass where C : ModelBaseClass;
     }
 }
