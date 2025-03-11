@@ -15,6 +15,8 @@ namespace CM4_UI;
 
 public partial class App : Application
 {
+    MainWindow MW;
+
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -31,13 +33,16 @@ public partial class App : Application
 
         var serviceCollection = services.BuildServiceProvider();
 
-        MainWindow MW = serviceCollection.GetRequiredService<MainWindow>();
+        MW = serviceCollection.GetRequiredService<MainWindow>();
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow = MW;
             //Debug.WriteLine("using IClassicDesktopStyleApplicationLifetime");
             serviceCollection.GetRequiredService<IFileUIService>().SetParentWindow(MW);
+
+            desktop.Exit += Desktop_Exit;
+
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
@@ -45,6 +50,13 @@ public partial class App : Application
             throw new System.PlatformNotSupportedException();
         }
 
+
+
         base.OnFrameworkInitializationCompleted();
+    }
+
+    private void Desktop_Exit(object? sender, ControlledApplicationLifetimeExitEventArgs e)
+    {
+        MW.ApplicationAboutToClose();
     }
 }

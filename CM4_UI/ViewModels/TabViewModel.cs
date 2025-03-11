@@ -1,6 +1,7 @@
 ﻿using CM4_Core.DataAccess;
 using CM4_Core.Service.Interfaces;
 using CM4_Core.Service.Interfaces.EventDataPackages;
+using CM4_UI.ObservableModels;
 using ReactiveUI;
 using static CM4_Core.Utilities.EnumCollection;
 
@@ -11,13 +12,13 @@ namespace CM4_UI.ViewModels
         IDataAccess _da;
         INotifyService _notifyService;
 
-        public TabViewModel(IDataAccess DA, INotifyService notifyService, OrganizationDetailViewModel organizationDetailViewModel, CharacterDetailViewModel characterDetailViewModel)
+        public TabViewModel(IDataAccess DA, INotifyService notifyService, PeopleViewModel peopleViewModel, OrganizationDetailViewModel organizationDetailViewModel, CharacterDetailViewModel characterDetailViewModel)
         {
             _da = DA;
             _notifyService = notifyService;
+            PVM = peopleViewModel;
             _organizationDetailViewModel = organizationDetailViewModel;
             _characterDetailViewModel = characterDetailViewModel;
-            _notifyService.NotifySelectedOrgCharChanged += HandleSelectedOrgCharChanged;
         }
 
         OrganizationDetailViewModel _organizationDetailViewModel;
@@ -34,16 +35,21 @@ namespace CM4_UI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _characterDetailViewModel, value);
         }
 
-        bool _isOrg = false;
-        public bool IsOrg 
+        PeopleViewModel _pvm;
+        public PeopleViewModel PVM
         {
-            get => _isOrg;
-            set => this.RaiseAndSetIfChanged(ref _isOrg, value);
-        }
-
-        private void HandleSelectedOrgCharChanged(object sender, SelectedOrgCharEventArgs args)
-        {
-            IsOrg = args.Type == EntityTypeEnum.Organization;
+            get
+            {
+                return _pvm;
+            }
+            set
+            {
+                if (value != null && _pvm != value)
+                {
+                    _pvm = value;
+                    this.RaisePropertyChanged(nameof(PVM));
+                }
+            }
         }
     }
 }

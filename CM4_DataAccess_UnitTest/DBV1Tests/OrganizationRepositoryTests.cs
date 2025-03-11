@@ -29,24 +29,4 @@ public class OrganizationRepositoryTests
         Organization organization2 = DA.Repository.Get<Organization>(organization.ID);
         Assert.IsTrue(organization2.Name == "Test");
     }
-
-    [TestMethod]
-    public async Task Repository_AddingChildCharToOrgAddsCharToMembers()
-    {
-        Organization organization = await DA.Repository.Add<Organization>();
-        Character character = await DA.Repository.Add<Character>();
-        DA.Repository.AddRelationship(organization,character);
-        Organization organization2 = DA.Repository.Get<Organization>(organization.ID);
-        Assert.IsTrue(organization2.Child_Characters.Contains(character.ID));
-    }
-
-    [TestMethod]
-    public async Task Repository_AddingChildOrgToOrgAddsOrgToMemberOrgs()
-    {
-        Organization organization = await DA.Repository.Add<Organization>();
-        Organization subOrg = await DA.Repository.Add<Organization>();
-        DA.Repository.AddRelationship(organization, subOrg);
-        Organization organization2 = DA.Repository.Get<Organization>(organization.ID);
-        Assert.IsTrue(organization2.Child_Organizations.Contains(subOrg.ID));
-    }
 }

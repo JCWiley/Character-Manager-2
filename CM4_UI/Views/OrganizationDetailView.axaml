@@ -2,26 +2,33 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:ObsModels="clr-namespace:CM4_UI.ObservableModels;assembly=CM4_UI"
 			 xmlns:ViewModels="clr-namespace:CM4_UI.ViewModels"
 			 xmlns:Views="clr-namespace:CM4_UI.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="CM4_UI.Views.OrganizationDetailView"
-			 x:DataType="ViewModels:OrganizationDetailViewModel">
+			 x:DataType="ViewModels:OrganizationDetailViewModel"
+			 x:Name="OrganizationDetailViewName">
 	<Grid ColumnDefinitions="*,*,*,*" RowDefinitions="Auto,Auto,Auto,*">
 		<TextBlock Text="Full Name: " Grid.Row="0" Grid.Column="0"></TextBlock>
-		<TextBox Text="{Binding SelectedOrganization.Name}" Grid.Row="0" Grid.Column="1"></TextBox>
+		<TextBox Text="{Binding PVM.SelectedOrganization.Name}" Grid.Row="0" Grid.Column="1"></TextBox>
 		
 		<TextBlock Text="Headquarters: " Grid.Row="0" Grid.Column="2"></TextBlock>
-		<TextBox Text="{Binding SelectedOrganization.Name}" Grid.Row="0" Grid.Column="1"></TextBox>
+		<AutoCompleteBox ItemsSource="{Binding WVM.LocationList}" 
+						 SelectedItem="{Binding PVM.SelectedOrganization.Headquarters, Mode=TwoWay}" 
+						 ValueMemberBinding="{Binding Name}"
+						 Grid.Row="0" Grid.Column="3"></AutoCompleteBox>
 		
-		<TextBlock Text="Alias: " Grid.Row="1" Grid.Column="0"></TextBlock>
-		<TextBox Text="{Binding SelectedOrganization.Name}" Grid.Row="0" Grid.Column="1"></TextBox>
-		
-		<TextBlock Text="Race: " Grid.Row="2" Grid.Column="0"></TextBlock>
-		<TextBox Text="{Binding SelectedOrganization.Name}" Grid.Row="0" Grid.Column="1"></TextBox>
-		
-		<TextBlock Text="Location: " Grid.Row="1" Grid.Column="2"></TextBlock>
-		<TextBox Text="{Binding SelectedOrganization.Name}" Grid.Row="0" Grid.Column="1"></TextBox>
-		
+		<TextBlock Text="Species: " Grid.Row="1" Grid.Column="2"></TextBlock>
+		<AutoCompleteBox ItemsSource="{Binding WVM.SpeciesList}"
+						 SelectedItem="{Binding PVM.SelectedOrganization.PrimarySpecies, Mode=TwoWay}"
+						 ValueMemberBinding="{Binding Name}"
+						 Grid.Row="1" Grid.Column="3"></AutoCompleteBox>
+
+		<TextBlock Text="Description: " Grid.Row="2" Grid.Column="0"></TextBlock>
+		<TextBox Text="{Binding PVM.SelectedOrganization.Description, TargetNullValue={}}" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"></TextBox>
+
+		<TextBlock Text="Goals: " Grid.Row="2" Grid.Column="2"></TextBlock>
+		<TextBox Text="{Binding PVM.SelectedOrganization.Goals}" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2"></TextBox>
 	</Grid>
 </UserControl>

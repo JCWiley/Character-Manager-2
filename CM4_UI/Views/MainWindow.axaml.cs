@@ -10,4 +10,9 @@ public partial class MainWindow : Window
         DataContext = mainViewModel;
         InitializeComponent();
     }
+
+    public void ApplicationAboutToClose()
+    {
+        (DataContext as MainViewModel)?.ApplicationAboutToClose();
+    }
 }

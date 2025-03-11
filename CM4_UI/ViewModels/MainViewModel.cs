@@ -1,6 +1,4 @@
-﻿using CM4_Core.LogicalGroupInterfaces;
-using CM4_Core.LogicalGroups;
-using CM4_Core.Models;
+﻿using CM4_Core.Models;
 using CM4_Core.Service.Interfaces;
 using DynamicData.Binding;
 using ReactiveUI;
@@ -11,15 +9,19 @@ namespace CM4_UI.ViewModels;
 
 public class MainViewModel : ViewModelBase
 {
-    IPeople _people;
-
-    public MainViewModel(IPeople people,MenuViewModel menuViewModel, OrgTreeViewModel orgTreeViewModel, TabViewModel tabViewModel)
+    INotifyService _notifyService;
+    public MainViewModel(INotifyService notifyService,MenuViewModel menuViewModel, OrgTreeViewModel orgTreeViewModel, TabViewModel tabViewModel)
     {
-        _people = people;
+        _notifyService = notifyService;
         MenuViewModel = menuViewModel;
         OrgTreeViewModel = orgTreeViewModel;
         _tabViewModel = tabViewModel;
         TabViewModel = tabViewModel;
+    }
+
+    public void ApplicationAboutToClose()
+    {
+        _notifyService.OnApplicationAboutToClose(this);
     }
 
     //---Properties---//

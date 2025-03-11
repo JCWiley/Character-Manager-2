@@ -10,10 +10,10 @@
 	<TabControl Margin="5">
 		<TabItem Header="People">
 			<Grid>
-				<ContentControl IsVisible="{Binding IsOrg}">
+				<ContentControl IsVisible="{Binding PVM.OrgSelected, TargetNullValue=False}">
 					<Views:OrganizationDetailView DataContext="{Binding OrganizationDetailViewModel}"></Views:OrganizationDetailView>
 				</ContentControl>
-				<ContentControl IsVisible="{Binding !IsOrg}">
+				<ContentControl IsVisible="{Binding PVM.CharSelected, TargetNullValue=False}">
 					<Views:CharacterDetailView DataContext="{Binding CharacterDetailViewModel}"></Views:CharacterDetailView>
 				</ContentControl>
 			</Grid>

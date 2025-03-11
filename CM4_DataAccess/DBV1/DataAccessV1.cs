@@ -67,6 +67,7 @@ namespace CM4_DataAccess.DBV1
         {
             if (File.Exists(storagePath))
             {
+                _notifyService.OnDataSourceAboutToChange(this);
                 CloseDataStore();
                 StoragePath = storagePath;
                 ConfirmMigrations();

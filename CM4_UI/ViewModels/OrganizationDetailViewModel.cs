@@ -1,58 +1,63 @@
 ﻿using CM4_Core.DataAccess;
 using CM4_Core.Models;
 using CM4_Core.Service.Interfaces;
+using CM4_Core.Service.Interfaces.EventDataPackages;
+using CM4_UI.ObservableModels;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static CM4_Core.Utilities.EnumCollection;
 
 namespace CM4_UI.ViewModels
 {
     public class OrganizationDetailViewModel : ViewModelBase
     {
-        IDataAccess _da;
         INotifyService _notifyService;
 
-        public OrganizationDetailViewModel(IDataAccess DA, INotifyService notifyService)
+        public OrganizationDetailViewModel(PeopleViewModel peopleViewModel,WorldDataViewModel worldDataViewModel, INotifyService notifyService)
         {
-            _da = DA;
             _notifyService = notifyService;
-            _notifyService.NotifyDataSourceChanged += _notifyService_NotifyDataSourceChanged;
-            _notifyService.NotifySelectedOrgCharChanged += _notifyService_NotifySelectedOrgCharChanged;
+            PVM = peopleViewModel;
+            WVM = worldDataViewModel;
         }
 
-        private void _notifyService_NotifySelectedOrgCharChanged(object? sender, CM4_Core.Service.Interfaces.EventDataPackages.SelectedOrgCharEventArgs e)
+        PeopleViewModel _pvm;
+        public PeopleViewModel PVM
         {
-            if(e.Type == CM4_Core.Utilities.EnumCollection.EntityTypeEnum.Organization)
+            get
             {
-                SelectedOrganization = _da.Repository.Get<Organization>(e.Id);
+                return _pvm;
             }
-        }
-
-        private void _notifyService_NotifyDataSourceChanged(object? sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        Organization? _selectedOrganization;
-        public Organization? SelectedOrganization
-        {
-            get {  return _selectedOrganization; }
             set
             {
-                if (_selectedOrganization != value)
+                if (value != null && _pvm != value)
                 {
-                    _da.Repository.Update<Organization>(value);
-                    this.RaiseAndSetIfChanged(ref _selectedOrganization, value);
+                    _pvm = value;
+                    this.RaisePropertyChanged(nameof(PVM));
                 }
             }
         }
 
-        public void OrganizationDetailViewModel_LostFocus()
+        WorldDataViewModel _wvm;
+        public WorldDataViewModel WVM
         {
-
+            get
+            {
+                return _wvm;
+            }
+            set
+            {
+                if (value != null && _wvm != value)
+                {
+                    _wvm = value;
+                    this.RaisePropertyChanged(nameof(WVM));
+                }
+            }
         }
     }
 }

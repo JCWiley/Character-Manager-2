@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:ObsModels="clr-namespace:CM4_UI.ObservableModels;assembly=CM4_UI"
 			 xmlns:ViewModels="clr-namespace:CM4_UI.ViewModels"
 			 xmlns:Views="clr-namespace:CM4_UI.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -21,21 +22,22 @@
 			Org
 		</Button>
 		<TreeView Margin="10"
-				  ItemsSource="{Binding OrgTreeList}"
-				  SelectedItem="{Binding SelectedItem}"
+				  ItemsSource="{Binding PVM.Children}"
+				  SelectedItem="{Binding PVM.SelectedItemSource}"
 				  SelectionMode="Single"
 				  Grid.ColumnSpan="2"
 				  Grid.Row="1">
 			<TreeView.ItemTemplate>
-			<TreeDataTemplate ItemsSource="{Binding Members}">
-				<Border HorizontalAlignment="Left"
-						BorderBrush="Gray" BorderThickness="1"
-						CornerRadius="5" Padding="15 3">
-					<TextBlock Text="{Binding Name}" />
-				</Border>
-			</TreeDataTemplate>
-		</TreeView.ItemTemplate>
-		</TreeView>
+				<TreeDataTemplate DataType="ObsModels:IObservableOrgChar" ItemsSource="{Binding Children}">
+					<Border HorizontalAlignment="Left"
+							BorderBrush="Gray" BorderThickness="1"
+							CornerRadius="5" Padding="15 3">
+							<TextBlock Text="{Binding Name}" />
+					</Border>
+				</TreeDataTemplate>
+			</TreeView.ItemTemplate>
+		
+	</TreeView>
 	</Grid>
 
 </UserControl>
