@@ -9,20 +9,34 @@
 			 x:DataType="ViewModels:TabViewModel">
 	<TabControl Margin="5">
 		<TabItem Header="People">
-			<Grid>
-				<ContentControl IsVisible="{Binding PVM.OrgSelected, TargetNullValue=False}">
-					<Views:OrganizationDetailView DataContext="{Binding OrganizationDetailViewModel}"></Views:OrganizationDetailView>
-				</ContentControl>
-				<ContentControl IsVisible="{Binding PVM.CharSelected, TargetNullValue=False}">
-					<Views:CharacterDetailView DataContext="{Binding CharacterDetailViewModel}"></Views:CharacterDetailView>
-				</ContentControl>
-			</Grid>
+			<TabControl Margin="5">
+				<TabItem Header="Name">
+					<Grid>
+						<ContentControl IsVisible="{Binding PVM.OrgSelected, TargetNullValue=False}">
+							<Views:OrganizationDetailView DataContext="{Binding OrganizationDetailViewModel}"/>
+						</ContentControl>
+						<ContentControl IsVisible="{Binding PVM.CharSelected, TargetNullValue=False}">
+							<Views:CharacterDetailView DataContext="{Binding CharacterDetailViewModel}"/>
+						</ContentControl>
+					</Grid>
+				</TabItem>
+				<TabItem Header="Inventory">
+					<TextBlock Margin="5">Inventory Under Development</TextBlock>
+				</TabItem>
+				<TabItem Header="Calendar">
+					<TextBlock Margin="5">Calendar Under Development</TextBlock>
+				</TabItem>
+			</TabControl>
 		</TabItem>
-		<TabItem Header="Inventory">
-			<TextBlock Margin="5">Inventory Under Development</TextBlock>
-		</TabItem>
-		<TabItem Header="Calendar">
-			<TextBlock Margin="5">Calendar Under Development</TextBlock>
+		<TabItem Header="World">
+			<TabControl Margin="5">
+				<TabItem Header="Locations">
+					<Views:LocationDetailView DataContext="{Binding LocationDetailViewModel}"/>
+				</TabItem>
+				<TabItem Header="Species">
+					<Views:SpeciesDetailView DataContext="{Binding SpeciesDetailViewModel}"/>
+				</TabItem>
+			</TabControl>
 		</TabItem>
 	</TabControl>
 </UserControl>

@@ -16,11 +16,13 @@ namespace CM4_UI.ObservableModels
     {
         IDataAccess _da;
         INotifyService _notifyService;
-
-        public PeopleViewModel(IDataAccess DA, INotifyService notifyService)
+        WorldDataViewModel _WVM;
+        public PeopleViewModel(IDataAccess DA, INotifyService notifyService, WorldDataViewModel WVM)
         {
             _da = DA;
             _notifyService = notifyService;
+            _WVM = WVM;
+
             OrganizationList = [];
             CharacterList = [];
             _children = [];
@@ -65,7 +67,7 @@ namespace CM4_UI.ObservableModels
         {
             foreach (Organization organization in _da.Repository.Get<Organization>())
             {
-                OrganizationList.Add(new ObservableOrganization(this, organization));
+                OrganizationList.Add(new ObservableOrganization(this, organization, _WVM));
             }
             foreach (Character character in _da.Repository.Get<Character>())
             {
@@ -76,26 +78,30 @@ namespace CM4_UI.ObservableModels
 
         private void WriteToDataAccess()
         {
+            Organization tempOrg;
+            Character tempChar;
             foreach (ObservableOrganization observableOrganization in OrganizationList)
             {
-                if (_da.Repository.Get<Organization>().Contains(observableOrganization.GetDataSource()))
+                tempOrg = observableOrganization.GetDataSource();
+                if (_da.Repository.Get<Organization>().Contains(tempOrg))
                 {
-                    _da.Repository.Update(observableOrganization.GetDataSource());
+                    _da.Repository.Update(tempOrg);
                 }
                 else
                 {
-                    _da.Repository.Add(observableOrganization.GetDataSource());
+                    _da.Repository.Add(tempOrg);
                 }
             }
             foreach (ObservableCharacter observableCharacter in CharacterList)
             {
-                if (_da.Repository.Get<Character>().Contains(observableCharacter.GetDataSource()))
+                tempChar = observableCharacter.GetDataSource();
+                if (_da.Repository.Get<Character>().Contains(tempChar))
                 {
-                    _da.Repository.Update(observableCharacter.GetDataSource());
+                    _da.Repository.Update(tempChar);
                 }
                 else
                 {
-                    _da.Repository.Add(observableCharacter.GetDataSource());
+                    _da.Repository.Add(tempChar);
                 }
             }
         }
@@ -131,9 +137,24 @@ namespace CM4_UI.ObservableModels
             this.RaisePropertyChanged(nameof(Children));
         }
 
+        public void AddNewOrg()
+        {
+            OrganizationList.Add(new ObservableOrganization(this));
+            this.RaisePropertyChanged(nameof(Children));
+        }
+        public void AddNewChar()
+        {
+            CharacterList.Add(new ObservableCharacter());
+            this.RaisePropertyChanged(nameof(Children));
+        }
+
         public void AddNewChildOrg()
         {
             if (SelectedOrganization != null)
+            {
+                AddChild(SelectedOrganization, new ObservableOrganization(this));
+            }
+            else
             {
                 AddChild(SelectedOrganization, new ObservableOrganization(this));
             }

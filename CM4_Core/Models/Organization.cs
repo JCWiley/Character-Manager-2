@@ -26,8 +26,8 @@ namespace CM4_Core.Models
         public string Description { get; set; }
         public string Goals { get; set; }
         public OrgSizeEnum Size { get; set; }
-        public Species? PrimarySpecies { get; set; }
-        public Location? Location { get; set; }
+        public Guid? PrimarySpecies { get; set; }
+        public Guid? Location { get; set; }
 
         public List<Guid> Child_Characters { get; set; } = [];
         public List<Guid> Child_Organizations { get; set;} = [];

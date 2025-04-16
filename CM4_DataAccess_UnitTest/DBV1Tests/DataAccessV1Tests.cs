@@ -80,8 +80,8 @@ namespace CM4_DataAccess_UnitTest.DBV1Tests
             Assert.IsTrue(LocalDA.Repository.Get<Character>().Contains(C));
 
             result = LocalDA.CreateDataStore(test_path);
-
             Assert.IsTrue(result);
+
             Assert.IsFalse(LocalDA.Repository.Get<Character>().Contains(C));
             Assert.AreEqual(LocalDA.Repository.Get<Character>().Count(), 0);
         }

@@ -19,9 +19,11 @@ namespace CM4_UI.ObservableModels
     {
         private Organization DataSource;
         private PeopleViewModel Model;
-        public ObservableOrganization(PeopleViewModel _parent, Organization _source)
+        private WorldDataViewModel WVM;
+        public ObservableOrganization(PeopleViewModel _parent, Organization _source, WorldDataViewModel _WVM)
         {
             DataSource = _source;
+            WVM = _WVM;
 
             Child_Organization_IDs = new ObservableCollection<Guid>(DataSource.Child_Organizations);
             Parent_Organization_IDs = new ObservableCollection<Guid>(DataSource.Parent_Organizations);
@@ -65,7 +67,7 @@ namespace CM4_UI.ObservableModels
             DataSource.Child_Organizations = Child_Organization_IDs.ToList();
             DataSource.Parent_Organizations = Parent_Organization_IDs.ToList();
             DataSource.Child_Characters = Child_Character_IDs.ToList();
-            
+
             return DataSource;
         }
 
@@ -124,32 +126,42 @@ namespace CM4_UI.ObservableModels
                 this.RaisePropertyChanged(nameof(Size));
             }
         }
-        public Species? PrimarySpecies
+
+        public ObservableSpecies? PrimarySpecies
         {
             get
             {
-                return DataSource.PrimarySpecies;
+                if (DataSource.PrimarySpecies == null)
+                {
+                    return null;
+                }
+                return WVM.SpeciesDict[(Guid)DataSource.PrimarySpecies];
             }
             set
             {
                 if (value != null)
                 {
-                    DataSource.PrimarySpecies = value;
+                    DataSource.PrimarySpecies = value.Id;
                     this.RaisePropertyChanged(nameof(PrimarySpecies));
                 }
             }
         }
-        public Location? Headquarters
+
+        public ObservableLocation? Headquarters
         {
             get
             {
-                return DataSource.Location;
+                if (DataSource.Location == null)
+                {
+                    return null;
+                }
+                return WVM.LocationDict[(Guid)DataSource.Location];
             }
             set
             {
                 if (value != null)
                 {
-                    DataSource.Location = value;
+                    DataSource.Location = value.Id;
                     this.RaisePropertyChanged(nameof(Location));
                 }
             }

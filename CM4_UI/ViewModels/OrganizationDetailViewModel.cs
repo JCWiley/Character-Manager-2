@@ -1,17 +1,6 @@
-﻿using CM4_Core.DataAccess;
-using CM4_Core.Models;
-using CM4_Core.Service.Interfaces;
-using CM4_Core.Service.Interfaces.EventDataPackages;
+﻿using CM4_Core.Service.Interfaces;
 using CM4_UI.ObservableModels;
 using ReactiveUI;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static CM4_Core.Utilities.EnumCollection;
 
 namespace CM4_UI.ViewModels
 {

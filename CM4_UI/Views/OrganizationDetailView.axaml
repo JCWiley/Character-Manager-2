@@ -14,16 +14,26 @@
 		<TextBox Text="{Binding PVM.SelectedOrganization.Name}" Grid.Row="0" Grid.Column="1"></TextBox>
 		
 		<TextBlock Text="Headquarters: " Grid.Row="0" Grid.Column="2"></TextBlock>
-		<AutoCompleteBox ItemsSource="{Binding WVM.LocationList}" 
-						 SelectedItem="{Binding PVM.SelectedOrganization.Headquarters, Mode=TwoWay}" 
-						 ValueMemberBinding="{Binding Name}"
-						 Grid.Row="0" Grid.Column="3"></AutoCompleteBox>
+		<ComboBox ItemsSource="{Binding WVM.LocationList}" 
+					SelectedItem="{Binding PVM.SelectedOrganization.Headquarters}"
+					Grid.Row="0" Grid.Column="3">
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding Name}"/>
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
 		
 		<TextBlock Text="Species: " Grid.Row="1" Grid.Column="2"></TextBlock>
-		<AutoCompleteBox ItemsSource="{Binding WVM.SpeciesList}"
-						 SelectedItem="{Binding PVM.SelectedOrganization.PrimarySpecies, Mode=TwoWay}"
-						 ValueMemberBinding="{Binding Name}"
-						 Grid.Row="1" Grid.Column="3"></AutoCompleteBox>
+		<ComboBox ItemsSource="{Binding WVM.SpeciesList}"
+					SelectedItem="{Binding PVM.SelectedOrganization.PrimarySpecies}"
+					Grid.Row="1" Grid.Column="3">
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding Name}"/>
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
 
 		<TextBlock Text="Description: " Grid.Row="2" Grid.Column="0"></TextBlock>
 		<TextBox Text="{Binding PVM.SelectedOrganization.Description, TargetNullValue={}}" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"></TextBox>

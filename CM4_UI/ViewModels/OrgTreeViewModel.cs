@@ -51,14 +51,28 @@ namespace CM4_UI.ViewModels
             }
         }
 
-        public async Task AddNewCharacterToCurrentOrg()
+        public async Task AddNewCharacter()
         {
-            PVM.AddNewChildChar();
+            if(PVM.SelectedOrganization != null)
+            {
+                PVM.AddNewChildChar();
+            }
+            else
+            {
+                PVM.AddNewChar();
+            }
         }
 
-        public async Task AddNewOrgToCurrentOrg()
+        public async Task AddNewOrg()
         {
-            PVM.AddNewChildOrg();
+            if (PVM.SelectedOrganization != null)
+            {
+                PVM.AddNewChildOrg();
+            }
+            else
+            {
+                PVM.AddNewOrg();
+            }
         }
     }
 }

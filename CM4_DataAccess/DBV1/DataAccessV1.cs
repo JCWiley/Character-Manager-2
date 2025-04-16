@@ -55,8 +55,9 @@ namespace CM4_DataAccess.DBV1
                 var stream = File.Create(storagePath);
                 stream.Close();
             }
-            catch
+            catch(Exception e)
             {
+                Console.WriteLine(e.Message);
                 return false;
             }
 

@@ -44,5 +44,10 @@ namespace CM4_UI.ObservableModels
                 this.RaisePropertyChanged(nameof(Name));
             }
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

@@ -21,12 +21,97 @@ public class OrganizationRepositoryTests
     }
 
     [TestMethod]
-    public async Task Repository_CanUpdateOrganziationName()
+    public async Task Repository_CanUpdateOrganziation_Name()
     {
         Organization organization = await DA.Repository.Add<Organization>();
         organization.Name = "Test";
         DA.Repository.Update(organization);
         Organization organization2 = DA.Repository.Get<Organization>(organization.ID);
         Assert.IsTrue(organization2.Name == "Test");
+    }
+
+    [TestMethod]
+    public async Task Repository_CanUpdateOrganziation_Description()
+    {
+        Organization organization = await DA.Repository.Add<Organization>();
+        organization.Description = "Test";
+        DA.Repository.Update(organization);
+        Organization organization2 = DA.Repository.Get<Organization>(organization.ID);
+        Assert.IsTrue(organization2.Description == "Test");
+    }
+
+    [TestMethod]
+    public async Task Repository_CanUpdateOrganziation_Goals()
+    {
+        Organization organization = await DA.Repository.Add<Organization>();
+        organization.Goals = "Test";
+        DA.Repository.Update(organization);
+        Organization organization2 = DA.Repository.Get<Organization>(organization.ID);
+        Assert.IsTrue(organization2.Goals == "Test");
+    }
+
+    [TestMethod]
+    public async Task Repository_CanUpdateOrganziation_Size()
+    {
+        Organization organization = await DA.Repository.Add<Organization>();
+        organization.Size = CM4_Core.Utilities.EnumCollection.OrgSizeEnum.Medium;
+        DA.Repository.Update(organization);
+        Organization organization2 = DA.Repository.Get<Organization>(organization.ID);
+        Assert.IsTrue(organization2.Size == CM4_Core.Utilities.EnumCollection.OrgSizeEnum.Medium);
+    }
+
+    [TestMethod]
+    public async Task Repository_CanUpdateOrganziation_PrimarySpecies()
+    {
+        Organization organization = await DA.Repository.Add<Organization>();
+        Guid TestGuid = new Guid();
+        organization.PrimarySpecies = TestGuid;
+        DA.Repository.Update(organization);
+        Organization organization2 = DA.Repository.Get<Organization>(organization.ID);
+        Assert.IsTrue(organization2.PrimarySpecies == TestGuid);
+    }
+
+    [TestMethod]
+    public async Task Repository_CanUpdateOrganziation_Location()
+    {
+        Organization organization = await DA.Repository.Add<Organization>();
+        Guid TestGuid = new Guid();
+        organization.Location = TestGuid;
+        DA.Repository.Update(organization);
+        Organization organization2 = DA.Repository.Get<Organization>(organization.ID);
+        Assert.IsTrue(organization2.Location == TestGuid);
+    }
+
+    [TestMethod]
+    public async Task Repository_CanUpdateOrganziation_Child_Characters()
+    {
+        Organization organization = await DA.Repository.Add<Organization>();
+        Guid TestGuid = new Guid();
+        organization.Child_Characters.Add(TestGuid);
+        DA.Repository.Update(organization);
+        Organization organization2 = DA.Repository.Get<Organization>(organization.ID);
+        Assert.IsTrue(organization2.Child_Characters.Contains(TestGuid));
+    }
+
+    [TestMethod]
+    public async Task Repository_CanUpdateOrganziation_Child_Organizations()
+    {
+        Organization organization = await DA.Repository.Add<Organization>();
+        Guid TestGuid = new Guid();
+        organization.Child_Organizations.Add(TestGuid);
+        DA.Repository.Update(organization);
+        Organization organization2 = DA.Repository.Get<Organization>(organization.ID);
+        Assert.IsTrue(organization2.Child_Organizations.Contains(TestGuid));
+    }
+
+    [TestMethod]
+    public async Task Repository_CanUpdateOrganziation_Parent_Organizations()
+    {
+        Organization organization = await DA.Repository.Add<Organization>();
+        Guid TestGuid = new Guid();
+        organization.Parent_Organizations.Add(TestGuid);
+        DA.Repository.Update(organization);
+        Organization organization2 = DA.Repository.Get<Organization>(organization.ID);
+        Assert.IsTrue(organization2.Parent_Organizations.Contains(TestGuid));
     }
 }

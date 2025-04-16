@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:ViewModels="clr-namespace:CM4_UI.ViewModels"
+			 xmlns:Views="clr-namespace:CM4_UI.Views"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="CM4_UI.Views.LocationDetailView"
+			 x:DataType="ViewModels:LocationDetailViewModel">
+	<Grid ColumnDefinitions="Auto, 4, *" RowDefinitions="Auto,*">
+		<Button Content="New Location" Margin="5" Command="{Binding AddNewLocationAsync}" Grid.Column="0" Grid.Row="0"></Button>
+		<ListBox ItemsSource="{Binding WVM.LocationList}"
+				 SelectedItem="{Binding SelectedLocation}"
+				 SelectionMode="Single"
+				 Grid.Column="0" Grid.Row="1">
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding Name}"/>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+		<GridSplitter Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Background="White" ResizeDirection="Columns"/>
+		<Grid DataContext="{Binding SelectedLocation}" ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto" Grid.RowSpan="2" Grid.Column="2">
+			<TextBlock Text="Name:" Grid.Row="0" Grid.Column="0"></TextBlock>
+			<TextBox Text="{Binding Name}" Grid.Row="0" Grid.Column="1"></TextBox>
+		</Grid>
+	</Grid>
+</UserControl>

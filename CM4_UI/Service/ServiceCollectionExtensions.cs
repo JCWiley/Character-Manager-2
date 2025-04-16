@@ -22,6 +22,8 @@ namespace CM4_UI.Service
             services.AddTransient<TabViewModel>();
             services.AddTransient<OrganizationDetailViewModel>();
             services.AddTransient<CharacterDetailViewModel>();
+            services.AddTransient<LocationDetailViewModel>();
+            services.AddTransient<SpeciesDetailViewModel>();
 
             services.AddSingleton<PeopleViewModel>();
             services.AddSingleton<WorldDataViewModel>();
