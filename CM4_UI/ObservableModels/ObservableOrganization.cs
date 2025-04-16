@@ -31,7 +31,7 @@ namespace CM4_UI.ObservableModels
 
             Init(_parent);
         }
-        public ObservableOrganization(PeopleViewModel _parent)
+        public ObservableOrganization(PeopleViewModel _parent, WorldDataViewModel _WVM)
         {
             DataSource = new Organization();
 

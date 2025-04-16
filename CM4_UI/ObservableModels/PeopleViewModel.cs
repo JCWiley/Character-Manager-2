@@ -71,7 +71,7 @@ namespace CM4_UI.ObservableModels
             }
             foreach (Character character in _da.Repository.Get<Character>())
             {
-                CharacterList.Add(new ObservableCharacter(character));
+                CharacterList.Add(new ObservableCharacter(character, _WVM));
             }
             _notifyService.OnPeopleViewModelUpdated(this);
         }
@@ -139,12 +139,12 @@ namespace CM4_UI.ObservableModels
 
         public void AddNewOrg()
         {
-            OrganizationList.Add(new ObservableOrganization(this));
+            OrganizationList.Add(new ObservableOrganization(this, _WVM));
             this.RaisePropertyChanged(nameof(Children));
         }
         public void AddNewChar()
         {
-            CharacterList.Add(new ObservableCharacter());
+            CharacterList.Add(new ObservableCharacter(_WVM));
             this.RaisePropertyChanged(nameof(Children));
         }
 
@@ -152,11 +152,11 @@ namespace CM4_UI.ObservableModels
         {
             if (SelectedOrganization != null)
             {
-                AddChild(SelectedOrganization, new ObservableOrganization(this));
+                AddChild(SelectedOrganization, new ObservableOrganization(this, _WVM));
             }
             else
             {
-                AddChild(SelectedOrganization, new ObservableOrganization(this));
+                AddChild(SelectedOrganization, new ObservableOrganization(this, _WVM));
             }
         }
 
@@ -164,7 +164,7 @@ namespace CM4_UI.ObservableModels
         {
             if (SelectedOrganization != null)
             {
-                AddChild(SelectedOrganization, new ObservableCharacter());
+                AddChild(SelectedOrganization, new ObservableCharacter(_WVM));
             }
         }
 

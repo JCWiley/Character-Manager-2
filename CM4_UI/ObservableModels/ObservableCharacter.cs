@@ -14,13 +14,17 @@ namespace CM4_UI.ObservableModels
     public class ObservableCharacter : ViewModelBase, IObservableOrgChar
     {
         private Character DataSource;
-        public ObservableCharacter(Character _source)
+        private WorldDataViewModel WVM;
+        public ObservableCharacter(Character _source, WorldDataViewModel _WVM)
         {
             DataSource = _source;
+            WVM = _WVM;
+
             Parent_Organization_IDs = new ObservableCollection<Guid>(DataSource.Parent_Organizations);
+
         }
 
-        public ObservableCharacter()
+        public ObservableCharacter(WorldDataViewModel _WVM)
         {
             DataSource = new Character();
             Parent_Organization_IDs = new ObservableCollection<Guid>();
@@ -52,6 +56,85 @@ namespace CM4_UI.ObservableModels
                 this.RaisePropertyChanged(nameof(Name));
             }
         }
+        public string Description
+        {
+            get
+            {
+                return DataSource.Description;
+            }
+            set
+            {
+                DataSource.Description = value;
+                this.RaisePropertyChanged(nameof(Description));
+            }
+        }
+        public string Goals
+        {
+            get
+            {
+                return DataSource.Goals;
+            }
+            set
+            {
+                DataSource.Goals = value;
+                this.RaisePropertyChanged(nameof(Goals));
+            }
+        }
+        public int Age
+        {
+            get
+            {
+                return DataSource.Age;
+            }
+            set
+            {
+                DataSource.Age = value;
+                this.RaisePropertyChanged(nameof(Age));
+            }
+        }
+
+        public ObservableSpecies? Species
+        {
+            get
+            {
+                if (DataSource.Species == null)
+                {
+                    return null;
+                }
+                return WVM.SpeciesDict[(Guid)DataSource.Species];
+            }
+            set
+            {
+                if (value != null)
+                {
+                    DataSource.Species = value.Id;
+                    this.RaisePropertyChanged(nameof(Species));
+                }
+            }
+        }
+
+        public ObservableLocation? Headquarters
+        {
+            get
+            {
+                if (DataSource.Location == null)
+                {
+                    return null;
+                }
+                return WVM.LocationDict[(Guid)DataSource.Location];
+            }
+            set
+            {
+                if (value != null)
+                {
+                    DataSource.Location = value.Id;
+                    this.RaisePropertyChanged(nameof(Location));
+                }
+            }
+        }
+
+
+
 
         private ObservableCollection<Guid> _parent_Organization_IDs;
         public ObservableCollection<Guid> Parent_Organization_IDs
@@ -69,19 +152,6 @@ namespace CM4_UI.ObservableModels
                 }
             }
         }
-        public int Age
-        {
-            get
-            {
-                return DataSource.Age;
-            }
-            set
-            {
-                DataSource.Age = value;
-                this.RaisePropertyChanged(nameof(Age));
-            }
-        }
-
         public ObservableCollection<IObservableOrgChar>? Children => null;
     }
 }

@@ -7,5 +7,36 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="CM4_UI.Views.CharacterDetailView"
 			 x:DataType="ViewModels:CharacterDetailViewModel">
-  This is a Character detail view
+	<Grid ColumnDefinitions="*,*,*,*" RowDefinitions="Auto,Auto,Auto,*">
+		<TextBlock Text="Full Name: " Grid.Row="0" Grid.Column="0"></TextBlock>
+		<TextBox Text="{Binding PVM.SelectedCharacter.Name}" Grid.Row="0" Grid.Column="1"></TextBox>
+
+		<TextBlock Text="Headquarters: " Grid.Row="0" Grid.Column="2"></TextBlock>
+		<ComboBox ItemsSource="{Binding WVM.LocationList}"
+					SelectedItem="{Binding PVM.SelectedCharacter.Headquarters}"
+					Grid.Row="0" Grid.Column="3">
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding Name}"/>
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
+
+		<TextBlock Text="Species: " Grid.Row="1" Grid.Column="2"></TextBlock>
+		<ComboBox ItemsSource="{Binding WVM.SpeciesList}"
+					SelectedItem="{Binding PVM.SelectedCharacter.Species}"
+					Grid.Row="1" Grid.Column="3">
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding Name}"/>
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
+
+		<TextBlock Text="Description: " Grid.Row="2" Grid.Column="0"></TextBlock>
+		<TextBox Text="{Binding PVM.SelectedCharacter.Description, TargetNullValue={}}" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"></TextBox>
+
+		<TextBlock Text="Goals: " Grid.Row="2" Grid.Column="2"></TextBlock>
+		<TextBox Text="{Binding PVM.SelectedCharacter.Goals}" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2"></TextBox>
+	</Grid>
 </UserControl>
