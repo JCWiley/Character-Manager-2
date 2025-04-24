@@ -16,7 +16,6 @@ namespace CM4_UI.ViewModels
         public async Task AddNewLocationAsync()
         {
             await WVM.AddNewLocation();
-            this.RaisePropertyChanged(nameof(WVM.LocationDict));
         }
 
         WorldDataViewModel _wvm;

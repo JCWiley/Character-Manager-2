@@ -5,6 +5,7 @@ using CM4_Core.Models;
 using CM4_Core.Service.Interfaces;
 using CM4_UI.ViewModels;
 using DynamicData;
+using DynamicData.Binding;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,8 @@ namespace CM4_UI.ObservableModels
             _notifyService.NotifyDataSourceChanged += _notifyService_NotifyDataSourceChanged;
             _notifyService.NotifyDataSourceAboutToChange += _notifyService_NotifyDataSourceAboutToChange;
             _notifyService.NotifyApplicationAboutToClose += _notifyService_NotifyApplicationAboutToClose;
+            _locationList = [];
+            _speciesList = [];
         }
 
         private void _notifyService_NotifyApplicationAboutToClose(object? sender, EventArgs e)
@@ -45,21 +48,21 @@ namespace CM4_UI.ObservableModels
 
         private void ReadFromDataAccess()
         {
-            LocationDict.Clear();
-            SpeciesDict.Clear();
+            LocationList.Clear();
+            SpeciesList.Clear();
             foreach (Location location in _da.Repository.Get<Location>())
             {
-                _locationDict.Add(location.ID, new ObservableLocation(location));
+                _locationList.Add(new ObservableLocation(location));
             }
             foreach (Species species in _da.Repository.Get<Species>())
             {
-                _speciesDict.Add(species.ID, new ObservableSpecies(species));
+                _speciesList.Add(new ObservableSpecies(species));
             }
             _notifyService.OnWorldDataViewModelUpdated(this);
         }
         private void WriteToDataAccess()
         {
-            foreach (ObservableLocation observableLocation in LocationDict.Values)
+            foreach (ObservableLocation observableLocation in LocationList)
             {
                 if (_da.Repository.Get<Location>().Contains(observableLocation.GetDataSource()))
                 {
@@ -70,7 +73,7 @@ namespace CM4_UI.ObservableModels
                     _da.Repository.Add(observableLocation.GetDataSource());
                 }
             }
-            foreach (ObservableSpecies observableSpecies in SpeciesDict.Values)
+            foreach (ObservableSpecies observableSpecies in SpeciesList)
             {
                 if (_da.Repository.Get<Species>().Contains(observableSpecies.GetDataSource()))
                 {
@@ -86,65 +89,55 @@ namespace CM4_UI.ObservableModels
         public async Task AddNewLocation()
         {
             ObservableLocation newLocation = new ObservableLocation();
-            LocationDict.Add(newLocation.Id, newLocation);
-            this.RaisePropertyChanged(nameof(LocationDict));
+            LocationList.Add(newLocation);
         }
 
         public async Task AddNewSpecies()
         {
             ObservableSpecies newSpecies = new ObservableSpecies();
-            SpeciesDict.Add(newSpecies.Id, newSpecies);
-            this.RaisePropertyChanged(nameof(SpeciesDict));
+            SpeciesList.Add(newSpecies);
         }
 
-        private AvaloniaDictionary<Guid, ObservableLocation> _locationDict = [];
-        public AvaloniaDictionary<Guid, ObservableLocation> LocationDict
+        public ObservableLocation GetLocationFromID(Guid id)
+        {
+            return LocationList.First(x=>x.Id == id);
+        }
+        public ObservableSpecies GetSpeciesFromId(Guid id)
+        {
+            return SpeciesList.First(x => x.Id == id);
+        }
+
+        private ObservableCollection<ObservableLocation> _locationList;
+        public ObservableCollection<ObservableLocation> LocationList
         {
             get
             {
-                return _locationDict;
+                return _locationList;
             }
             set
             {
                 if (value != null)
                 {
-                    _locationDict = value;
-                    this.RaisePropertyChanged(nameof(LocationDict));
+                    _locationList = value;
                     this.RaisePropertyChanged(nameof(LocationList));
                 }
             }
         }
 
-        public ICollection<ObservableLocation> LocationList
+        private ObservableCollection<ObservableSpecies> _speciesList;
+        public ObservableCollection<ObservableSpecies> SpeciesList
         {
             get
             {
-                return LocationDict.Values;
-            }
-        }
-
-        private AvaloniaDictionary<Guid, ObservableSpecies> _speciesDict = [];
-        public AvaloniaDictionary<Guid,ObservableSpecies> SpeciesDict
-        {
-            get
-            {
-                return _speciesDict;
+                return _speciesList;
             }
             set
             {
                 if (value != null)
                 {
-                    _speciesDict = value;
-                    this.RaisePropertyChanged(nameof(SpeciesDict));
+                    _speciesList = value;
                     this.RaisePropertyChanged(nameof(SpeciesList));
                 }
-            }
-        }
-        public ICollection<ObservableSpecies> SpeciesList
-        {
-            get
-            {
-                return SpeciesDict.Values;
             }
         }
 

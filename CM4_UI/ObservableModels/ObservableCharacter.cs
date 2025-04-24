@@ -102,7 +102,7 @@ namespace CM4_UI.ObservableModels
                 {
                     return null;
                 }
-                return WVM.SpeciesDict[(Guid)DataSource.Species];
+                return WVM.GetSpeciesFromId((Guid)DataSource.Species);
             }
             set
             {
@@ -122,7 +122,7 @@ namespace CM4_UI.ObservableModels
                 {
                     return null;
                 }
-                return WVM.LocationDict[(Guid)DataSource.Location];
+                return WVM.GetLocationFromID((Guid)DataSource.Location);
             }
             set
             {

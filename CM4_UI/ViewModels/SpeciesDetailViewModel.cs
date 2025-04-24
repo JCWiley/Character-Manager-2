@@ -17,7 +17,6 @@ namespace CM4_UI.ViewModels
         public async Task AddNewSpeciesAsync()
         {
             await WVM.AddNewSpecies();
-            this.RaisePropertyChanged(nameof(WVM.SpeciesDict));
         }
 
         WorldDataViewModel _wvm;
