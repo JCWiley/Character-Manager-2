@@ -48,18 +48,17 @@ namespace CM4_UI.ObservableModels
             _children = [];
             Child_Organization_IDs.CollectionChanged += Child_Organization_IDs_CollectionChanged;
             Child_Character_IDs.CollectionChanged += Child_Character_IDs_CollectionChanged;
+            Children_Changed();
         }
 
         private void Child_Character_IDs_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            this.RaisePropertyChanged(nameof(Child_Characters));
-            this.RaisePropertyChanged(nameof(Children));
+            Children_Changed();
         }
 
         private void Child_Organization_IDs_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            this.RaisePropertyChanged(nameof(Child_Organizations));
-            this.RaisePropertyChanged(nameof(Children));
+            Children_Changed();
         }
 
         public Organization GetDataSource()
@@ -69,6 +68,12 @@ namespace CM4_UI.ObservableModels
             DataSource.Child_Characters = Child_Character_IDs.ToList();
 
             return DataSource;
+        }
+
+        public void Children_Changed()
+        {
+            this.RaisePropertyChanged(nameof(Child_Organizations));
+            this.RaisePropertyChanged(nameof(Children));
         }
 
         public Guid Id
