@@ -28,6 +28,7 @@ namespace CM4_UI.ObservableModels
         {
             DataSource = new Character();
             Parent_Organization_IDs = new ObservableCollection<Guid>();
+            WVM = _WVM;
         }
 
         public Character GetDataSource()

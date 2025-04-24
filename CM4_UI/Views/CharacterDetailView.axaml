@@ -11,7 +11,7 @@
 		<TextBlock Text="Full Name: " Grid.Row="0" Grid.Column="0"></TextBlock>
 		<TextBox Text="{Binding PVM.SelectedCharacter.Name}" Grid.Row="0" Grid.Column="1"></TextBox>
 
-		<TextBlock Text="Headquarters: " Grid.Row="0" Grid.Column="2"></TextBlock>
+		<TextBlock Text="Location: " Grid.Row="0" Grid.Column="2"></TextBlock>
 		<ComboBox ItemsSource="{Binding WVM.LocationList}"
 					SelectedItem="{Binding PVM.SelectedCharacter.Headquarters}"
 					Grid.Row="0" Grid.Column="3">

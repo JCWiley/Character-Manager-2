@@ -9,6 +9,8 @@ namespace CM4_Core.Models
         public Character() 
         {
             Name = "";
+            Description = "";
+            Goals = "";
             Age = -1;
         }
 
