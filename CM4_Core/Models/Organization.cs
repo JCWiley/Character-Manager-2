@@ -10,7 +10,8 @@ namespace CM4_Core.Models
             Name = "";
             Description = "";
             Goals = "";
-            Size = OrgSizeEnum.Default;
+            Size = 0;
+            Quirks = "";
         }
 
         public bool Equals(Organization? other)
@@ -25,9 +26,11 @@ namespace CM4_Core.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public string Goals { get; set; }
-        public OrgSizeEnum Size { get; set; }
+        public string Quirks { get; set; }
+        public int Size { get; set; }
         public Guid? PrimarySpecies { get; set; }
         public Guid? Location { get; set; }
+        public Guid? Leader { get; set; }
 
         public List<Guid> Child_Characters { get; set; } = [];
         public List<Guid> Child_Organizations { get; set;} = [];

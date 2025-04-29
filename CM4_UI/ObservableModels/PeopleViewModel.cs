@@ -204,6 +204,7 @@ namespace CM4_UI.ObservableModels
                 }
             }
         }
+
         private ObservableCollection<IObservableOrgChar>? _children;
         public ObservableCollection<IObservableOrgChar>? Children
         {

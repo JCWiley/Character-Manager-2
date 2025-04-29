@@ -9,25 +9,39 @@
              x:Class="CM4_UI.Views.OrganizationDetailView"
 			 x:DataType="ViewModels:OrganizationDetailViewModel"
 			 x:Name="OrganizationDetailViewName">
-	<Grid ColumnDefinitions="*,*,*,*" RowDefinitions="Auto,Auto,Auto,*">
-		<TextBlock Text="Full Name: " Grid.Row="0" Grid.Column="0"></TextBlock>
-		<TextBox Text="{Binding PVM.SelectedOrganization.Name}" Grid.Row="0" Grid.Column="1"></TextBox>
+	<Grid ColumnDefinitions="Auto,*,Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,*">
+		<TextBlock Text="Name: " Grid.Row="0" Grid.Column="0" Margin="5"></TextBlock>
+		<TextBox Text="{Binding PVM.SelectedOrganization.Name}" Grid.Row="0" Grid.Column="1" Margin="5"></TextBox>
+
+		<TextBlock Text="Leader: " Grid.Row="0" Grid.Column="2" Margin="5"></TextBlock>
+		<ComboBox ItemsSource="{Binding PVM.SelectedOrganization.Children}"
+			SelectedItem="{Binding PVM.SelectedOrganization.Leader}"
+			Grid.Row="0" Grid.Column="3" Margin="5" HorizontalAlignment="Stretch">
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding Name}"/>
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
+
+		<TextBlock Text="Goals: " Grid.Row="1" Grid.Column="0" Margin="5"></TextBlock>
+		<TextBox Text="{Binding PVM.SelectedOrganization.Goals}" Grid.Row="1" Grid.Column="1" Margin="5"></TextBox>
 		
-		<TextBlock Text="Headquarters: " Grid.Row="0" Grid.Column="2"></TextBlock>
+		<TextBlock Text="Headquarters: " Grid.Row="1" Grid.Column="2" Margin="5"></TextBlock>
 		<ComboBox ItemsSource="{Binding WVM.LocationList}" 
 					SelectedItem="{Binding PVM.SelectedOrganization.Headquarters}"
-					Grid.Row="0" Grid.Column="3">
+					Grid.Row="1" Grid.Column="3" Margin="5" HorizontalAlignment="Stretch">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Name}"/>
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
-		
-		<TextBlock Text="Species: " Grid.Row="1" Grid.Column="2"></TextBlock>
+
+		<TextBlock Text="Species: " Grid.Row="2" Grid.Column="0" Margin="5"></TextBlock>
 		<ComboBox ItemsSource="{Binding WVM.SpeciesList}"
 					SelectedItem="{Binding PVM.SelectedOrganization.PrimarySpecies}"
-					Grid.Row="1" Grid.Column="3">
+					Grid.Row="2" Grid.Column="1" Margin="5" HorizontalAlignment="Stretch">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Name}"/>
@@ -35,10 +49,20 @@
 			</ComboBox.ItemTemplate>
 		</ComboBox>
 
-		<TextBlock Text="Description: " Grid.Row="2" Grid.Column="0"></TextBlock>
-		<TextBox Text="{Binding PVM.SelectedOrganization.Description, TargetNullValue={}}" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"></TextBox>
+		<TextBlock Text="Size: " Grid.Row="2" Grid.Column="2" Margin="5"></TextBlock>
+		<ComboBox SelectedIndex="{Binding PVM.SelectedOrganization.PrimarySpecies}"
+			Grid.Row="2" Grid.Column="3" Margin="5" HorizontalAlignment="Stretch">
+			<ComboBoxItem>1 - 10 Members</ComboBoxItem>
+			<ComboBoxItem>10 - 100 Members</ComboBoxItem>
+			<ComboBoxItem>100 - 1000 Members</ComboBoxItem>
+			<ComboBoxItem>Greater than 1000 Members</ComboBoxItem>
+		</ComboBox>
+		
+		<TextBlock Text="Description: " Grid.Row="3" Grid.Column="0" Margin="5"></TextBlock>
+		<TextBox Text="{Binding PVM.SelectedOrganization.Description, TargetNullValue={}}" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="5"></TextBox>
 
-		<TextBlock Text="Goals: " Grid.Row="2" Grid.Column="2"></TextBlock>
-		<TextBox Text="{Binding PVM.SelectedOrganization.Goals}" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2"></TextBox>
+		<TextBlock Text="Quirks/Flaws/Secrets: " Grid.Row="3" Grid.Column="2" Margin="5"></TextBlock>
+		<TextBox Text="{Binding PVM.SelectedOrganization.Quirks, TargetNullValue={}}" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Margin="5"></TextBox>
+
 	</Grid>
 </UserControl>

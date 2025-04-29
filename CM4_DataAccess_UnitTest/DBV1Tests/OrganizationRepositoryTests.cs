@@ -51,13 +51,23 @@ public class OrganizationRepositoryTests
     }
 
     [TestMethod]
+    public async Task Repository_CanUpdateOrganziation_Quirks()
+    {
+        Organization organization = await DA.Repository.Add<Organization>();
+        organization.Quirks = "Test";
+        DA.Repository.Update(organization);
+        Organization organization2 = DA.Repository.Get<Organization>(organization.ID);
+        Assert.IsTrue(organization2.Quirks == "Test");
+    }
+
+    [TestMethod]
     public async Task Repository_CanUpdateOrganziation_Size()
     {
         Organization organization = await DA.Repository.Add<Organization>();
-        organization.Size = CM4_Core.Utilities.EnumCollection.OrgSizeEnum.Medium;
+        organization.Size = 1;
         DA.Repository.Update(organization);
         Organization organization2 = DA.Repository.Get<Organization>(organization.ID);
-        Assert.IsTrue(organization2.Size == CM4_Core.Utilities.EnumCollection.OrgSizeEnum.Medium);
+        Assert.IsTrue(organization2.Size == 1);
     }
 
     [TestMethod]
@@ -81,6 +91,18 @@ public class OrganizationRepositoryTests
         Organization organization2 = DA.Repository.Get<Organization>(organization.ID);
         Assert.IsTrue(organization2.Location == TestGuid);
     }
+
+    [TestMethod]
+    public async Task Repository_CanUpdateOrganziation_Leader()
+    {
+        Organization organization = await DA.Repository.Add<Organization>();
+        Guid TestGuid = new Guid();
+        organization.Leader = TestGuid;
+        DA.Repository.Update(organization);
+        Organization organization2 = DA.Repository.Get<Organization>(organization.ID);
+        Assert.IsTrue(organization2.Leader == TestGuid);
+    }
+
 
     [TestMethod]
     public async Task Repository_CanUpdateOrganziation_Child_Characters()

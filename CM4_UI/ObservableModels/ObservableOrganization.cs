@@ -18,34 +18,34 @@ namespace CM4_UI.ObservableModels
     public class ObservableOrganization : ViewModelBase, IObservableOrgChar
     {
         private Organization DataSource;
-        private PeopleViewModel Model;
+        private PeopleViewModel PVM;
         private WorldDataViewModel WVM;
-        public ObservableOrganization(PeopleViewModel _parent, Organization _source, WorldDataViewModel _WVM)
+        public ObservableOrganization(PeopleViewModel _PVM, Organization _source, WorldDataViewModel _WVM)
         {
             DataSource = _source;
             WVM = _WVM;
+            PVM = _PVM;
+            _children = [];
 
             Child_Organization_IDs = new ObservableCollection<Guid>(DataSource.Child_Organizations);
             Parent_Organization_IDs = new ObservableCollection<Guid>(DataSource.Parent_Organizations);
             Child_Character_IDs = new ObservableCollection<Guid>(DataSource.Child_Characters);
 
-            Init(_parent);
+            Child_Organization_IDs.CollectionChanged += Child_Organization_IDs_CollectionChanged;
+            Child_Character_IDs.CollectionChanged += Child_Character_IDs_CollectionChanged;
+            Children_Changed(); ;
         }
-        public ObservableOrganization(PeopleViewModel _parent, WorldDataViewModel _WVM)
+        public ObservableOrganization(PeopleViewModel _PVM, WorldDataViewModel _WVM)
         {
             DataSource = new Organization();
+            WVM = _WVM;
+            PVM = _PVM;
+            _children = [];
 
             Child_Organization_IDs = new ObservableCollection<Guid>();
             Parent_Organization_IDs = new ObservableCollection<Guid>();
             Child_Character_IDs = new ObservableCollection<Guid>();
 
-            Init(_parent);
-        }
-
-        private void Init(PeopleViewModel _parent)
-        {
-            Model = _parent;
-            _children = [];
             Child_Organization_IDs.CollectionChanged += Child_Organization_IDs_CollectionChanged;
             Child_Character_IDs.CollectionChanged += Child_Character_IDs_CollectionChanged;
             Children_Changed();
@@ -119,7 +119,19 @@ namespace CM4_UI.ObservableModels
                 this.RaisePropertyChanged(nameof(Goals));
             }
         }
-        public OrgSizeEnum Size
+        public string Quirks
+        {
+            get
+            {
+                return DataSource.Quirks;
+            }
+            set
+            {
+                DataSource.Quirks = value;
+                this.RaisePropertyChanged(nameof(Quirks));
+            }
+        }
+        public int Size
         {
             get
             {
@@ -169,6 +181,51 @@ namespace CM4_UI.ObservableModels
                     DataSource.Location = value.Id;
                     this.RaisePropertyChanged(nameof(Location));
                 }
+            }
+        }
+
+        public IObservableOrgChar? Leader
+        {
+            get
+            {
+                if (DataSource.Leader == null)
+                {
+                    return null;
+                }
+                foreach (var item in Child_Characters)
+                {
+                    if (item.Id == DataSource.Leader)
+                    {
+                        return item;
+                    }
+                }
+                foreach (var item in Child_Organizations)
+                {
+                    if (item.Id == DataSource.Leader)
+                    {
+                        return item;
+                    }
+                }
+                return null;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    if (value is ObservableOrganization)
+                    {
+                        DataSource.Leader = ((ObservableOrganization)value).Id;
+                    }
+                    else if (value is ObservableCharacter)
+                    {
+                        DataSource.Leader = ((ObservableCharacter)value).Id;
+                    }
+                }
+                else
+                {
+                    DataSource.Leader = null;
+                }
+                this.RaisePropertyChanged(nameof(Leader));
             }
         }
 
@@ -235,14 +292,14 @@ namespace CM4_UI.ObservableModels
         {
             get
             {
-                return Model.OrganizationList.Where(org => Child_Organization_IDs.Contains(org.Id)).ToList();
+                return PVM.OrganizationList.Where(org => Child_Organization_IDs.Contains(org.Id)).ToList();
             }
         }
         public List<ObservableCharacter> Child_Characters
         {
             get
             {
-                return Model.CharacterList.Where(chr => Child_Character_IDs.Contains(chr.Id)).ToList();
+                return PVM.CharacterList.Where(chr => Child_Character_IDs.Contains(chr.Id)).ToList();
             }
         }
 
