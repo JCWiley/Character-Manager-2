@@ -76,7 +76,7 @@ namespace CM4_UI.ObservableModels
             this.RaisePropertyChanged(nameof(Children));
         }
 
-        public Guid Id
+        public Guid ID
         {
             get
             {
@@ -158,7 +158,7 @@ namespace CM4_UI.ObservableModels
             {
                 if (value != null)
                 {
-                    DataSource.PrimarySpecies = value.Id;
+                    DataSource.PrimarySpecies = value.ID;
                     this.RaisePropertyChanged(nameof(PrimarySpecies));
                 }
             }
@@ -178,7 +178,7 @@ namespace CM4_UI.ObservableModels
             {
                 if (value != null)
                 {
-                    DataSource.Location = value.Id;
+                    DataSource.Location = value.ID;
                     this.RaisePropertyChanged(nameof(Location));
                 }
             }
@@ -194,14 +194,14 @@ namespace CM4_UI.ObservableModels
                 }
                 foreach (var item in Child_Characters)
                 {
-                    if (item.Id == DataSource.Leader)
+                    if (item.ID == DataSource.Leader)
                     {
                         return item;
                     }
                 }
                 foreach (var item in Child_Organizations)
                 {
-                    if (item.Id == DataSource.Leader)
+                    if (item.ID == DataSource.Leader)
                     {
                         return item;
                     }
@@ -214,11 +214,11 @@ namespace CM4_UI.ObservableModels
                 {
                     if (value is ObservableOrganization)
                     {
-                        DataSource.Leader = ((ObservableOrganization)value).Id;
+                        DataSource.Leader = ((ObservableOrganization)value).ID;
                     }
                     else if (value is ObservableCharacter)
                     {
-                        DataSource.Leader = ((ObservableCharacter)value).Id;
+                        DataSource.Leader = ((ObservableCharacter)value).ID;
                     }
                 }
                 else
@@ -292,14 +292,14 @@ namespace CM4_UI.ObservableModels
         {
             get
             {
-                return PVM.OrganizationList.Where(org => Child_Organization_IDs.Contains(org.Id)).ToList();
+                return PVM.OrganizationList.Where(org => Child_Organization_IDs.Contains(org.ID)).ToList();
             }
         }
         public List<ObservableCharacter> Child_Characters
         {
             get
             {
-                return PVM.CharacterList.Where(chr => Child_Character_IDs.Contains(chr.Id)).ToList();
+                return PVM.CharacterList.Where(chr => Child_Character_IDs.Contains(chr.ID)).ToList();
             }
         }
 

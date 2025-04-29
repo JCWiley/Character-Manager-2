@@ -7,9 +7,9 @@ namespace CM4_Core.Service.Interfaces.EventDataPackages
         public SelectedOrgCharEventArgs(EntityTypeEnum _type, Guid _id)
         {
             Type = _type;
-            Id = _id;
+            ID = _id;
         }
         public EntityTypeEnum Type { get;}
-        public Guid Id { get;}
+        public Guid ID { get;}
     }
 }

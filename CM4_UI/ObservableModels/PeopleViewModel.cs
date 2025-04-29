@@ -117,8 +117,8 @@ namespace CM4_UI.ObservableModels
                 OrganizationList.Add(Child);
             }
 
-            OrganizationList.First(org => org.Id == Parent.Id).Child_Organization_IDs.Add(Child.Id);
-            OrganizationList.First(org => org.Id == Child.Id).Parent_Organization_IDs.Add(Parent.Id);
+            OrganizationList.First(org => org.ID == Parent.ID).Child_Organization_IDs.Add(Child.ID);
+            OrganizationList.First(org => org.ID == Child.ID).Parent_Organization_IDs.Add(Parent.ID);
             this.RaisePropertyChanged(nameof(Children));
         }
         public void AddChild(ObservableOrganization Parent, ObservableCharacter Child)
@@ -132,8 +132,8 @@ namespace CM4_UI.ObservableModels
                 CharacterList.Add(Child);
             }
 
-            OrganizationList.First(org => org.Id == Parent.Id).Child_Character_IDs.Add(Child.Id);
-            CharacterList.First(org => org.Id == Child.Id).Parent_Organization_IDs.Add(Parent.Id);
+            OrganizationList.First(org => org.ID == Parent.ID).Child_Character_IDs.Add(Child.ID);
+            CharacterList.First(org => org.ID == Child.ID).Parent_Organization_IDs.Add(Parent.ID);
             this.RaisePropertyChanged(nameof(Children));
         }
 

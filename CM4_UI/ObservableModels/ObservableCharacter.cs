@@ -38,7 +38,7 @@ namespace CM4_UI.ObservableModels
             return DataSource;
         }
 
-        public Guid Id
+        public Guid ID
         {
             get
             {
@@ -108,7 +108,7 @@ namespace CM4_UI.ObservableModels
             {
                 if (value != null)
                 {
-                    DataSource.Species = value.Id;
+                    DataSource.Species = value.ID;
                     this.RaisePropertyChanged(nameof(Species));
                 }
             }
@@ -128,7 +128,7 @@ namespace CM4_UI.ObservableModels
             {
                 if (value != null)
                 {
-                    DataSource.Location = value.Id;
+                    DataSource.Location = value.ID;
                     this.RaisePropertyChanged(nameof(Location));
                 }
             }

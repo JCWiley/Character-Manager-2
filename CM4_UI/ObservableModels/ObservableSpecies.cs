@@ -24,7 +24,7 @@ namespace CM4_UI.ObservableModels
             return DataSource;
         }
 
-        public Guid Id
+        public Guid ID
         {
             get
             {

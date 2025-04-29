@@ -100,11 +100,11 @@ namespace CM4_UI.ObservableModels
 
         public ObservableLocation GetLocationFromID(Guid id)
         {
-            return LocationList.First(x=>x.Id == id);
+            return LocationList.First(x=>x.ID == id);
         }
         public ObservableSpecies GetSpeciesFromId(Guid id)
         {
-            return SpeciesList.First(x => x.Id == id);
+            return SpeciesList.First(x => x.ID == id);
         }
 
         private ObservableCollection<ObservableLocation> _locationList;

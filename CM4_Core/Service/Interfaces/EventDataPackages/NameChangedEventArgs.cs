@@ -7,11 +7,11 @@ namespace CM4_Core.Service.Interfaces.EventDataPackages
         public NameChangedEventArgs(EntityTypeEnum _type, Guid _id, string _name)
         {
             Type = _type;
-            Id = _id;
+            ID = _id;
             Name = _name;
         }
         public EntityTypeEnum Type { get;}
-        public Guid Id { get;}
+        public Guid ID { get;}
         public string Name { get;}
     }
 }
