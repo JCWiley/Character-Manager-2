@@ -20,8 +20,14 @@ namespace CM4_UI.ObservableModels
             DataSource = _source;
             WVM = _WVM;
 
-            Parent_Organization_IDs = new ObservableCollection<Guid>(DataSource.Parent_Organizations);
-
+            if(DataSource != null && DataSource.Parent_Organizations != null)
+            {
+                Parent_Organization_IDs = new ObservableCollection<Guid>(DataSource.Parent_Organizations);
+            }
+            else
+            {
+                Parent_Organization_IDs = new ObservableCollection<Guid>();
+            }
         }
 
         public ObservableCharacter(WorldDataViewModel _WVM)
@@ -102,7 +108,7 @@ namespace CM4_UI.ObservableModels
                 {
                     return null;
                 }
-                return WVM.GetSpeciesFromId((Guid)DataSource.Species);
+                return WVM.GetSpeciesFromID((Guid)DataSource.Species);
             }
             set
             {
@@ -129,12 +135,10 @@ namespace CM4_UI.ObservableModels
                 if (value != null)
                 {
                     DataSource.Location = value.ID;
-                    this.RaisePropertyChanged(nameof(Location));
+                    this.RaisePropertyChanged(nameof(Headquarters));
                 }
             }
         }
-
-
 
 
         private ObservableCollection<Guid> _parent_Organization_IDs;

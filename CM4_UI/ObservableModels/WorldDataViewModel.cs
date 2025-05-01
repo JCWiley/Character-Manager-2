@@ -98,13 +98,13 @@ namespace CM4_UI.ObservableModels
             SpeciesList.Add(newSpecies);
         }
 
-        public ObservableLocation GetLocationFromID(Guid id)
+        public ObservableLocation? GetLocationFromID(Guid ID)
         {
-            return LocationList.First(x=>x.ID == id);
+            return LocationList.FirstOrDefault(x=>x.ID == ID);
         }
-        public ObservableSpecies GetSpeciesFromId(Guid id)
+        public ObservableSpecies? GetSpeciesFromID(Guid ID)
         {
-            return SpeciesList.First(x => x.ID == id);
+            return SpeciesList.FirstOrDefault(x => x.ID == ID);
         }
 
         private ObservableCollection<ObservableLocation> _locationList;

@@ -152,7 +152,7 @@ namespace CM4_UI.ObservableModels
                 {
                     return null;
                 }
-                return WVM.GetSpeciesFromId((Guid)DataSource.PrimarySpecies);
+                return WVM.GetSpeciesFromID((Guid)DataSource.PrimarySpecies);
             }
             set
             {
