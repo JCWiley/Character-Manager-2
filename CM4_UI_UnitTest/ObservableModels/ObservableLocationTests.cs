@@ -1,11 +1,15 @@
+using CM4_Core.DataAccess;
 using CM4_Core.Models;
+using CM4_Core.Service.Interfaces;
 using CM4_UI.ObservableModels;
 using CM4_UI_UnitTest.Utilities;
+using Moq;
+using System.ComponentModel;
 
 namespace CM4_UI_UnitTest.ObservableModels;
 
 [TestClass]
-public class ObservableSpeciesTests
+public class ObservableLocationTests
 {
     PropertyChangedObserver PCO;
     [TestInitialize]
@@ -17,12 +21,12 @@ public class ObservableSpeciesTests
     [TestMethod]
     public void CanReadID()
     {
-        Species test = new Species();
+        Location test = new Location();
         Guid testGuid = Guid.NewGuid();
         test.ID = testGuid;
 
-        ObservableSpecies target = new ObservableSpecies(test);
-        PCO.AttachProperty(target, nameof(target.Name));
+        ObservableLocation target = new ObservableLocation(test);
+        PCO.AttachProperty(target, nameof(target.ID));
 
         Assert.AreEqual(testGuid, target.ID);
         Assert.AreEqual(testGuid, target.GetDataSource().ID);
@@ -32,11 +36,11 @@ public class ObservableSpeciesTests
     [TestMethod]
     public void CanReadName()
     {
-        Species test = new Species();
+        Location test = new Location();
         string name = "Test name";
         test.Name = name;
 
-        ObservableSpecies target = new ObservableSpecies(test);
+        ObservableLocation target = new ObservableLocation(test);
         PCO.AttachProperty(target, nameof(target.Name));
 
         Assert.AreEqual(name, target.Name);
@@ -47,13 +51,14 @@ public class ObservableSpeciesTests
     [TestMethod]
     public void CanWriteName()
     {
-        Species test = new Species();
+        Location test = new Location();
         string startName = "Start Name";
         string endName = "End Name";
         test.Name = startName;
 
-        ObservableSpecies target = new ObservableSpecies(test);
+        ObservableLocation target = new ObservableLocation(test);
         PCO.AttachProperty(target, nameof(target.Name));
+
         target.Name = endName;
 
         Assert.AreNotEqual(startName, target.Name);
@@ -67,7 +72,7 @@ public class ObservableSpeciesTests
     {
         string Name = "Name";
 
-        ObservableSpecies target = new ObservableSpecies();
+        ObservableLocation target = new ObservableLocation();
         PCO.AttachProperty(target, nameof(target.Name));
         target.Name = Name;
 
@@ -81,7 +86,7 @@ public class ObservableSpeciesTests
     {
         string Name = "Name";
 
-        ObservableSpecies target = new ObservableSpecies();
+        ObservableLocation target = new ObservableLocation();
         target.Name = Name;
 
         PCO.AttachProperty(target, nameof(target.Name));
