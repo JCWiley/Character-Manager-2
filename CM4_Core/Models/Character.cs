@@ -10,7 +10,7 @@ namespace CM4_Core.Models
         {
             Name = "";
             Description = "";
-            Goals = "";
+            Quirks = "";
             Age = -1;
         }
 
@@ -24,12 +24,14 @@ namespace CM4_Core.Models
         }
 
         public string Name { get; set; }
+        public string Alias { get; set; }
         public string Description { get; set; }
-        public string Goals { get; set; }
+        public string Quirks { get; set; }
+        public string Occupation { get; set; }
         public int Age { get; set; }
         public Guid? Species { get; set; }
         public Guid? Location { get; set; }
-
+        public Guid? Birthplace { get; set; }
         public List<Guid> Parent_Organizations { get; set; } = [];
         
     }

@@ -18,7 +18,8 @@ public class ObservableCharacterTests
     Guid Initial_ID;
     const string Initial_Name = "Test Name";
     const string Initial_Description = "Test Description";
-    const string Initial_Goals = "Test Goals";
+    const string Initial_Quirks = "Test Quirks";
+    const string Initial_Occupation = "Initial Occupation";
     const int Initial_Age = 10;
     
     Mock<WorldDataViewModel> WVM_Mock;
@@ -34,7 +35,7 @@ public class ObservableCharacterTests
         Source.ID = Initial_ID;
         Source.Name = Initial_Name;
         Source.Description = Initial_Description;
-        Source.Goals = Initial_Goals;
+        Source.Quirks = Initial_Quirks;
         Source.Age = Initial_Age;
 
         Mock<IDataAccess> DA_Mock = new Mock<IDataAccess>();
@@ -142,45 +143,87 @@ public class ObservableCharacterTests
     }
 
     [TestMethod]
-    public void CanReadGoals()
+    public void CanReadQuirks()
     {
         ObservableCharacter target = new ObservableCharacter(Source, WVM_Mock.Object);
-        PCO.AttachProperty(target, nameof(target.Goals));
+        PCO.AttachProperty(target, nameof(target.Quirks));
 
-        Assert.AreEqual(Initial_Goals, target.Goals);
-        Assert.AreEqual(Initial_Goals, target.GetDataSource().Goals);
+        Assert.AreEqual(Initial_Quirks, target.Quirks);
+        Assert.AreEqual(Initial_Quirks, target.GetDataSource().Quirks);
         Assert.IsFalse(PCO.Fired());
     }
 
     [TestMethod]
-    public void CanWriteGoals()
+    public void CanWriteQuirks()
     {
-        string endGoals = "Final Goals";
+        string endQuirks = "Final Quirks";
 
         ObservableCharacter target = new ObservableCharacter(Source, WVM_Mock.Object);
-        PCO.AttachProperty(target, nameof(target.Goals));
+        PCO.AttachProperty(target, nameof(target.Quirks));
 
-        target.Goals = endGoals;
+        target.Quirks = endQuirks;
 
         Assert.IsTrue(PCO.Fired());
 
-        Assert.AreNotEqual(Initial_Goals, target.Goals);
-        Assert.AreEqual(endGoals, target.Goals);
-        Assert.AreEqual(endGoals, target.GetDataSource().Goals);
+        Assert.AreNotEqual(Initial_Quirks, target.Quirks);
+        Assert.AreEqual(endQuirks, target.Quirks);
+        Assert.AreEqual(endQuirks, target.GetDataSource().Quirks);
     }
 
     [TestMethod]
-    public void CanWriteGoalsWithNoInitialSource()
+    public void CanWriteQuirksWithNoInitialSource()
     {
         ObservableCharacter target = new ObservableCharacter(WVM_Mock.Object);
-        PCO.AttachProperty(target, nameof(target.Goals));
+        PCO.AttachProperty(target, nameof(target.Quirks));
 
-        target.Goals = Initial_Goals;
+        target.Quirks = Initial_Quirks;
 
         Assert.IsTrue(PCO.Fired());
 
-        Assert.AreEqual(Initial_Goals, target.Goals);
-        Assert.AreEqual(Initial_Goals, target.GetDataSource().Goals);
+        Assert.AreEqual(Initial_Quirks, target.Quirks);
+        Assert.AreEqual(Initial_Quirks, target.GetDataSource().Quirks);
+    }
+
+    [TestMethod]
+    public void CanReadOccupation()
+    {
+        ObservableCharacter target = new ObservableCharacter(Source, WVM_Mock.Object);
+        PCO.AttachProperty(target, nameof(target.Occupation));
+
+        Assert.AreEqual(Initial_Occupation, target.Occupation);
+        Assert.AreEqual(Initial_Occupation, target.GetDataSource().Occupation);
+        Assert.IsFalse(PCO.Fired());
+    }
+
+    [TestMethod]
+    public void CanWriteOccupation()
+    {
+        string endOccupation = "Final Occupation";
+
+        ObservableCharacter target = new ObservableCharacter(Source, WVM_Mock.Object);
+        PCO.AttachProperty(target, nameof(target.Occupation));
+
+        target.Occupation = endOccupation;
+
+        Assert.IsTrue(PCO.Fired());
+
+        Assert.AreNotEqual(Initial_Occupation, target.Occupation);
+        Assert.AreEqual(endOccupation, target.Occupation);
+        Assert.AreEqual(endOccupation, target.GetDataSource().Occupation);
+    }
+
+    [TestMethod]
+    public void CanWriteOccupationWithNoInitialSource()
+    {
+        ObservableCharacter target = new ObservableCharacter(WVM_Mock.Object);
+        PCO.AttachProperty(target, nameof(target.Occupation));
+
+        target.Occupation = Initial_Occupation;
+
+        Assert.IsTrue(PCO.Fired());
+
+        Assert.AreEqual(Initial_Occupation, target.Occupation);
+        Assert.AreEqual(Initial_Occupation, target.GetDataSource().Occupation);
     }
 
     [TestMethod]
@@ -305,9 +348,9 @@ public class ObservableCharacterTests
         Source.Location = Initial_Location.ID;
 
         ObservableCharacter target = new ObservableCharacter(Source, WVM);
-        PCO.AttachProperty(target, nameof(target.Headquarters));
+        PCO.AttachProperty(target, nameof(target.Location));
 
-        Assert.AreEqual(Initial_ObservableLocation, target.Headquarters);
+        Assert.AreEqual(Initial_ObservableLocation, target.Location);
         Assert.AreEqual(Initial_ObservableLocation.ID, target.GetDataSource().Location);
         Assert.IsFalse(PCO.Fired());
     }
@@ -324,14 +367,14 @@ public class ObservableCharacterTests
         WVM.LocationList.Add(Initial_ObservableLocation);
 
         ObservableCharacter target = new ObservableCharacter(Source, WVM);
-        PCO.AttachProperty(target, nameof(target.Headquarters));
+        PCO.AttachProperty(target, nameof(target.Location));
 
-        target.Headquarters = Initial_ObservableLocation;
+        target.Location = Initial_ObservableLocation;
 
         Assert.IsTrue(PCO.Fired());
 
-        Assert.AreNotEqual(null, target.Headquarters);
-        Assert.AreEqual(Initial_ObservableLocation, target.Headquarters);
+        Assert.AreNotEqual(null, target.Location);
+        Assert.AreEqual(Initial_ObservableLocation, target.Location);
         Assert.AreEqual(Initial_Location.ID, target.GetDataSource().Location);
     }
 
@@ -347,14 +390,14 @@ public class ObservableCharacterTests
         WVM.LocationList.Add(Initial_ObservableLocation);
 
         ObservableCharacter target = new ObservableCharacter(WVM);
-        PCO.AttachProperty(target, nameof(target.Headquarters));
+        PCO.AttachProperty(target, nameof(target.Location));
 
-        target.Headquarters = Initial_ObservableLocation;
+        target.Location = Initial_ObservableLocation;
 
         Assert.IsTrue(PCO.Fired());
 
-        Assert.AreNotEqual(null, target.Headquarters);
-        Assert.AreEqual(Initial_ObservableLocation, target.Headquarters);
+        Assert.AreNotEqual(null, target.Location);
+        Assert.AreEqual(Initial_ObservableLocation, target.Location);
         Assert.AreEqual(Initial_Location.ID, target.GetDataSource().Location);
     }
 

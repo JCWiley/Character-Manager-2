@@ -63,6 +63,18 @@ namespace CM4_UI.ObservableModels
                 this.RaisePropertyChanged(nameof(Name));
             }
         }
+        public string Alias
+        {
+            get
+            {
+                return DataSource.Alias;
+            }
+            set
+            {
+                DataSource.Alias = value;
+                this.RaisePropertyChanged(nameof(Alias));
+            }
+        }
         public string Description
         {
             get
@@ -75,18 +87,32 @@ namespace CM4_UI.ObservableModels
                 this.RaisePropertyChanged(nameof(Description));
             }
         }
-        public string Goals
+        public string Quirks
         {
             get
             {
-                return DataSource.Goals;
+                return DataSource.Quirks;
             }
             set
             {
-                DataSource.Goals = value;
-                this.RaisePropertyChanged(nameof(Goals));
+                DataSource.Quirks = value;
+                this.RaisePropertyChanged(nameof(Quirks));
             }
         }
+
+        public string Occupation
+        {
+            get
+            {
+                return DataSource.Occupation;
+            }
+            set
+            {
+                DataSource.Occupation = value;
+                this.RaisePropertyChanged(nameof(Occupation));
+            }
+        }
+
         public int Age
         {
             get
@@ -120,7 +146,7 @@ namespace CM4_UI.ObservableModels
             }
         }
 
-        public ObservableLocation? Headquarters
+        public ObservableLocation? Location
         {
             get
             {
@@ -135,7 +161,26 @@ namespace CM4_UI.ObservableModels
                 if (value != null)
                 {
                     DataSource.Location = value.ID;
-                    this.RaisePropertyChanged(nameof(Headquarters));
+                    this.RaisePropertyChanged(nameof(Location));
+                }
+            }
+        }
+        public ObservableLocation? Birthplace
+        {
+            get
+            {
+                if (DataSource.Birthplace == null)
+                {
+                    return null;
+                }
+                return WVM.GetLocationFromID((Guid)DataSource.Birthplace);
+            }
+            set
+            {
+                if (value != null)
+                {
+                    DataSource.Birthplace = value.ID;
+                    this.RaisePropertyChanged(nameof(Birthplace));
                 }
             }
         }
