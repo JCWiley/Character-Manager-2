@@ -5,7 +5,7 @@ namespace CM4_Core.Models
     {
         public InventoryItem()
         {
-            Name = "";
+            Name = "New Item";
             Description = "";
         }
 

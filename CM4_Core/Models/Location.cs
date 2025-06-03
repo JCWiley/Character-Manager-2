@@ -4,7 +4,7 @@
     {
         public Location()
         {
-            Name = "";
+            Name = "New Location";
         }
         public bool Equals(Location? other)
         {

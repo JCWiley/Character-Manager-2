@@ -4,7 +4,7 @@
     {
         public Species()
         {
-            Name = "";
+            Name = "New Species";
         }
         public bool Equals(Species? other)
         {
