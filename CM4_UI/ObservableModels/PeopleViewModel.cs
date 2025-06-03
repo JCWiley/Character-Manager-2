@@ -67,7 +67,7 @@ namespace CM4_UI.ObservableModels
         {
             foreach (Organization organization in _da.Repository.Get<Organization>())
             {
-                OrganizationList.Add(new ObservableOrganization(this, organization, _WVM));
+                OrganizationList.Add(new ObservableOrganization(organization, this, _WVM));
             }
             foreach (Character character in _da.Repository.Get<Character>())
             {
