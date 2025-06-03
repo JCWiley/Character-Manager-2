@@ -65,7 +65,7 @@ public class OrganizationTests
     {
         Organization organization = new Organization();
         Organization subOrg = new Organization();
-        subOrg.Name = "The Hoppits";
+        subOrg.Name = "The Hobbits";
 
         organization.Parent_Organizations.Add(subOrg.ID);
 

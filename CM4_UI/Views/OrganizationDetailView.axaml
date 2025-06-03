@@ -9,7 +9,7 @@
              x:Class="CM4_UI.Views.OrganizationDetailView"
 			 x:DataType="ViewModels:OrganizationDetailViewModel"
 			 x:Name="OrganizationDetailViewName">
-	<Grid ColumnDefinitions="Auto,*,Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,*">
+	<Grid ColumnDefinitions="100,*,100,*" RowDefinitions="Auto,Auto,Auto,Auto,*">
 		<TextBlock Text="Name: " Grid.Row="0" Grid.Column="0" Margin="5"></TextBlock>
 		<TextBox Text="{Binding PVM.SelectedOrganization.Name}" Grid.Row="0" Grid.Column="1" Margin="5"></TextBox>
 
@@ -50,7 +50,7 @@
 		</ComboBox>
 
 		<TextBlock Text="Size: " Grid.Row="2" Grid.Column="2" Margin="5"></TextBlock>
-		<ComboBox SelectedIndex="{Binding PVM.SelectedOrganization.PrimarySpecies}"
+		<ComboBox SelectedIndex="{Binding PVM.SelectedOrganization.Size}"
 			Grid.Row="2" Grid.Column="3" Margin="5" HorizontalAlignment="Stretch">
 			<ComboBoxItem>1 - 10 Members</ComboBoxItem>
 			<ComboBoxItem>10 - 100 Members</ComboBoxItem>

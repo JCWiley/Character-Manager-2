@@ -20,7 +20,7 @@ namespace CM4_UI.ObservableModels
         private Organization DataSource;
         private PeopleViewModel PVM;
         private WorldDataViewModel WVM;
-        public ObservableOrganization(PeopleViewModel _PVM, Organization _source, WorldDataViewModel _WVM)
+        public ObservableOrganization(Organization _source, PeopleViewModel _PVM, WorldDataViewModel _WVM)
         {
             DataSource = _source;
             WVM = _WVM;
@@ -179,7 +179,7 @@ namespace CM4_UI.ObservableModels
                 if (value != null)
                 {
                     DataSource.Location = value.ID;
-                    this.RaisePropertyChanged(nameof(Location));
+                    this.RaisePropertyChanged(nameof(Headquarters));
                 }
             }
         }
@@ -212,19 +212,23 @@ namespace CM4_UI.ObservableModels
             {
                 if (value != null)
                 {
-                    if (value is ObservableOrganization)
+                    if (value is ObservableOrganization && Child_Organization_IDs.Contains(((ObservableOrganization)value).ID))
                     {
                         DataSource.Leader = ((ObservableOrganization)value).ID;
                     }
-                    else if (value is ObservableCharacter)
+                    else if (value is ObservableCharacter && Child_Character_IDs.Contains(((ObservableCharacter)value).ID))
                     {
                         DataSource.Leader = ((ObservableCharacter)value).ID;
                     }
+                    else
+                    {
+                        throw new InvalidOperationException("Cannot set Leader to a non-child Organization or Character");
+                    }
                 }
-                else
-                {
-                    DataSource.Leader = null;
-                }
+                //else
+                //{
+                //    DataSource.Leader = null;
+                //}
                 this.RaisePropertyChanged(nameof(Leader));
             }
         }
@@ -234,7 +238,7 @@ namespace CM4_UI.ObservableModels
         {
             get
             {
-                return _child_Organization_IDs;//
+                return _child_Organization_IDs;
             }
             set
             {
