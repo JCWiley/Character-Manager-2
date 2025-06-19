@@ -1,7 +1,7 @@
 using CM4_Core.Models;
 using System.Linq;
 
-namespace CM4_Core_UnitTest;
+namespace CM4_Core_UnitTest.ModelTests;
 
 [TestClass]
 public class OrganizationTests

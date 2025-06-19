@@ -1,4 +1,5 @@
-﻿using CM4_Core.Models;
+﻿using CM4_Core.MetaModels;
+using CM4_Core.Models;
 using CM4_Core.Service.Interfaces;
 using CM4_Core.Service.Interfaces.EventDataPackages;
 using CM4_UI.ObservableModels;
@@ -20,21 +21,22 @@ namespace CM4_UI.ViewModels
 {
     public class OrgTreeViewModel : ViewModelBase
     {
-        PeopleViewModel _pvm;
+
         INotifyService _notifyService;
 
-        public OrgTreeViewModel(PeopleViewModel peopleViewModel, INotifyService notifyService)
+        public OrgTreeViewModel(PeopleViewModel _PVM, INotifyService notifyService)
         {
-            PVM = peopleViewModel;
+            PVM = _PVM;
             _notifyService = notifyService;
-            _notifyService.NotifyPeopleViewModelUpdated += _notifyService_NotifyPeopleViewModelUpdated;
+            _notifyService.NotifyPeopleUpdated += _notifyService_NotifyPeopleUpdated;
         }
 
-        private void _notifyService_NotifyPeopleViewModelUpdated(object? sender, EventArgs e)
+        private void _notifyService_NotifyPeopleUpdated(object? sender, EventArgs e)
         {
             this.RaisePropertyChanged(nameof(PVM));
         }
 
+        PeopleViewModel _pvm;
         public PeopleViewModel PVM
         {
             get

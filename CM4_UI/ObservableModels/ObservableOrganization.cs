@@ -1,6 +1,9 @@
 ﻿using Avalonia;
 using Avalonia.Media;
+using CM4_Core.MetaModels;
 using CM4_Core.Models;
+using CM4_Core.Service.Interfaces;
+using CM4_Core.Service.Interfaces.EventDataPackages;
 using CM4_UI.ViewModels;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ReactiveUI;
@@ -17,81 +20,70 @@ namespace CM4_UI.ObservableModels
 {
     public class ObservableOrganization : ViewModelBase, IObservableOrgChar
     {
-        private Organization DataSource;
-        private PeopleViewModel PVM;
+        private Guid TargetOrg;
+        private People People;
         private WorldDataViewModel WVM;
-        public ObservableOrganization(Organization _source, PeopleViewModel _PVM, WorldDataViewModel _WVM)
+        private INotifyService _notifyService;
+        public ObservableOrganization(Guid _targetOrg, People _people, WorldDataViewModel _WVM, INotifyService notifyService)
         {
-            DataSource = _source;
+            TargetOrg = _targetOrg;
+
             WVM = _WVM;
-            PVM = _PVM;
+            People = _people;
             _children = [];
+            _notifyService = notifyService;
 
-            Child_Organization_IDs = new ObservableCollection<Guid>(DataSource.Child_Organizations);
-            Parent_Organization_IDs = new ObservableCollection<Guid>(DataSource.Parent_Organizations);
-            Child_Character_IDs = new ObservableCollection<Guid>(DataSource.Child_Characters);
+            _notifyService.NotifyPeopleUpdated += People_CollectionChanged;
 
-            Child_Organization_IDs.CollectionChanged += Child_Organization_IDs_CollectionChanged;
-            Child_Character_IDs.CollectionChanged += Child_Character_IDs_CollectionChanged;
-            Children_Changed(); ;
-        }
-        public ObservableOrganization(PeopleViewModel _PVM, WorldDataViewModel _WVM)
-        {
-            DataSource = new Organization();
-            WVM = _WVM;
-            PVM = _PVM;
-            _children = [];
-
-            Child_Organization_IDs = new ObservableCollection<Guid>();
-            Parent_Organization_IDs = new ObservableCollection<Guid>();
-            Child_Character_IDs = new ObservableCollection<Guid>();
-
-            Child_Organization_IDs.CollectionChanged += Child_Organization_IDs_CollectionChanged;
-            Child_Character_IDs.CollectionChanged += Child_Character_IDs_CollectionChanged;
             Children_Changed();
         }
 
-        private void Child_Character_IDs_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void People_CollectionChanged(object? sender, PeopleUpdatedArgs args)
         {
-            Children_Changed();
-        }
-
-        private void Child_Organization_IDs_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            Children_Changed();
-        }
-
-        public Organization GetDataSource()
-        {
-            DataSource.Child_Organizations = Child_Organization_IDs.ToList();
-            DataSource.Parent_Organizations = Parent_Organization_IDs.ToList();
-            DataSource.Child_Characters = Child_Character_IDs.ToList();
-
-            return DataSource;
+            if(args.AllUpdated || args.UpdatedGuids.Contains(TargetOrg))
+            {
+                Children_Changed();
+                this.RaisePropertyChanged("");
+            }
         }
 
         public void Children_Changed()
         {
-            this.RaisePropertyChanged(nameof(Child_Organizations));
+            _children.Clear();
+
+            foreach (Guid org in People.GetOrg(TargetOrg).Child_Organizations)
+            {
+                _children.Add(new ObservableOrganization(org, People, WVM, _notifyService));
+            }
+            foreach (Guid cha in People.GetOrg(TargetOrg).Child_Characters)
+            {
+                _children.Add(new ObservableCharacter(cha, People, WVM));
+            }
+
             this.RaisePropertyChanged(nameof(Children));
+        }
+
+        public Organization GetDataSource()
+        {
+            return People.GetOrg(TargetOrg);
         }
 
         public Guid ID
         {
             get
             {
-                return DataSource.ID;
+                return People.GetOrg(TargetOrg).ID;
             }
         }
         public string Name
         {
             get
             {
-                return DataSource.Name;
+                return People.GetOrg(TargetOrg).Name;
             }
             set
             {
-                DataSource.Name = value;
+                People.GetOrg(TargetOrg).Name = value;
                 this.RaisePropertyChanged(nameof(Name));
             }
         }
@@ -99,11 +91,11 @@ namespace CM4_UI.ObservableModels
         {
             get
             {
-                return DataSource.Description;
+                return People.GetOrg(TargetOrg).Description;
             }
             set
             {
-                DataSource.Description = value;
+                People.GetOrg(TargetOrg).Description = value;
                 this.RaisePropertyChanged(nameof(Description));
             }
         }
@@ -111,11 +103,11 @@ namespace CM4_UI.ObservableModels
         {
             get
             {
-                return DataSource.Goals;
+                return People.GetOrg(TargetOrg).Goals;
             }
             set
             {
-                DataSource.Goals = value;
+                People.GetOrg(TargetOrg).Goals = value;
                 this.RaisePropertyChanged(nameof(Goals));
             }
         }
@@ -123,11 +115,11 @@ namespace CM4_UI.ObservableModels
         {
             get
             {
-                return DataSource.Quirks;
+                return People.GetOrg(TargetOrg).Quirks;
             }
             set
             {
-                DataSource.Quirks = value;
+                People.GetOrg(TargetOrg).Quirks = value;
                 this.RaisePropertyChanged(nameof(Quirks));
             }
         }
@@ -135,11 +127,11 @@ namespace CM4_UI.ObservableModels
         {
             get
             {
-                return DataSource.Size;
+                return People.GetOrg(TargetOrg).Size;
             }
             set
             {
-                DataSource.Size = value;
+                People.GetOrg(TargetOrg).Size = value;
                 this.RaisePropertyChanged(nameof(Size));
             }
         }
@@ -148,17 +140,17 @@ namespace CM4_UI.ObservableModels
         {
             get
             {
-                if (DataSource.PrimarySpecies == null)
+                if (People.GetOrg(TargetOrg).PrimarySpecies == null)
                 {
                     return null;
                 }
-                return WVM.GetSpeciesFromID((Guid)DataSource.PrimarySpecies);
+                return WVM.GetSpeciesFromID((Guid)People.GetOrg(TargetOrg).PrimarySpecies);
             }
             set
             {
                 if (value != null)
                 {
-                    DataSource.PrimarySpecies = value.ID;
+                    People.GetOrg(TargetOrg).PrimarySpecies = value.ID;
                     this.RaisePropertyChanged(nameof(PrimarySpecies));
                 }
             }
@@ -168,17 +160,17 @@ namespace CM4_UI.ObservableModels
         {
             get
             {
-                if (DataSource.Location == null)
+                if (People.GetOrg(TargetOrg).Location == null)
                 {
                     return null;
                 }
-                return WVM.GetLocationFromID((Guid)DataSource.Location);
+                return WVM.GetLocationFromID((Guid)People.GetOrg(TargetOrg).Location);
             }
             set
             {
                 if (value != null)
                 {
-                    DataSource.Location = value.ID;
+                    People.GetOrg(TargetOrg).Location = value.ID;
                     this.RaisePropertyChanged(nameof(Headquarters));
                 }
             }
@@ -188,122 +180,31 @@ namespace CM4_UI.ObservableModels
         {
             get
             {
-                if (DataSource.Leader == null)
+                Guid? Leader = People.GetOrg(TargetOrg).Leader;
+                if (Leader == null)
                 {
                     return null;
                 }
-                foreach (var item in Child_Characters)
-                {
-                    if (item.ID == DataSource.Leader)
-                    {
-                        return item;
-                    }
-                }
-                foreach (var item in Child_Organizations)
-                {
-                    if (item.ID == DataSource.Leader)
-                    {
-                        return item;
-                    }
-                }
-                return null;
+                return Children.First(x=> x.ID == Leader);
             }
             set
             {
                 if (value != null)
                 {
-                    if (value is ObservableOrganization && Child_Organization_IDs.Contains(((ObservableOrganization)value).ID))
+                    if (value is ObservableOrganization && People.GetOrg(TargetOrg).Child_Organizations.Contains(((ObservableOrganization)value).ID))
                     {
-                        DataSource.Leader = ((ObservableOrganization)value).ID;
+                        People.GetOrg(TargetOrg).Leader = ((ObservableOrganization)value).ID;
                     }
-                    else if (value is ObservableCharacter && Child_Character_IDs.Contains(((ObservableCharacter)value).ID))
+                    else if (value is ObservableCharacter && People.GetOrg(TargetOrg).Child_Characters.Contains(((ObservableCharacter)value).ID))
                     {
-                        DataSource.Leader = ((ObservableCharacter)value).ID;
+                        People.GetOrg(TargetOrg).Leader = ((ObservableCharacter)value).ID;
                     }
                     else
                     {
                         throw new InvalidOperationException("Cannot set Leader to a non-child Organization or Character");
                     }
                 }
-                //else
-                //{
-                //    DataSource.Leader = null;
-                //}
                 this.RaisePropertyChanged(nameof(Leader));
-            }
-        }
-
-        private ObservableCollection<Guid> _child_Organization_IDs;
-        public ObservableCollection<Guid> Child_Organization_IDs
-        {
-            get
-            {
-                return _child_Organization_IDs;
-            }
-            set
-            {
-                if (value != null)
-                {
-                    _child_Organization_IDs = value;
-                    this.RaisePropertyChanged(nameof(Child_Organization_IDs));
-                    this.RaisePropertyChanged(nameof(Child_Organizations));
-                    this.RaisePropertyChanged(nameof(Children));
-                }
-            }
-        }
-
-
-        private ObservableCollection<Guid> _parent_Organization_IDs;
-        public ObservableCollection<Guid> Parent_Organization_IDs
-        {
-            get
-            {
-                return _parent_Organization_IDs;
-            }
-            set
-            {
-                if (value != null)
-                {
-                    _parent_Organization_IDs = value;
-                    this.RaisePropertyChanged(nameof(Parent_Organization_IDs));
-                }
-            }
-        }
-
-
-        private ObservableCollection<Guid> _child_Character_IDs;
-        public ObservableCollection<Guid> Child_Character_IDs
-        {
-            get
-            {
-                return _child_Character_IDs;
-            }
-            set
-            {
-                if (value != null)
-                {
-                    _child_Character_IDs = value;
-                    this.RaisePropertyChanged(nameof(Child_Character_IDs));
-                    this.RaisePropertyChanged(nameof(Child_Characters));
-                    this.RaisePropertyChanged(nameof(Children));
-                }
-            }
-        }
-
-
-        //https://www.nequalsonelifestyle.com/2019/06/18/avalonia-treeview-tutorial/
-        public List<ObservableOrganization> Child_Organizations
-        {
-            get
-            {
-                return PVM.OrganizationList.Where(org => Child_Organization_IDs.Contains(org.ID)).ToList();
-            }
-        }
-        public List<ObservableCharacter> Child_Characters
-        {
-            get
-            {
-                return PVM.CharacterList.Where(chr => Child_Character_IDs.Contains(chr.ID)).ToList();
             }
         }
 
@@ -312,15 +213,6 @@ namespace CM4_UI.ObservableModels
         {
             get
             {
-                _children.Clear();
-                foreach (var org in Child_Organizations)
-                {
-                    _children.Add(org);
-                }
-                foreach (var chr in Child_Characters)
-                {
-                    _children.Add(chr);
-                }
                 return _children;
             }
         }

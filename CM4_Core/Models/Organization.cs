@@ -7,11 +7,11 @@ namespace CM4_Core.Models
     {
         public Organization()
         {
-            Name = "";
-            Description = "";
-            Goals = "";
+            Name = string.Empty;
+            Description = string.Empty;
+            Goals = string.Empty;
             Size = 0;
-            Quirks = "";
+            Quirks = string.Empty;
         }
 
         public bool Equals(Organization? other)
@@ -35,5 +35,6 @@ namespace CM4_Core.Models
         public List<Guid> Child_Characters { get; set; } = [];
         public List<Guid> Child_Organizations { get; set;} = [];
         public List<Guid> Parent_Organizations { get; set; } = [];
+        public List<Guid> Jobs { get; set; } = [];
     }
 }

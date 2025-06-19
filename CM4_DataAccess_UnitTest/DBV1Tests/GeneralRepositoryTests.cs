@@ -31,6 +31,8 @@ public class GeneralRepositoryTests
         await Helper_CanAdd<Organization>();
         await Helper_CanAdd<Location>();
         await Helper_CanAdd<Species>();
+        await Helper_CanAdd<Job>();
+        await Helper_CanAdd<InventoryItem>();
     }
 
     [TestMethod]
@@ -41,6 +43,9 @@ public class GeneralRepositoryTests
 
         await Helper_CanAddPreexisting(new Location());
         await Helper_CanAddPreexisting(new Species());
+
+        await Helper_CanAddPreexisting(new Job());
+        await Helper_CanAddPreexisting(new InventoryItem());
     }
 
     [TestMethod]
@@ -58,6 +63,12 @@ public class GeneralRepositoryTests
         Species species = new Species();
         await Helper_CanSearch([new Species(), new Species()], species, x => x.ID == species.ID);
 
+        Job job = new Job();
+        await Helper_CanSearch([new Job(), new Job()], job, x => x.ID == job.ID);
+
+        InventoryItem item = new InventoryItem();
+        await Helper_CanSearch([new InventoryItem(), new InventoryItem()], item, x => x.ID == item.ID);
+
     }
 
     [TestMethod]
@@ -74,6 +85,12 @@ public class GeneralRepositoryTests
 
         Species species = new Species();
         await Helper_CanFindItemByID([new Species(), new Species()], species);
+
+        Job job = new Job();
+        await Helper_CanFindItemByID([new Job(), new Job()], job);
+
+        InventoryItem item = new InventoryItem();
+        await Helper_CanFindItemByID([new InventoryItem(), new InventoryItem()], item);
     }
 
     [TestMethod]
@@ -83,6 +100,8 @@ public class GeneralRepositoryTests
         await Helper_CanRemove<Organization>();
         await Helper_CanRemove<Location>();
         await Helper_CanRemove<Species>();
+        await Helper_CanRemove<Job>();
+        await Helper_CanRemove<InventoryItem>();
     }
 
     [TestMethod]
@@ -92,6 +111,8 @@ public class GeneralRepositoryTests
         await Helper_NoDB_AddDoesNothing<Organization>();
         await Helper_NoDB_AddDoesNothing<Location>();
         await Helper_NoDB_AddDoesNothing<Species>();
+        await Helper_NoDB_AddDoesNothing<Job>();
+        await Helper_NoDB_AddDoesNothing<InventoryItem>();
     }
     [TestMethod]
     public async Task Repository_NoDB_AddPreexistingDoesNothing()
@@ -106,6 +127,12 @@ public class GeneralRepositoryTests
         await Helper_NoDB_AddPreexistingDoesNothing(location);
 
         Species species = new Species();
+        await Helper_NoDB_AddPreexistingDoesNothing(species);
+
+        Job job = new Job();
+        await Helper_NoDB_AddPreexistingDoesNothing(location);
+
+        InventoryItem item = new InventoryItem();
         await Helper_NoDB_AddPreexistingDoesNothing(species);
     }
     [TestMethod]
@@ -122,6 +149,12 @@ public class GeneralRepositoryTests
 
         Species species = new Species();
         await Helper_NoDB_SearchReturnsEmptyList([new Species(), new Species()], species, x => x.ID == species.ID);
+
+        Job job = new Job();
+        await Helper_NoDB_SearchReturnsEmptyList([new Job(), new Job()], job, x => x.ID == job.ID);
+
+        InventoryItem item = new InventoryItem();
+        await Helper_NoDB_SearchReturnsEmptyList([new InventoryItem(), new InventoryItem()], item, x => x.ID == item.ID);
     }
     [TestMethod]
     public void Repository_NoDB_GetReturnsEmptyList()
@@ -130,6 +163,8 @@ public class GeneralRepositoryTests
         Helper_NoDB_GetReturnsEmptyList<Organization>();
         Helper_NoDB_GetReturnsEmptyList<Location>();
         Helper_NoDB_GetReturnsEmptyList<Species>();
+        Helper_NoDB_GetReturnsEmptyList<Job>();
+        Helper_NoDB_GetReturnsEmptyList<InventoryItem>();
     }
     [TestMethod]
     public async Task Repository_NoDB_RemoveDoesNotCrash()
@@ -138,6 +173,8 @@ public class GeneralRepositoryTests
         await Helper_NoDB_RemoveDoesNotCrash<Organization>();
         await Helper_NoDB_RemoveDoesNotCrash<Location>();
         await Helper_NoDB_RemoveDoesNotCrash<Species>();
+        await Helper_NoDB_RemoveDoesNotCrash<Job>();
+        await Helper_NoDB_RemoveDoesNotCrash<InventoryItem>();
     }
     [TestMethod]
     public void Repository_NoDB_UpdateDoesNothing()
@@ -153,6 +190,12 @@ public class GeneralRepositoryTests
 
         Species species = new Species();
         Helper_NoDB_UpdateDoesNothing(species);
+
+        Job job = new Job();
+        Helper_NoDB_UpdateDoesNothing(job);
+
+        InventoryItem item = new InventoryItem();
+        Helper_NoDB_UpdateDoesNothing(item);
     }
 
     //Helpers

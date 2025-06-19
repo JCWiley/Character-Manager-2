@@ -1,4 +1,5 @@
-﻿using CM4_Core.Models;
+﻿using CM4_Core.MetaModels;
+using CM4_Core.Models;
 using CM4_UI.ViewModels;
 using ReactiveUI;
 using System;
@@ -13,53 +14,37 @@ namespace CM4_UI.ObservableModels
 {
     public class ObservableCharacter : ViewModelBase, IObservableOrgChar
     {
-        private Character DataSource;
+        private Guid TargetChar;
         private WorldDataViewModel WVM;
-        public ObservableCharacter(Character _source, WorldDataViewModel _WVM)
+        private People People;
+        public ObservableCharacter(Guid _targetChar, People _people, WorldDataViewModel _WVM)
         {
-            DataSource = _source;
+            TargetChar = _targetChar;
             WVM = _WVM;
-
-            if(DataSource != null && DataSource.Parent_Organizations != null)
-            {
-                Parent_Organization_IDs = new ObservableCollection<Guid>(DataSource.Parent_Organizations);
-            }
-            else
-            {
-                Parent_Organization_IDs = new ObservableCollection<Guid>();
-            }
-        }
-
-        public ObservableCharacter(WorldDataViewModel _WVM)
-        {
-            DataSource = new Character();
-            Parent_Organization_IDs = new ObservableCollection<Guid>();
-            WVM = _WVM;
+            People = _people;
         }
 
         public Character GetDataSource()
         {
-            DataSource.Parent_Organizations = Parent_Organization_IDs.ToList();
-            
-            return DataSource;
+            return People.GetChar(TargetChar);
         }
 
         public Guid ID
         {
             get
             {
-                return DataSource.ID;
+                return People.GetChar(TargetChar).ID;
             }
         }
         public string Name
         {
             get
             {
-                return DataSource.Name;
+                return People.GetChar(TargetChar).Name;
             }
             set
             {
-                DataSource.Name = value;
+                People.GetChar(TargetChar).Name = value;
                 this.RaisePropertyChanged(nameof(Name));
             }
         }
@@ -67,11 +52,11 @@ namespace CM4_UI.ObservableModels
         {
             get
             {
-                return DataSource.Alias;
+                return People.GetChar(TargetChar).Alias;
             }
             set
             {
-                DataSource.Alias = value;
+                People.GetChar(TargetChar).Alias = value;
                 this.RaisePropertyChanged(nameof(Alias));
             }
         }
@@ -79,11 +64,11 @@ namespace CM4_UI.ObservableModels
         {
             get
             {
-                return DataSource.Description;
+                return People.GetChar(TargetChar).Description;
             }
             set
             {
-                DataSource.Description = value;
+                People.GetChar(TargetChar).Description = value;
                 this.RaisePropertyChanged(nameof(Description));
             }
         }
@@ -91,11 +76,11 @@ namespace CM4_UI.ObservableModels
         {
             get
             {
-                return DataSource.Quirks;
+                return People.GetChar(TargetChar).Quirks;
             }
             set
             {
-                DataSource.Quirks = value;
+                People.GetChar(TargetChar).Quirks = value;
                 this.RaisePropertyChanged(nameof(Quirks));
             }
         }
@@ -104,11 +89,11 @@ namespace CM4_UI.ObservableModels
         {
             get
             {
-                return DataSource.Occupation;
+                return People.GetChar(TargetChar).Occupation;
             }
             set
             {
-                DataSource.Occupation = value;
+                People.GetChar(TargetChar).Occupation = value;
                 this.RaisePropertyChanged(nameof(Occupation));
             }
         }
@@ -117,11 +102,11 @@ namespace CM4_UI.ObservableModels
         {
             get
             {
-                return DataSource.Age;
+                return People.GetChar(TargetChar).Age;
             }
             set
             {
-                DataSource.Age = value;
+                People.GetChar(TargetChar).Age = value;
                 this.RaisePropertyChanged(nameof(Age));
             }
         }
@@ -130,17 +115,17 @@ namespace CM4_UI.ObservableModels
         {
             get
             {
-                if (DataSource.Species == null)
+                if (People.GetChar(TargetChar).Species == null)
                 {
                     return null;
                 }
-                return WVM.GetSpeciesFromID((Guid)DataSource.Species);
+                return WVM.GetSpeciesFromID((Guid)People.GetChar(TargetChar).Species);
             }
             set
             {
                 if (value != null)
                 {
-                    DataSource.Species = value.ID;
+                    People.GetChar(TargetChar).Species = value.ID;
                     this.RaisePropertyChanged(nameof(Species));
                 }
             }
@@ -150,58 +135,42 @@ namespace CM4_UI.ObservableModels
         {
             get
             {
-                if (DataSource.Location == null)
+                if (People.GetChar(TargetChar).Location == null)
                 {
                     return null;
                 }
-                return WVM.GetLocationFromID((Guid)DataSource.Location);
+                return WVM.GetLocationFromID((Guid)People.GetChar(TargetChar).Location);
             }
             set
             {
                 if (value != null)
                 {
-                    DataSource.Location = value.ID;
+                    People.GetChar(TargetChar).Location = value.ID;
                     this.RaisePropertyChanged(nameof(Location));
                 }
             }
         }
+
         public ObservableLocation? Birthplace
         {
             get
             {
-                if (DataSource.Birthplace == null)
+                if (People.GetChar(TargetChar).Birthplace == null)
                 {
                     return null;
                 }
-                return WVM.GetLocationFromID((Guid)DataSource.Birthplace);
+                return WVM.GetLocationFromID((Guid)People.GetChar(TargetChar).Birthplace);
             }
             set
             {
                 if (value != null)
                 {
-                    DataSource.Birthplace = value.ID;
+                    People.GetChar(TargetChar).Birthplace = value.ID;
                     this.RaisePropertyChanged(nameof(Birthplace));
                 }
             }
         }
 
-
-        private ObservableCollection<Guid> _parent_Organization_IDs;
-        public ObservableCollection<Guid> Parent_Organization_IDs
-        {
-            get
-            {
-                return _parent_Organization_IDs;
-            }
-            set
-            {
-                if (value != null)
-                {
-                    _parent_Organization_IDs = value;
-                    this.RaisePropertyChanged(nameof(Parent_Organization_IDs));
-                }
-            }
-        }
         public ObservableCollection<IObservableOrgChar>? Children => null;
     }
 }

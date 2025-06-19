@@ -1,4 +1,5 @@
-﻿using CM4_Core.Service.Implementations;
+﻿using CM4_Core.MetaModels;
+using CM4_Core.Service.Implementations;
 using CM4_Core.Service.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -16,6 +17,9 @@ namespace CM4_Core.Service
             services.AddSingleton<INotifyService, NotifyService>();
             services.AddSingleton<IFileService, FileService>();
             services.AddSingleton<ISettingsService, SettingsService>();
+
+            services.AddSingleton<Jobs>();
+            services.AddSingleton<People>();
             return services;
         }
     }

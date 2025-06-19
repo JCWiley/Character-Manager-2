@@ -1,16 +1,15 @@
-﻿
-using static CM4_Core.Utilities.EnumCollection;
-
-namespace CM4_Core.Models
+﻿namespace CM4_Core.Models
 {
     public class Character : ModelBaseClass , IEquatable<Character>
     {
 
         public Character() 
         {
-            Name = "";
-            Description = "";
-            Quirks = "";
+            Name = string.Empty;
+            Description = string.Empty;
+            Quirks = string.Empty;
+            Occupation = string.Empty;
+            Alias = string.Empty;
             Age = -1;
         }
 
@@ -33,6 +32,7 @@ namespace CM4_Core.Models
         public Guid? Location { get; set; }
         public Guid? Birthplace { get; set; }
         public List<Guid> Parent_Organizations { get; set; } = [];
+        public List<Guid> Jobs { get; set; } = [];
         
     }
 }

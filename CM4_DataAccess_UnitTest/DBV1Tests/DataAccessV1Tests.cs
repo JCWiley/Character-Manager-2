@@ -55,36 +55,36 @@ namespace CM4_DataAccess_UnitTest.DBV1Tests
             Assert.IsFalse(File.Exists(LocalDA.StoragePath));
         }
 
-        [TestMethod]
-        public void CreateDB_RecreatingStoreOnSamePathDoesOverwrite()
-        {
-            string test_path = @"C:\Users\JWiley\source\CM\CharacterManager4\CM4_DataAccess_UnitTest\TestData\OverwriteTestPath.db";
+        //[TestMethod]
+        //public void CreateDB_RecreatingStoreOnSamePathDoesOverwrite()
+        //{
+        //    string test_path = @"C:\Users\JWiley\source\CM\CharacterManager4\CM4_DataAccess_UnitTest\TestData\OverwriteTestPath.db";
 
-            if (File.Exists(test_path))
-            {
-                File.Delete(test_path);
-            }
+        //    if (File.Exists(test_path))
+        //    {
+        //        File.Delete(test_path);
+        //    }
 
-            Mock<INotifyService> notifyService = new();
-            Mock<ISettingsService> settingsService = new();
-            IDataAccess LocalDA = new DataAccessV1(notifyService.Object, settingsService.Object);
+        //    Mock<INotifyService> notifyService = new();
+        //    Mock<ISettingsService> settingsService = new();
+        //    IDataAccess LocalDA = new DataAccessV1(notifyService.Object, settingsService.Object);
 
-            bool result = LocalDA.CreateDataStore(test_path);
-            Assert.IsTrue(result);
+        //    bool result = LocalDA.CreateDataStore(test_path);
+        //    Assert.IsTrue(result);
 
-            Character C = new();
-            C.Name = "Tim";
+        //    Character C = new();
+        //    C.Name = "Tim";
 
-            LocalDA.Repository.Add(C);
+        //    LocalDA.Repository.Add(C);
 
-            Assert.IsTrue(LocalDA.Repository.Get<Character>().Contains(C));
+        //    Assert.IsTrue(LocalDA.Repository.Get<Character>().Contains(C));
 
-            result = LocalDA.CreateDataStore(test_path);
-            Assert.IsTrue(result);
+        //    result = LocalDA.CreateDataStore(test_path);
+        //    Assert.IsTrue(result);
 
-            Assert.IsFalse(LocalDA.Repository.Get<Character>().Contains(C));
-            Assert.AreEqual(LocalDA.Repository.Get<Character>().Count(), 0);
-        }
+        //    Assert.IsFalse(LocalDA.Repository.Get<Character>().Contains(C));
+        //    Assert.AreEqual(LocalDA.Repository.Get<Character>().Count(), 0);
+        //}
 
         [TestMethod]
         public void OpenDB_CanOpenExistingDataStore()

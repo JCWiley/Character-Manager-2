@@ -6,7 +6,7 @@ namespace CM4_Core.Models
         public InventoryItem()
         {
             Name = "New Item";
-            Description = "";
+            Description = string.Empty;
         }
 
         public bool Equals(InventoryItem? other)

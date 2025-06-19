@@ -50,10 +50,10 @@
 		<TextBlock Text="Occupation: " Grid.Row="2" Grid.Column="2" Margin="5"></TextBlock>
 		<TextBox Text="{Binding PVM.SelectedCharacter.Occupation}" Grid.Row="2" Grid.Column="3" Margin="5"></TextBox>
 		
-		<TextBlock Text="Character Description: " Grid.Row="3" Grid.Column="0" Margin="5"></TextBlock>
+		<TextBlock Text="Appearance: " Grid.Row="3" Grid.Column="0" Margin="5"></TextBlock>
 		<TextBox Text="{Binding PVM.SelectedCharacter.Description, TargetNullValue={}}" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="5"></TextBox>
 
-		<TextBlock Text="Quirks/Flaws/Secrets: " Grid.Row="3" Grid.Column="2" Margin="5"></TextBlock>
+		<TextBlock Text="Traits: " Grid.Row="3" Grid.Column="2" Margin="5"></TextBlock>
 		<TextBox Text="{Binding PVM.SelectedCharacter.Quirks}" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Margin="5"></TextBox>
 	</Grid>
 </UserControl>

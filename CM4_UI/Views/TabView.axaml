@@ -20,6 +20,19 @@
 						</ContentControl>
 					</Grid>
 				</TabItem>
+				<TabItem Header="Jobs">
+					<Grid>
+						<ContentControl IsVisible="{Binding PVM.OrgSelected, TargetNullValue=False}">
+							<Views:OrganizationJobView DataContext="{Binding OrganizationJobViewModel}"/>
+						</ContentControl>
+						<ContentControl IsVisible="{Binding PVM.CharSelected, TargetNullValue=False}">
+							<Views:CharacterJobView DataContext="{Binding CharacterJobViewModel}"/>
+						</ContentControl>
+					</Grid>
+				</TabItem>
+				<TabItem Header="Job History">
+					<TextBlock Margin="5">Inventory Under Development</TextBlock>
+				</TabItem>
 				<TabItem Header="Inventory">
 					<TextBlock Margin="5">Inventory Under Development</TextBlock>
 				</TabItem>

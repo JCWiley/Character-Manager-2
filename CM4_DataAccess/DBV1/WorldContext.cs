@@ -11,6 +11,8 @@ namespace CM4_DataAccess.DBV1
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Species> Species { get; set; }
+        public DbSet<Job> Jobs { get; set; }
+        public DbSet<InventoryItem> Items { get; set; }
 
         public WorldContext(string connectionString)
         {

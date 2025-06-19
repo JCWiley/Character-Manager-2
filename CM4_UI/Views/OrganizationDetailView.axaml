@@ -2,7 +2,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-			 xmlns:ObsModels="clr-namespace:CM4_UI.ObservableModels;assembly=CM4_UI"
 			 xmlns:ViewModels="clr-namespace:CM4_UI.ViewModels"
 			 xmlns:Views="clr-namespace:CM4_UI.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -58,10 +57,10 @@
 			<ComboBoxItem>Greater than 1000 Members</ComboBoxItem>
 		</ComboBox>
 		
-		<TextBlock Text="Description: " Grid.Row="3" Grid.Column="0" Margin="5"></TextBlock>
+		<TextBlock Text="Appearance: " Grid.Row="3" Grid.Column="0" Margin="5"></TextBlock>
 		<TextBox Text="{Binding PVM.SelectedOrganization.Description, TargetNullValue={}}" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="5"></TextBox>
 
-		<TextBlock Text="Quirks/Flaws/Secrets: " Grid.Row="3" Grid.Column="2" Margin="5"></TextBlock>
+		<TextBlock Text="Traits: " Grid.Row="3" Grid.Column="2" Margin="5"></TextBlock>
 		<TextBox Text="{Binding PVM.SelectedOrganization.Quirks, TargetNullValue={}}" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Margin="5"></TextBox>
 
 	</Grid>

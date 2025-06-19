@@ -9,9 +9,11 @@ namespace CM4_Core.Service.Implementations
     {
         public event EventHandler NotifyDataSourceChanged;
         public event EventHandler NotifyDataSourceAboutToChange;
-        public event EventHandler NotifyPeopleViewModelUpdated;
+        public event EventHandler<PeopleUpdatedArgs> NotifyPeopleUpdated;
         public event EventHandler NotifyLocationViewModelUpdated;
         public event EventHandler NotifyApplicationAboutToClose;
+        public event EventHandler NotifyJobsUpdated;
+        public event EventHandler<DateAdvancedArgs> NotifyDateAdvanced;
         //public event EventHandler<SelectedOrgCharEventArgs> NotifySelectedOrgCharChanged;
 
         public void OnDataSourceChanged(object sender)
@@ -23,9 +25,9 @@ namespace CM4_Core.Service.Implementations
             NotifyDataSourceAboutToChange?.Invoke(sender, EventArgs.Empty);
         }
 
-        public void OnPeopleViewModelUpdated(object sender)
+        public void OnPeopleUpdated(object sender, PeopleUpdatedArgs args)
         {
-            NotifyPeopleViewModelUpdated?.Invoke(sender, EventArgs.Empty);
+            NotifyPeopleUpdated?.Invoke(sender, args);
         }
 
         public void OnWorldDataViewModelUpdated(object sender)
@@ -37,6 +39,17 @@ namespace CM4_Core.Service.Implementations
         {
             NotifyApplicationAboutToClose?.Invoke(sender, EventArgs.Empty);
         }
+
+        public void OnJobsUpdated(object sender)
+        {
+            NotifyJobsUpdated?.Invoke(sender, EventArgs.Empty);
+        }
+
+        public void OnDateAdvanced(object sender, DateAdvancedArgs args)
+        {
+            NotifyDateAdvanced?.Invoke(sender, args);
+        }
+
         //public void OnSelectedOrgCharChanged(object sender, SelectedOrgCharEventArgs args)
         //{
         //    NotifySelectedOrgCharChanged?.Invoke(sender, args);

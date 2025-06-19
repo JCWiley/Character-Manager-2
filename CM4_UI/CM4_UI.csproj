@@ -28,4 +28,13 @@
   <ItemGroup>
     <Folder Include="Utilities\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\CharacterJobView.axaml.cs">
+      <DependentUpon>CharacterJobView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\OrganizationJobView.axaml.cs">
+      <DependentUpon>OrganizationJobView.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

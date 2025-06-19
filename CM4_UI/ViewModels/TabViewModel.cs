@@ -15,13 +15,17 @@ namespace CM4_UI.ViewModels
             OrganizationDetailViewModel organizationDetailViewModel,
             CharacterDetailViewModel characterDetailViewModel,
             LocationDetailViewModel locationDetailViewModel,
-            SpeciesDetailViewModel speciesDetailViewModel)
+            SpeciesDetailViewModel speciesDetailViewModel,
+            OrganizationJobViewModel organizationJobViewModel,
+            CharacterJobViewModel characterJobViewModel)
         {
             _pvm = peopleViewModel;
             _locationDetailViewModel = locationDetailViewModel;
             _speciesDetailViewModel = speciesDetailViewModel;
             _organizationDetailViewModel = organizationDetailViewModel;
             _characterDetailViewModel = characterDetailViewModel;
+            _organizationJobViewModel = organizationJobViewModel;
+            _characterJobViewModel = characterJobViewModel;
         }
 
         OrganizationDetailViewModel _organizationDetailViewModel;
@@ -50,6 +54,20 @@ namespace CM4_UI.ViewModels
         {
             get => _speciesDetailViewModel;
             set => this.RaiseAndSetIfChanged(ref _speciesDetailViewModel, value);
+        }
+
+        OrganizationJobViewModel _organizationJobViewModel;
+        public OrganizationJobViewModel OrganizationJobViewModel
+        {
+            get => _organizationJobViewModel;
+            set => this.RaiseAndSetIfChanged(ref _organizationJobViewModel, value);
+        }
+
+        CharacterJobViewModel _characterJobViewModel;
+        public CharacterJobViewModel CharacterJobViewModel
+        {
+            get => _characterJobViewModel;
+            set => this.RaiseAndSetIfChanged(ref _characterJobViewModel, value);
         }
 
         PeopleViewModel _pvm;
